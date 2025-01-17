@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,10 +24,11 @@ public class AutoAuto extends LinearOpMode {
 
         Gamepad currentGamepad1 = gamepad1; // Changed from new Gamepad() to gamepad1, same thing with gamepad 2
         Gamepad currentGamepad2 = gamepad2;
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         boolean mappingState = false; // Switch to make sure no infinite execution, need to test, might need previous state check with controller
 
-        // Map<String, Double> mappingTable = new HashMap<>();
+        Map<String, Double> mappingTable = new HashMap<>();
 
 
         double mapping_x = 0.00; // Place holder for last X pos
@@ -51,13 +54,13 @@ public class AutoAuto extends LinearOpMode {
                 String y_key = "y_pos_" + count;
                 String heading_key = "heading_" + count;
 
-                /* mappingTable.put(x_key, x); // Insert values into a dict with x_pos_{count} and y_pos_{count}
+                mappingTable.put(x_key, x); // Insert values into a dict with x_pos_{count} and y_pos_{count}
                 mappingTable.put(y_key, y);
-                mappingTable.put(heading_key, heading); */
+                mappingTable.put(heading_key, heading);
                 count++;
 
                 mappingState = true;
-            } else{
+            } else if (!currentGamepad1.a){
                 mappingState = false;
             }
 
@@ -72,6 +75,8 @@ public class AutoAuto extends LinearOpMode {
             telemetry.addData("Last X", mapping_x);
             telemetry.addData("Last Y", mapping_y);
             telemetry.addData("Last Heading", mapping_heading);
+            telemetry.addData("Testing", mappingTable);
+            telemetry.addData("Gamepad A Status", currentGamepad1.a);
             telemetry.update();
         }
     }
