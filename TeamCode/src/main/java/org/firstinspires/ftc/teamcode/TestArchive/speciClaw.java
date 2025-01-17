@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
@@ -18,8 +17,6 @@ import java.util.List;
 
 @TeleOp
 public class speciClaw extends LinearOpMode {
-
-    private Servo wallServo;
 
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -49,7 +46,6 @@ public class speciClaw extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            /*
             if (currentGamepad1.b && !previousGamepad1.b) {
                 runningActions.add(new SequentialAction(
                         slides.slideTopBarClip(),
@@ -57,7 +53,6 @@ public class speciClaw extends LinearOpMode {
                         slides.retract()
                 ));
             }
-            */
 
             if (currentGamepad1.y && !previousGamepad1.y) {
                 runningActions.add(slides.slideTopBar());
@@ -65,10 +60,6 @@ public class speciClaw extends LinearOpMode {
 
             if (currentGamepad1.a && !previousGamepad1.a) {
                 runningActions.add(claw.close());
-            }
-
-            if (currentGamepad1.b && !previousGamepad1.b) {
-                runningActions.add(claw.wallClose());
             }
 
             if (currentGamepad1.x && !previousGamepad1.x) {

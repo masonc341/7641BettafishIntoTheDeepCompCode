@@ -49,11 +49,11 @@ public class Limelight {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             double tx = getTx();
-            if (tx > 10) {
+            if (tx > 160) {
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(0, 1),
                         0));
-            } else if (tx < -10) {
+            } else if (tx < 200) {
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(0, -1),
                         0

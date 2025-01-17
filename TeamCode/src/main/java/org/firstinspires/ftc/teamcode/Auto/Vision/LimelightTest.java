@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto.Vision;
+/* package org.firstinspires.ftc.teamcode.Auto.Vision;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -26,7 +26,19 @@ public class LimelightTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()){
+            telemetry.addData("tx", limelight.update()[0]);
+            telemetry.addData("ty", limelight.update()[1]);
+            telemetry.update();
+            double tx = limelight.update()[0]);
 
+            while (tx != 0){
+                if (tx > 0){
+
+                }
+
+                if (tx < 0){
+
+                }
             }
 
 
@@ -39,4 +51,5 @@ public class LimelightTest extends LinearOpMode {
     }
 
 
-
+}
+*/

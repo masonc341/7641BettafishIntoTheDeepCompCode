@@ -11,10 +11,19 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @TeleOp
 public class AutoAuto extends LinearOpMode {
@@ -22,14 +31,19 @@ public class AutoAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+
+
+
         Pose2d StartPose = new Pose2d(0, 0, 0); // Replaced with 0 radians instead of Math.toRadians(0);
         MecanumDrive drive = new MecanumDrive(hardwareMap, StartPose);
-
 
         Gamepad currentGamepad1 = gamepad1; // Changed from new Gamepad() to gamepad1, same thing with gamepad 2
         Gamepad currentGamepad2 = gamepad2;
 
-        String finalFormatting = ".strafeToLinearHeading(new Vector2d(%dx, %dy), Math.toRadians(%heading)) [New Line] \n";
+
+        String finalFormatting = "  .strafeToLinearHeading(new Vector2d(%dx, %dy), Math.toRadians(%heading))\n  .waitSeconds(1.5)";
+
+        String codeHeader = "TrajectoryActionBuilder path = drive.actionBuilder(StartPosition)\n";
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry.clear();
@@ -49,9 +63,48 @@ public class AutoAuto extends LinearOpMode {
 
         List<String> storedActions = new ArrayList<String>(); // List for holding actions along with positioning
 
+
+        WebSocketClient webSocket = null;
+
+        int webCount = 0;
+
+        try {
+            webSocket = new WebSocketClient(new URI("ws://192.168.43.62:8765")) {
+                @Override
+                public void onOpen(ServerHandshake handshakedata) {
+                    telemetry.addData("WebSocket", "Connected");
+                    telemetry.update();
+                }
+
+                @Override
+                public void onMessage(String message) {
+                    telemetry.addData("WebSocket Received", message);
+                    telemetry.update();
+                }
+
+                @Override
+                public void onClose(int code, String reason, boolean remote) {
+                    telemetry.addData("WebSocket", "Connection closed: " + reason);
+                    telemetry.update();
+                }
+
+                @Override
+                public void onError(Exception ex) {
+                    telemetry.addData("WebSocket Error", ex.getMessage());
+                    telemetry.update();
+                }
+            };
+
+            webSocket.connect();
+        } catch (URISyntaxException e) {
+            telemetry.addData("WebSocket Error", "Invalid URI: " + e.getMessage());
+            telemetry.update();
+        }
+
         waitForStart();
 
         while (opModeIsActive()) {
+
 
             double x = drive.pose.position.x; // drive pos x
             double y = drive.pose.position.y; // drive pos y
@@ -111,7 +164,20 @@ public class AutoAuto extends LinearOpMode {
 
             // Current telemetry meant for copy-and-pasting, still WIP
 
-            telemetry.addData("Temp Actions", String.join("\n", storedActions));
+            String codeData = codeHeader + String.join("\n", storedActions);
+
+            if (webSocket != null && webSocket.isOpen()) {
+                webSocket.send(codeData);
+                webCount++;
+                telemetry.addData("WebSocket", "Message sent: Test new @decorator");
+                telemetry.addData("Count", webCount);
+            } else {
+                telemetry.addData("WebSocket", "Not connected");
+            }
+
+            telemetry.addData("Copy and Paste", codeHeader + String.join("\n", storedActions));
+
+
             telemetry.update();
 
 
