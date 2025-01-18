@@ -20,9 +20,9 @@ public class SlidesV2 {
     public static double KP = 0.01;
     public static double KI = 0;
     public static double KD = 0;
-    public static int topBasketTarget = 4500;
+    public static int topBasketTarget = 3160;
     public static int bottomBasketTarget = 1000;
-    public static int wallTarget = 0;
+    public static int wallTarget = 5;
     public static int topBarTarget = 1460;
     public static int topBarClipTarget = 1080;
     public static int bottomBarTarget = 700;
@@ -67,7 +67,7 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  20) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  100) {
                 return false;
             }
             return true;
@@ -87,7 +87,7 @@ public class SlidesV2 {
                 slidesPID.setTargetPosition(target);
                 init = true;
             }
-
+            updateMotors();
 //            int happyFace=77;
 //            int sadFace=-77;
 //            System.out.println(happyFace+sadFace);
@@ -113,7 +113,7 @@ public class SlidesV2 {
                 init = true;
             }
 
-
+            updateMotors();
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
                 return false;
@@ -135,7 +135,7 @@ public class SlidesV2 {
                 slidesPID.setTargetPosition(target);
                 init = true;
             }
-
+            updateMotors();
 
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
@@ -160,7 +160,7 @@ public class SlidesV2 {
                 init = true;
             }
 
-
+            updateMotors();
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
                 return false;
@@ -182,7 +182,7 @@ public class SlidesV2 {
                 slidesPID.setTargetPosition(target);
                 init = true;
             }
-
+            updateMotors();
 
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
@@ -207,7 +207,7 @@ public class SlidesV2 {
                 init = true;
             }
 
-
+            updateMotors();
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
                 return false;
@@ -240,19 +240,6 @@ public class SlidesV2 {
     }
     public Action retract() {
         return new Retract();
-    }
-
-    public class Update implements Action {
-        private boolean init = false;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            updateMotors();
-            return true;
-        }
-    }
-    public Action update() {
-        return new Update();
     }
 
 
