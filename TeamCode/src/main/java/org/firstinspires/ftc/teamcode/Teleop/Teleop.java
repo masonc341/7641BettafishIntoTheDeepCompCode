@@ -463,11 +463,11 @@ public class Teleop extends LinearOpMode {
             }
 
             
-            if (currentGamepad2.dpad_up) {
-                slides.changeTarget(-20);
-            } else if (currentGamepad2.dpad_down) {
-                slides.changeTarget(20);
-            }
+//            if (currentGamepad2.dpad_up) {
+//                slides.changeTarget(-20);
+//            } else if (currentGamepad2.dpad_down) {
+//                slides.changeTarget(20);
+//            }
 
             slides.updateMotors();
 

@@ -20,7 +20,7 @@ public class SlidesV2 {
     public static double KP = 0.01;
     public static double KI = 0;
     public static double KD = 0;
-    public static int topBasketTarget = 2500;
+    public static int topBasketTarget = 4500;
     public static int bottomBasketTarget = 1000;
     public static int wallTarget = 0;
     public static int topBarTarget = 1460;

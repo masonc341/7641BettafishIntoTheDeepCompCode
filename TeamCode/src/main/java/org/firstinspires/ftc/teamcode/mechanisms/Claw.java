@@ -15,8 +15,8 @@ public class Claw {
     private Servo wallServo;
 
     public static double flipTarget = 0.6;
-    public static double flopTarget = 0.32;
-    public static double upTarget = 0.4;
+    public static double flopTarget = 0.4;
+    public static double upTarget = 0.45;
     public static double closeTarget = 0.6;
     public static double openTarget = 0.2;
     public static double wallopenTarget = 0.9;
@@ -64,6 +64,19 @@ public class Claw {
 
     public Action close() {
         return new Close();
+    }
+
+    public class WallClose implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            //clawServo.setPosition(closeTarget);
+            wallServo.setPosition(wallcloseTarget);
+            return false;
+        }
+    }
+
+    public Action wallClose() {
+        return new WallClose();
     }
 
     public class Open implements Action {
