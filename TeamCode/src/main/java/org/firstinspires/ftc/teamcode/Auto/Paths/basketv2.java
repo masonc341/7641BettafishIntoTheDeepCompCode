@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 @Autonomous
-public class BasketPath extends LinearOpMode {
+public class basketv2 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -29,19 +29,7 @@ public class BasketPath extends LinearOpMode {
                 .build();
         Action path3 = path.fresh()
                 .strafeToLinearHeading(new Vector2d(-15.75, 6.99), Math.toRadians(45))
-                //.waitSeconds(1)
-//                .strafeToLinearHeading(new Vector2d(-15.60, 9.45), Math.toRadians(90))
-//                .waitSeconds(1)
-//                .strafeToLinearHeading(new Vector2d(-15.75, 6.99), Math.toRadians(45))
-//                .waitSeconds(1)
-//
-//                .strafeToLinearHeading(new Vector2d(-14.92, 10.38), Math.toRadians(125))
-//                .waitSeconds(1)
-//                .strafeToLinearHeading(new Vector2d(-15.75, 6.99), Math.toRadians(45))
-//                .waitSeconds(1)
-//                .strafeToLinearHeading(new Vector2d(-16.31, 52.08), Math.toRadians(-180))
-//                .waitSeconds(1)
-//                .strafeToLinearHeading(new Vector2d(12.99, 55.52), Math.toRadians(-180))
+
                 .build();
 
         Action pathh = path.build();

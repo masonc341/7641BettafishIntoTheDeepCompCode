@@ -22,20 +22,20 @@ import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 @Autonomous
 public class BasketAuto extends LinearOpMode {
 
-    public static double depositPreloadX = -15.75;
-    public static double depositPreloadY = 6.99;
-    public static double depositFirstX = -15.75;
-    public static double depositFirstY = 6.99;
-    public static double depositSecondX = -15.75;
-    public static double depositSecondY = 6.99;
-    public static double depositThirdX = -15.75;
-    public static double depositThirdY = 6.99;
-    public static double firstSampleX = -9.95;
-    public static double firstSampleY = 8.97;
-    public static double secondSampleX = -15.60;
-    public static double secondSampleY = 9.45;
-    public static double thirdSampleX = -14.92;
-    public static double thirdSampleY = 10.38;
+    public static double depositPreloadX = -10.64;
+    public static double depositPreloadY = 7.05;
+    public static double depositFirstX = -10.64;
+    public static double depositFirstY = 7.05;
+    public static double depositSecondX = -10.64;
+    public static double depositSecondY = 7.05;
+    public static double depositThirdX = -10.64;
+    public static double depositThirdY = 7.05;
+    public static double firstSampleX = -0.7;
+    public static double firstSampleY = 13.27;
+    public static double secondSampleX = -8.9;
+    public static double secondSampleY = 13.27;
+    public static double thirdSampleX = -4.62;
+    public static double thirdSampleY = 23.9;
     public static double park1X = -16.31;
     public static double park1Y = 52.08;
     public static double park2X = 12.99;
@@ -50,16 +50,18 @@ public class BasketAuto extends LinearOpMode {
         Claw claw = new Claw(hardwareMap);
         Intaker intake = new Intaker(hardwareMap);
 
+        TrajectoryActionBuilder fresh = drive.actionBuilder(StartPose1);
+
         Action depositPreload = drive.actionBuilder(StartPose1)
-                .strafeToLinearHeading(new Vector2d(depositPreloadX, depositPreloadY), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-10.64, 7.05), Math.toRadians(48))
                 .build();
-        Action firstSample = drive.actionBuilder(drive.pose)
-                .strafeToLinearHeading(new Vector2d(firstSampleX, firstSampleY), Math.toRadians(90))
+        Action firstSample = fresh.fresh()
+                .strafeToLinearHeading(new Vector2d(-0.7, 13.27), Math.toRadians(105))
                 .build();
-        Action firstSampleSweep = drive.actionBuilder(drive.pose)
+        Action firstSampleSweep = fresh.fresh()
                 .strafeToLinearHeading(new Vector2d(firstSampleX, firstSampleY + 3), Math.toRadians(90))
                 .build();
-        Action depositFirst = drive.actionBuilder(drive.pose)
+        Action depositFirst = fresh.fresh()
                 .strafeToLinearHeading(new Vector2d(depositFirstX, depositFirstY), Math.toRadians(45))
                 .build();
         Action secondSample = drive.actionBuilder(drive.pose)
@@ -71,6 +73,7 @@ public class BasketAuto extends LinearOpMode {
         Action depositSecond = drive.actionBuilder(drive.pose)
                 .strafeToLinearHeading(new Vector2d(depositSecondX, depositSecondY), Math.toRadians(45))
                 .build();
+
         Action thirdSample = drive.actionBuilder(drive.pose)
                 .strafeToLinearHeading(new Vector2d(thirdSampleX, thirdSampleY), Math.toRadians(125))
                 .build();
@@ -86,7 +89,7 @@ public class BasketAuto extends LinearOpMode {
                 .build();
 
         TrajectoryActionBuilder path = drive.actionBuilder(StartPose1)
-                .strafeToLinearHeading(new Vector2d(-15.75, 6.99), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-10.64, 7.05), Math.toRadians(48))
                 .waitSeconds(1.5)
                 .strafeToLinearHeading(new Vector2d(-9.95, 8.97), Math.toRadians(90))
                 .waitSeconds(1.5)
@@ -106,90 +109,96 @@ public class BasketAuto extends LinearOpMode {
 
         waitForStart();
         Actions.runBlocking(new SequentialAction(
+                //extendo.retract(),
+                //claw.flop(),
+                //intake.flop(),
                 //preload
-                new ParallelAction(
+                //new ParallelAction(
                         depositPreload,
-                        slides.slideTopBasket(),
-                        extendo.balance()
-                ),
-                claw.flip(),
+                        //slides.slideTopBasket(),
+                        //extendo.balance()
+                //),
+                //claw.flip(),
                 new SleepAction(0.7),
-                claw.flop(),
+                //claw.flop(),
                 //0-1
-                new ParallelAction(
+                //new ParallelAction(
                         firstSample,
-                        slides.retract(),
-                        extendo.extend(),
-                        intake.flip(),
-                        intake.intake()
-                ),
-                firstSampleSweep,
-                new ParallelAction(
-                        intake.creep(),
-                        extendo.retract()
-                ),
-                depositFirst,
-                intake.extake(),
+                        //extendo.extend(),
+                        //intake.flip(),
+                        //intake.intake()
+                //),
                 new SleepAction(0.7),
-                claw.up(),
-                new ParallelAction(
-                        slides.slideTopBasket(),
-                        extendo.balance()
-                ),
-                claw.flip(),
-                new SleepAction(0.7),
-                claw.flop(),
-                //0-2
-                new ParallelAction(
-                        secondSample,
-                        slides.retract(),
-                        extendo.extend(),
-                        intake.flip(),
-                        intake.intake()
-                ),
-                secondSampleSweep,
-                new ParallelAction(
-                        intake.creep(),
-                        extendo.retract()
-                ),
-                depositSecond,
-                intake.extake(),
-                new SleepAction(0.7),
-                claw.up(),
-                new ParallelAction(
-                        slides.slideTopBasket(),
-                        extendo.balance()
-                ),
-                claw.flip(),
-                new SleepAction(0.7),
-                claw.flop(),
-                //0-3
-                new ParallelAction(
-                        thirdSample,
-                        slides.retract(),
-                        extendo.extend(),
-                        intake.flip(),
-                        intake.intake()
-                ),
-                thirdSampleSweep,
-                new ParallelAction(
-                        intake.creep(),
-                        extendo.retract()
-                ),
-                depositThird,
-                intake.extake(),
-                new SleepAction(0.7),
-                claw.up(),
-                new ParallelAction(
-                        slides.slideTopBasket()
-                ),
-                claw.flip(),
-                new SleepAction(0.7),
-                claw.flop(),
-                new ParallelAction(
-                        park,
-                        slides.slideBottomBar()
-                )
+                //new ParallelAction(
+                        //slides.retract(),
+                        firstSampleSweep
+                //),
+//                new ParallelAction(
+//                        //intake.creep(),
+//                        //extendo.retract()
+//                ),
+                //depositFirst,
+                //intake.extake(),
+//                new SleepAction(0.7),
+//                //claw.up(),
+//                new ParallelAction(
+//                        //slides.slideTopBasket(),
+//                        //extendo.balance()
+//                ),
+//                //claw.flip(),
+//                new SleepAction(0.7)
+                //claw.flop()
+//                //0-2
+//                new ParallelAction(
+//                        secondSample,
+//                        slides.retract(),
+//                        extendo.extend(),
+//                        intake.flip(),
+//                        intake.intake()
+//                ),
+//                secondSampleSweep,
+//                new ParallelAction(
+//                        intake.creep(),
+//                        extendo.retract()
+//                ),
+//                depositSecond,
+//                intake.extake(),
+//                new SleepAction(0.7),
+//                claw.up(),
+//                new ParallelAction(
+//                        slides.slideTopBasket(),
+//                        extendo.balance()
+//                ),
+//                claw.flip(),
+//                new SleepAction(0.7),
+//                claw.flop(),
+//                //0-3
+//                new ParallelAction(
+//                        thirdSample,
+//                        slides.retract(),
+//                        extendo.extend(),
+//                        intake.flip(),
+//                        intake.intake()
+//                ),
+//                thirdSampleSweep,
+//                new ParallelAction(
+//                        intake.creep(),
+//                        extendo.retract()
+//                ),
+//                depositThird,
+//                intake.extake(),
+//                new SleepAction(0.7),
+//                claw.up(),
+//                new ParallelAction(
+//                        slides.slideTopBasket()
+//                ),
+//                claw.flip(),
+//                new SleepAction(0.7),
+//                claw.flop(),
+//                new ParallelAction(
+//                        park,
+//                        slides.slideBottomBar()
+//                )
         ));
 
 
