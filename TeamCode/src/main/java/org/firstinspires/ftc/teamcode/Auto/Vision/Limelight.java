@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Auto.Vision;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -19,6 +21,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.MecanumDriveSWBot;
 import org.firstinspires.ftc.teamcode.Teleop.Teleop;
 
 import java.nio.file.Paths;
@@ -27,21 +30,21 @@ import java.util.List;
 
 public class Limelight {
     public Limelight3A limelight;
-    public static double StrafeAmount = 0;
+
 
     public Limelight(HardwareMap HWMap) {
-        limelight = HWMap.get(Limelight3A.class, "limelight");
+        limelight = HWMap.get(Limelight3A.class, "bob");
         limelight.pipelineSwitch(0);
         limelight.setPollRateHz(100);
         limelight.start();
 
     }
-
+    //remove the swbot part of this later
 //need limeight to move until degree = 0
     public class Align implements Action {
-        private MecanumDrive drive;
+        private MecanumDriveSWBot drive;
 
-        public Align(MecanumDrive drive) {
+        public Align(MecanumDriveSWBot drive) {
             this.drive = drive;
 
         }
@@ -51,14 +54,18 @@ public class Limelight {
             double tx = getTx();
             if (tx > 10) {
                 drive.setDrivePowers(new PoseVelocity2d(
-                        new Vector2d(0, 1),
+                        new Vector2d(0, 0.1),
                         0));
-            } else if (tx < -10) {
+            }
+
+            else if (tx < -10) {
                 drive.setDrivePowers(new PoseVelocity2d(
-                        new Vector2d(0, -1),
+                        new Vector2d(0, -0.1),
                         0
                 ));
-            } else {
+            }
+
+            else {
                 return false;
             }
 
@@ -66,7 +73,7 @@ public class Limelight {
         }
     }
 
-    public Action align(MecanumDrive drive) {
+    public Action align(MecanumDriveSWBot drive) {
         return new Align(drive);
 
     }
@@ -74,13 +81,14 @@ public class Limelight {
     public double getTx() {
         LLResult result = limelight.getLatestResult();
         double tx;
-        double ty;
+
         if (result != null && result.isValid()) {
-            tx = result.getTx() * -1; // How far left or right the target is (degrees)
+            tx = result.getTx(); // How far left or right the target is (degrees)
             //ty = result.getTy() * -1; // How far up or down the target is (degrees)
 
         }
         else {
+
             return 0;
         }
 

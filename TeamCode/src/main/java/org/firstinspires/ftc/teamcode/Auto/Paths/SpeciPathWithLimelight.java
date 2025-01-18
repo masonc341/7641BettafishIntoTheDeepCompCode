@@ -26,6 +26,7 @@ public class SpeciPathWithLimelight extends LinearOpMode{
         MecanumDriveSWBot drive = new MecanumDriveSWBot(hardwareMap, StartPose1);
 
 
+
         waitForStart();
         Actions.runBlocking(limelight.align(drive));
         new Vector2d(1,1);
@@ -33,5 +34,10 @@ public class SpeciPathWithLimelight extends LinearOpMode{
     }
 
 
+            waitForStart();
+            Actions.runBlocking(limelight.align(drive));
+            new Vector2d(1,1);
+
+        }
 
 }
