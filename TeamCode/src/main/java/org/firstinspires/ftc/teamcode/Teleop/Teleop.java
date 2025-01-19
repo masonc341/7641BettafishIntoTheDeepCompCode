@@ -66,7 +66,7 @@ public class Teleop extends LinearOpMode {
 
     private enum LiftState {LIFTSTART, LIFTDEPOSIT, LIFTWALL, LIFTTOPBAR, LIFTBOTTOMBAR}
     private LiftState liftState = LiftState.LIFTSTART;
-    private String clawTelem = "Start";
+    private String slidesTelem = "Start";
 
     private enum ExtendoState {EXTENDOSTART, EXTENDOEXTEND, EXTENDORETRACT}
     private ExtendoState extendoState = ExtendoState.EXTENDOSTART;
@@ -257,6 +257,7 @@ public class Teleop extends LinearOpMode {
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     extendo.extend(),
+                                    new SleepAction(0.5),
                                     intake.flip(),
                                     intake.intake(),
                                     extendocontrol.done()
@@ -351,7 +352,7 @@ public class Teleop extends LinearOpMode {
 
             switch (liftState) {
                 case LIFTSTART:
-                    clawTelem = "Start";
+                    slidesTelem = "Start";
                     if (currentGamepad2.y && !previousGamepad2.y) {
                         if (currentGamepad2.left_trigger < 0.9) {
                             runningActions.add(slides.slideTopBasket());
@@ -365,13 +366,13 @@ public class Teleop extends LinearOpMode {
                         runningActions.add(new SequentialAction(
                                 slides.retract(),
                                 claw.open(),
-                                claw.wallClose(),
-                                slidescontrol.done()
+                                claw.wallClose()
                         ));
                         liftState = LiftState.LIFTWALL;
                     }
                     break;
                 case LIFTDEPOSIT:
+                    slidesTelem = "Deposit";
                     if (currentGamepad2.y && !previousGamepad2.y && !slidescontrol.getBusy()) {
                         runningActions.add(new SequentialAction(
                                 slidescontrol.start(),
@@ -392,14 +393,13 @@ public class Teleop extends LinearOpMode {
 
                     break;
                 case LIFTWALL:
-                    clawTelem = "Wall";
+                    slidesTelem = "Wall";
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         if (currentGamepad2.left_trigger < 0.9) {
                             runningActions.add(new SequentialAction(
                                     claw.close(),
                                     new SleepAction(0.3),
-                                    slides.slideTopBar(),
-                                    slidescontrol.done()
+                                    slides.slideTopBar()
                             ));
                             liftState = LiftState.LIFTTOPBAR;
                         } else {
@@ -412,13 +412,12 @@ public class Teleop extends LinearOpMode {
                     }
                     break;
                 case LIFTTOPBAR:
-                    clawTelem = "TopBar";
+                    slidesTelem = "TopBar";
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         runningActions.add(new SequentialAction(
                                 slides.slideTopBarClip(),
                                 claw.open(),
-                                slides.retract(),
-                                slidescontrol.done()
+                                slides.retract()
                         ));
                         liftState = LiftState.LIFTSTART;
                     }
@@ -494,7 +493,8 @@ public class Teleop extends LinearOpMode {
             telemetry.addData("extendo state", extendoTelem);
             telemetry.addData("extendoFinished", extendocontrol.getFinished());
             telemetry.addData("extendoBusy", extendocontrol.getBusy());
-            telemetry.addData("claw state", clawTelem);
+            telemetry.addData("slides state", slidesTelem);
+            telemetry.addData("slides busy", slidescontrol.getBusy());
             telemetry.addData("hasColor", hasColor);
             telemetry.addData("robot x", drive.pose.position.x);
             telemetry.addData("robot y", drive.pose.position.y);
