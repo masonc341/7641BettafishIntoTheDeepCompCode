@@ -33,7 +33,7 @@ public class BasketAuto extends LinearOpMode {
     public static double dfirstsampledepositY = 15;
     public static double dfirstsampledepositH = 58;
     public static double cfirstsampleintakeH = 75;
-    public static double cfirstsampleintakex = -15;
+    public static double cfirstsampleintakex = -16;
     public static double cfirstsampleintakey = 21;
     public static double esecondsampleH = 87;
     public static double esecondsamplex = -16.27;

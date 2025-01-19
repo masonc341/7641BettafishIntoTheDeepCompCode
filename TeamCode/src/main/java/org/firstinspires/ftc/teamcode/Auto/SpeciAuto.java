@@ -20,6 +20,28 @@ import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 @Autonomous
 public class SpeciAuto extends LinearOpMode {
 
+    public static double apreloadX = -19.35;
+    public static double apreloadY = 15.3;
+    public static double apreloadH = 65;
+    public static double bfirstsampleX = -14.8; //-18.5;
+    public static double bfirstsampleY = 12; //20;
+    public static double bfirstsampleH = 77; //76;
+    public static double dfirstsampledepositX = -14.75;
+    public static double dfirstsampledepositY = 15;
+    public static double dfirstsampledepositH = 58;
+    public static double cfirstsampleintakeH = 75;
+    public static double cfirstsampleintakex = -16;
+    public static double cfirstsampleintakey = 21;
+    public static double esecondsampleH = 87;
+    public static double esecondsamplex = -16.27;
+    public static double esecondsampley = 14.28;
+    public static double fsecondsampleintakeh = 87;
+    public static double fsecondsampleintakex = -16.8;
+    public static double fsecondsampleintakey = 21;
+    public static double gsecondsampledepositX = -19.35;
+    public static double gsecondsampledepositY = 15.3;
+    public static double gsecondsampledepositH = 65;
+
     @Override
     public void runOpMode() {
 
