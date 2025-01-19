@@ -14,9 +14,9 @@ public class Claw {
     private Servo clawServo;
     private Servo wallServo;
 
-    public static double flipTarget = 0.6;
+    public static double flipTarget = 0.7;
     public static double flopTarget = 0.4;
-    public static double upTarget = 0.45;
+    public static double upTarget = 0.47;
     public static double closeTarget = 0.6;
     public static double openTarget = 0.2;
     public static double wallopenTarget = 0.9;

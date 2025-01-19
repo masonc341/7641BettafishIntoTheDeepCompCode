@@ -17,6 +17,10 @@ public class Control {
         finished = false;
     }
 
+    public void resetBusy() {
+        busy = false;
+    }
+
     public boolean getFinished() {
         return finished;
     }
