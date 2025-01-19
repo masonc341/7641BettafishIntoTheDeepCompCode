@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
 import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 
 @Autonomous
-public class SpeciAuto extends LinearOpMode {
+public class SpeciAutoModel extends LinearOpMode {
     public static double speciDropX = -28.42;
     public static double speciDropY = -6.61;
     public static double speciDropH = 0;
@@ -79,59 +79,65 @@ public class SpeciAuto extends LinearOpMode {
 
         waitForStart();
 
-        Action path = pathT.build();
-
-        Actions.runBlocking(new ParallelAction(
-                path,
-
-                new SequentialAction(
+        /*
+        Actions.runBlocking(new SequentialAction(
+                firstSpeciDropOff,
+                slides.slideTopBar(),
+                slides.slideTopBarClip(),
+                new SleepAction(0.25),
+                claw.open(),
+                new SleepAction(0.2),
+                slides.retract(),
+                new ParallelAction(
+                        block1,
+                        extendo.extend()
+                ),
+                intake.flat(),
+                deposit1,
+                block2,
+                deposit2,
+                new ParallelAction(
+                        extendo.retract(),
+                        intake.flop(),
+                        pickUp1
+                ),
+                claw.close(),
+                new ParallelAction(
                         slides.slideTopBar(),
-                        slides.slideTopBarClip(),
-                        new SleepAction(0.25),
-                        claw.open(),
-                        new SleepAction(0.2),
-                        slides.retract(),
-                        new ParallelAction(
-
-                                extendo.extend()
-                        ),
-                        intake.flat(),
-                        new ParallelAction(
-                                extendo.retract(),
-                                intake.flop()
-                        ),
-                        claw.close(),
-                        new ParallelAction(
-                                slides.slideTopBar()
-                        ),
-                        slides.slideTopBarClip(),
-                        new SleepAction(0.25),
-                        claw.open(),
-                        new SleepAction(0.2),
-                        slides.retract(),
-                        claw.close(),
-                        new ParallelAction(
-                                slides.slideTopBar()
-                        ),
-                        slides.slideTopBarClip(),
-                        //new SleepAction(0.25),
-                        claw.open(),
-                        //new SleepAction(0.2),
-                        slides.retract(),
-                        claw.close(),
-                        new ParallelAction(
-                                slides.slideTopBar()
-                        ),
-                        slides.slideTopBarClip(),
-                        //new SleepAction(0.25),
-                        claw.open(),
-                        //new SleepAction(0.2),
-                        slides.retract()
-
-
-                )
+                        secondSpeciDropOff
+                ),
+                slides.slideTopBarClip(),
+                new SleepAction(0.25),
+                claw.open(),
+                new SleepAction(0.2),
+                slides.retract(),
+                pickUp2,
+                claw.close(),
+                new ParallelAction(
+                        slides.slideTopBar(),
+                        thirdSpeciDropOff
+                ),
+                slides.slideTopBarClip(),
+                //new SleepAction(0.25),
+                claw.open(),
+                //new SleepAction(0.2),
+                slides.retract(),
+                pickUp3,
+                claw.close(),
+                new ParallelAction(
+                        slides.slideTopBar(),
+                        fourthSpeciDropOff
+                ),
+                slides.slideTopBarClip(),
+                //new SleepAction(0.25),
+                claw.open(),
+                //new SleepAction(0.2),
+                slides.retract(),
+                park
 
         ));
+
+         */
 
 
     }
