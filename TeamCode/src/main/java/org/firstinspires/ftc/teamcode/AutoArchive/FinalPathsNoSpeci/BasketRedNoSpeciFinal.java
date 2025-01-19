@@ -197,11 +197,11 @@ public class BasketRedNoSpeciFinal extends LinearOpMode {
 
                 */
 
-<<<<<<< HEAD
+
         )));//slides.update()));
-=======
-        )));
->>>>>>> 89beaa6c17cd3d60c8bc9abe51cba50dc07377c4
+
+
+
 
 
     }
