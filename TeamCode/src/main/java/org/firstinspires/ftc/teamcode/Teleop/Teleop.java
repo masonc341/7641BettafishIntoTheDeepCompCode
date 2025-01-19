@@ -257,7 +257,7 @@ public class Teleop extends LinearOpMode {
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     extendo.extend(),
-                                    new SleepAction(0.5),
+                                    new SleepAction(0.3),
                                     intake.flip(),
                                     intake.intake(),
                                     extendocontrol.done()
@@ -289,8 +289,8 @@ public class Teleop extends LinearOpMode {
                             }
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
-                                    intake.creep(),
                                     intake.flop(),
+                                    intake.creep(),
                                     claw.flop(),
                                     extendo.retract(),
                                     extendocontrol.done()
@@ -323,7 +323,7 @@ public class Teleop extends LinearOpMode {
                     if (extendocontrol.getFinished()) {
                         extendocontrol.resetFinished();
                         runningActions.add(new SequentialAction(
-                                new SleepAction(1.2),
+                                //new SleepAction(1.2),
                                 intake.extake()
                         ));
                         extendoState = ExtendoState.EXTENDORETRACT;
@@ -377,9 +377,9 @@ public class Teleop extends LinearOpMode {
                         runningActions.add(new SequentialAction(
                                 slidescontrol.start(),
                                 claw.flip(),
-                                new SleepAction(1),
+                                new SleepAction(0.7),
                                 claw.flop(),
-                                new SleepAction(1.5),
+                                new SleepAction(0.5),
                                 slides.retract(),
                                 slidescontrol.done()
                         ));
@@ -388,6 +388,7 @@ public class Teleop extends LinearOpMode {
 
                     if (slidescontrol.getFinished()) {
                         slidescontrol.resetFinished();
+                        slidescontrol.resetBusy();
                         liftState = LiftState.LIFTSTART;
                     }
 

@@ -17,10 +17,10 @@ public class SlidesV2 {
     public DcMotor slidesLeftMotor;
     public DcMotor slidesRightMotor;
 
-    public static double KP = 0.01;
+    public static double KP = 0.02;
     public static double KI = 0;
     public static double KD = 0;
-    public static int topBasketTarget = 3700;
+    public static int topBasketTarget = 3670;
     public static int bottomBasketTarget = 1000;
     public static int wallTarget = 5;
     public static int topBarTarget = 1460;
@@ -67,7 +67,7 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  100) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
                 return false;
             }
             return true;
@@ -92,7 +92,7 @@ public class SlidesV2 {
 //            int sadFace=-77;
 //            System.out.println(happyFace+sadFace);
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) < 2) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) < 40) {
                 return false;
             }
             return true;
@@ -115,7 +115,7 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
                 return false;
             }
             return true;
@@ -138,7 +138,7 @@ public class SlidesV2 {
             updateMotors();
 
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
                 return false;
             }
             return true;
@@ -162,7 +162,7 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
                 return false;
             }
             return true;
@@ -185,7 +185,7 @@ public class SlidesV2 {
             updateMotors();
 
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
                 return false;
             }
             return true;
@@ -209,7 +209,7 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
                 return false;
             }
             return true;
@@ -232,7 +232,9 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  2) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  20) {
+                slidesLeftMotor.setPower(0);
+                slidesRightMotor.setPower(0);
                 return false;
             }
             return true;
