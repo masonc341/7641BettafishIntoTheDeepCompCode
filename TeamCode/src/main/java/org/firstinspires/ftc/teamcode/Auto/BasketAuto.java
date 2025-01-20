@@ -26,24 +26,24 @@ public class BasketAuto extends LinearOpMode {
     public static double apreloadX = -19.35;
     public static double apreloadY = 15.3;
     public static double apreloadH = 65;
-    public static double bfirstsampleX = -14.8; //-18.5;
+    public static double bfirstsampleX = -8; //-18.5;
     public static double bfirstsampleY = 12; //20;
-    public static double bfirstsampleH = 77; //76;
+    public static double bfirstsampleH = 90; //76;
     public static double dfirstsampledepositX = -14.75;
     public static double dfirstsampledepositY = 15;
     public static double dfirstsampledepositH = 58;
-    public static double cfirstsampleintakeH = 75;
-    public static double cfirstsampleintakex = -16;
+    public static double cfirstsampleintakeH = 90;
+    public static double cfirstsampleintakex = -8;
     public static double cfirstsampleintakey = 21;
-    public static double esecondsampleH = 87;
-    public static double esecondsamplex = -16.27;
-    public static double esecondsampley = 14.28;
-    public static double fsecondsampleintakeh = 87;
-    public static double fsecondsampleintakex = -16.8;
-    public static double fsecondsampleintakey = 21;
-    public static double gsecondsampledepositX = -19.35;
-    public static double gsecondsampledepositY = 15.3;
-    public static double gsecondsampledepositH = 65;
+    public static double esecondsampleH = 90;
+    public static double esecondsamplex = -18.27;
+    public static double esecondsampley = 13;
+    public static double fsecondsampleintakeh = 90;
+    public static double fsecondsampleintakex = -19.27;
+    public static double fsecondsampleintakey = 24;
+    public static double gsecondsampledepositX = -14.75;
+    public static double gsecondsampledepositY = 15;
+    public static double gsecondsampledepositH = 58;
 
 
 
@@ -63,12 +63,14 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(2)
                 .strafeToLinearHeading(new Vector2d(bfirstsampleX, bfirstsampleY), Math.toRadians(bfirstsampleH))
                 .waitSeconds(0.5)
-                .strafeToLinearHeading(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), Math.toRadians(cfirstsampleintakeH))
+                .strafeTo(new Vector2d(cfirstsampleintakex, cfirstsampleintakey))
                 .waitSeconds(3.6)
                 .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
                 .waitSeconds(1.9)
                 .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
-                .waitSeconds(0.7)
+                .waitSeconds(0.25)
+                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley+1), Math.toRadians(esecondsampleH))
+                .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh))
                 .waitSeconds(3)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
@@ -106,6 +108,7 @@ public class BasketAuto extends LinearOpMode {
                                         intake.flop(),
                                         new SleepAction(0.2),
                                         intake.creep(),
+                                        new SleepAction(0.1),
                                         extendo.retract(),
                                         new SleepAction(1.1),
                                         intake.extake()
@@ -135,6 +138,7 @@ public class BasketAuto extends LinearOpMode {
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),
+                                        new SleepAction(0.15),
                                         extendo.retract(),
                                         new SleepAction(1.1),
                                         intake.extake()
@@ -154,7 +158,7 @@ public class BasketAuto extends LinearOpMode {
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(2),
+                                        new SleepAction(1),
                                         extendo.extend(),
                                         new SleepAction(0.15),
                                         intake.flip(),
