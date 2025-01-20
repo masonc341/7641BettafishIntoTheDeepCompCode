@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.MecanumDriveSWBot;
 
 @Autonomous
 public class SpeciTestPath extends LinearOpMode {
@@ -19,7 +20,7 @@ public class SpeciTestPath extends LinearOpMode {
     public void runOpMode() {
 
         Pose2d StartPose1 = new Pose2d(0,0, Math.toRadians(0));
-        MecanumDrive drive = new MecanumDrive(hardwareMap, StartPose1);
+        MecanumDriveSWBot drive = new MecanumDriveSWBot(hardwareMap, StartPose1);
 
 
         TrajectoryActionBuilder path = drive.actionBuilder(StartPose1)
@@ -35,8 +36,8 @@ public class SpeciTestPath extends LinearOpMode {
                 .waitSeconds(1.5)
                 .strafeToLinearHeading(new Vector2d(-8, 30), Math.toRadians(180)) //pick up 3
                 .waitSeconds(1.5)
-                .splineTo(new Vector2d(-13.17, 8.59), Math.toRadians(270))
-                .splineTo(new Vector2d(-28.42, -6.61), Math.toRadians(180)) //4+0
+                .splineToLinearHeading(new Pose2d(-13.17, 8.59, Math.toRadians(75)), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-28.42, -6.61), Math.toRadians(0)) //4+0
                 .waitSeconds(1.5)
                 .strafeToLinearHeading(new Vector2d(-6, 32), Math.toRadians(180)); //park?
 
