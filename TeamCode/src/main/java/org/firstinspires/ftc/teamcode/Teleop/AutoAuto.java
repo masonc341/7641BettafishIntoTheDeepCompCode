@@ -9,9 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.MecanumDriveSWBot;
 
 
+import org.firstinspires.ftc.teamcode.MecanumDriveSWBot;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
@@ -35,13 +36,13 @@ public class AutoAuto extends LinearOpMode {
 
 
         Pose2d StartPose = new Pose2d(0, 0, 0); // Replaced with 0 radians instead of Math.toRadians(0);
-        MecanumDrive drive = new MecanumDrive(hardwareMap, StartPose);
+        MecanumDriveSWBot drive = new MecanumDriveSWBot(hardwareMap, StartPose);
 
         Gamepad currentGamepad1 = gamepad1; // Changed from new Gamepad() to gamepad1, same thing with gamepad 2
         Gamepad currentGamepad2 = gamepad2;
 
 
-        String finalFormatting = "  .strafeToLinearHeading(new Vector2d(%dx, %dy), Math.toRadians(%heading))\n  .waitSeconds(1.5)";
+        String finalFormatting = "  .strafeToLinearHeading(new Vector2d(%dx, %dy), (%heading))\n  .waitSeconds(1.5)";
 
         String codeHeader = "TrajectoryActionBuilder path = drive.actionBuilder(StartPosition)\n";
 
@@ -69,7 +70,7 @@ public class AutoAuto extends LinearOpMode {
         int webCount = 0;
 
         try {
-            webSocket = new WebSocketClient(new URI("ws://192.168.43.62:8765")) {
+            webSocket = new WebSocketClient(new URI("ws://192.168.43.148:8765")) {
                 @Override
                 public void onOpen(ServerHandshake handshakedata) {
                     telemetry.addData("WebSocket", "Connected");
