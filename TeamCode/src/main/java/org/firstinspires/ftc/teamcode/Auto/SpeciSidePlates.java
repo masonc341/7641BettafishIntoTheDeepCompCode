@@ -22,19 +22,21 @@ import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 
 @Autonomous
 @Config
-public class SpeciAuto extends LinearOpMode {
+public class SpeciSidePlates extends LinearOpMode {
 
     public static double speciDropX = -29.3;
     public static double speciDropY = -7.74;
+    public static double wayPointX = -20.9;
+    public static double wayPointY = 18;
     public static double speciDropH = 0;
-    public static double block1X = -18.3;
-    public static double block1Y = 23.3;
-    public static double block1H = 135;
-    public static double depositHumanH = 15;
-    public static double block2X = -19;
-    public static double block2Y = 31;
-    public static double block2H = 135;
-    public static double depositHumanH2 = 90;
+    public static double block1X = -45.89;
+    public static double block1Y = 41.6;
+    public static double block1H = -90;
+    public static double depositHumanH = -90;
+    public static double block2X = -45.9;
+    public static double block2Y = 51.2;
+    public static double block2H = -90;
+    public static double depositHumanH2 = -90;
     public static double pickUpX = -3.8;
     public static double pickUpY = 42;
     public static double pickUpH = -180;
@@ -58,22 +60,23 @@ public class SpeciAuto extends LinearOpMode {
 
         TrajectoryActionBuilder pathT = drive.actionBuilder(StartPose1)
                 .strafeToLinearHeading(new Vector2d(speciDropX, speciDropY), Math.toRadians(speciDropH))
-                .waitSeconds(1.5)
+                .waitSeconds(2)
+                .strafeToLinearHeading(new Vector2d(wayPointX, wayPointY), Math.toRadians(-90))
                 .strafeToLinearHeading(new Vector2d(block1X, block1Y), Math.toRadians(block1H))
                 .waitSeconds(0.5)
-                .strafeToLinearHeading(new Vector2d(block1X, block1Y), Math.toRadians(depositHumanH))
+                .strafeToLinearHeading(new Vector2d(block1X+40, block1Y), Math.toRadians(depositHumanH))
                 .waitSeconds(1.9)
                 .strafeToLinearHeading(new Vector2d(block2X, block2Y), Math.toRadians(block2H))
                 .waitSeconds(1.9)
-                .strafeToLinearHeading(new Vector2d(block1X, block1Y), Math.toRadians(depositHumanH))
+                .strafeToLinearHeading(new Vector2d(block1X+40, block2Y), Math.toRadians(depositHumanH2))
                 .strafeToLinearHeading(new Vector2d(pickUpX, pickUpY), Math.toRadians(pickUpH))
                 .waitSeconds(0.7)
                 .strafeToLinearHeading(new Vector2d(dropSpecimenX, dropSpecimenY), Math.toRadians(dropSpecimenH))
-                .waitSeconds(1.5)
+                .waitSeconds(3)
                 .strafeToLinearHeading(new Vector2d(pickUpX, pickUpY), Math.toRadians(pickUpH))
                 .waitSeconds(0.7)
                 .strafeToLinearHeading(new Vector2d(dropSpecimenX, dropSpecimenY), Math.toRadians(dropSpecimenH))
-                .waitSeconds(1.5)
+                .waitSeconds(3)
                 .strafeToLinearHeading(new Vector2d(pickUpX, pickUpY), Math.toRadians(pickUpH))
                 .waitSeconds(0.7)
                 .strafeToLinearHeading(new Vector2d(dropSpecimenX, dropSpecimenY), Math.toRadians(dropSpecimenH))
