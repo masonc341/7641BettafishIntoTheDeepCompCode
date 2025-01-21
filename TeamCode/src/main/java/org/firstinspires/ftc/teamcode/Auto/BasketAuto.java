@@ -26,14 +26,14 @@ public class BasketAuto extends LinearOpMode {
     public static double apreloadX = -19.35;
     public static double apreloadY = 15.3;
     public static double apreloadH = 65;
-    public static double bfirstsampleX = -8; //-18.5;
+    public static double bfirstsampleX = -9; //-18.5;
     public static double bfirstsampleY = 10; //20;
     public static double bfirstsampleH = 90; //76;
     public static double dfirstsampledepositX = -14.75;
     public static double dfirstsampledepositY = 15;
     public static double dfirstsampledepositH = 58;
     public static double cfirstsampleintakeH = 90;
-    public static double cfirstsampleintakex = -8;
+    public static double cfirstsampleintakex = -9;
     public static double cfirstsampleintakey = 21;
     public static double esecondsampleH = 90;
     public static double esecondsamplex = -18.27;
@@ -44,15 +44,15 @@ public class BasketAuto extends LinearOpMode {
     public static double gsecondsampledepositX = -14.75;
     public static double gsecondsampledepositY = 15;
     public static double gsecondsampledepositH = 58;
-    public static double hthirdsampleH = 90;
-    public static double hthirdsamplex = -18.27;
-    public static double hthirdsampley = 13.75;
-    public static double ithirdsamplealignH = 90;
-    public static double ithirdsamplealignx = -18.27;
-    public static double ithirdsamplealigny = 13.75;
-    public static double jthirdsampleintakeh = 90;
-    public static double jthirdsampleintakex = -19.27;
-    public static double jthirdsampleintakey = 24;
+    public static double hthirdsampleH = 140;
+    public static double hthirdsamplex = -6;
+    public static double hthirdsampley = 23.3;
+    public static double ithirdsamplealignH = 140;
+    public static double ithirdsamplealignx = -8.4;
+    public static double ithirdsamplealigny = 24.3;
+    public static double jthirdsampleintakeh = 140;
+    public static double jthirdsampleintakex = -12.76;
+    public static double jthirdsampleintakey = 27.8;
     public static double parkX = 11.89;
 
     public static double parkY = 67.07;
@@ -95,9 +95,11 @@ public class BasketAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley), Math.toRadians(hthirdsampleH))
                 .waitSeconds(0.25)
                 .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny), Math.toRadians(ithirdsamplealignH))
-                .waitSeconds(1)
+                .waitSeconds(0.25)
                 .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh))
-                .waitSeconds(100)
+                .waitSeconds(4)
+                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
+                .waitSeconds(2)
                 .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
 
 
@@ -124,11 +126,11 @@ public class BasketAuto extends LinearOpMode {
                                 ),
                                 new SequentialAction(
                                         extendo.extend(),
-                                        new SleepAction(0.15),
+                                        new SleepAction(0.1),
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(3),
+                                        new SleepAction(3.3),
                                         intake.flop(),
                                         new SleepAction(0.2),
                                         intake.creep(),
@@ -154,7 +156,7 @@ public class BasketAuto extends LinearOpMode {
                                 new SequentialAction(
                                         new SleepAction(2),
                                         extendo.extend(),
-                                        new SleepAction(0.15),
+                                        new SleepAction(0.1),
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
@@ -184,11 +186,11 @@ public class BasketAuto extends LinearOpMode {
                                 new SequentialAction(
                                         new SleepAction(1),     //4th start here
                                         extendo.extend(),
-                                        new SleepAction(0.15),
+                                        new SleepAction(0.1),
                                         intake.flip(),
                                         new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(3),
+                                        new SleepAction(2),
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),
@@ -197,7 +199,7 @@ public class BasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(1.2),
+                        new SleepAction(1),
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
