@@ -323,7 +323,7 @@ public class Teleop extends LinearOpMode {
                     if (extendocontrol.getFinished()) {
                         extendocontrol.resetFinished();
                         runningActions.add(new SequentialAction(
-                                //new SleepAction(1.2),
+                                new SleepAction(1.75),
                                 intake.extake()
                         ));
                         extendoState = ExtendoState.EXTENDORETRACT;
@@ -355,7 +355,10 @@ public class Teleop extends LinearOpMode {
                     slidesTelem = "Start";
                     if (currentGamepad2.y && !previousGamepad2.y) {
                         if (currentGamepad2.left_trigger < 0.9) {
-                            runningActions.add(slides.slideTopBasket());
+                            runningActions.add(new SequentialAction(
+                                    slides.slideTopBasket(),
+                                    extendo.balance()
+                            ));
                         } else {
                             runningActions.add(slides.slideBottomBasket());
                         }
@@ -468,6 +471,8 @@ public class Teleop extends LinearOpMode {
 //            } else if (currentGamepad2.dpad_down) {
 //                slides.changeTarget(20);
 //            }
+
+            extendo.move(lefty2 / 5);
 
             slides.updateMotors();
 
