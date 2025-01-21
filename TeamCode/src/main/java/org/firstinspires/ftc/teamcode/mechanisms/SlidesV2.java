@@ -67,7 +67,7 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  50) {
                 return false;
             }
             return true;

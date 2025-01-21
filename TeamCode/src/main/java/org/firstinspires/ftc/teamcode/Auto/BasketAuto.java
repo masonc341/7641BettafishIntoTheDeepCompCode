@@ -27,7 +27,7 @@ public class BasketAuto extends LinearOpMode {
     public static double apreloadY = 15.3;
     public static double apreloadH = 65;
     public static double bfirstsampleX = -8; //-18.5;
-    public static double bfirstsampleY = 12; //20;
+    public static double bfirstsampleY = 10; //20;
     public static double bfirstsampleH = 90; //76;
     public static double dfirstsampledepositX = -14.75;
     public static double dfirstsampledepositY = 15;
@@ -37,13 +37,30 @@ public class BasketAuto extends LinearOpMode {
     public static double cfirstsampleintakey = 21;
     public static double esecondsampleH = 90;
     public static double esecondsamplex = -18.27;
-    public static double esecondsampley = 13;
+    public static double esecondsampley = 13.75;
     public static double fsecondsampleintakeh = 90;
     public static double fsecondsampleintakex = -19.27;
     public static double fsecondsampleintakey = 24;
     public static double gsecondsampledepositX = -14.75;
     public static double gsecondsampledepositY = 15;
     public static double gsecondsampledepositH = 58;
+    public static double hthirdsampleH = 90;
+    public static double hthirdsamplex = -18.27;
+    public static double hthirdsampley = 13.75;
+    public static double ithirdsamplealignH = 90;
+    public static double ithirdsamplealignx = -18.27;
+    public static double ithirdsamplealigny = 13.75;
+    public static double jthirdsampleintakeh = 90;
+    public static double jthirdsampleintakex = -19.27;
+    public static double jthirdsampleintakey = 24;
+    public static double parkX = 11.89;
+
+    public static double parkY = 67.07;
+
+    public static double parkHead1 = 180;
+
+    public static double parkHead2 = 0;
+
 
 
 
@@ -74,8 +91,15 @@ public class BasketAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh))
                 .waitSeconds(3)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
+                .waitSeconds(1.9)
+                .strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley), Math.toRadians(hthirdsampleH))
+                .waitSeconds(0.25)
+                .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny), Math.toRadians(ithirdsamplealignH))
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh))
                 .waitSeconds(100)
-                .splineToLinearHeading(new Pose2d(11.87, 67.07, Math.toRadians(180)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
+
 
 
         Action path = pathT.build();
@@ -124,7 +148,7 @@ public class BasketAuto extends LinearOpMode {
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(0.8),
+                                        new SleepAction(1),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
@@ -158,7 +182,7 @@ public class BasketAuto extends LinearOpMode {
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(1),
+                                        new SleepAction(1),     //4th start here
                                         extendo.extend(),
                                         new SleepAction(0.15),
                                         intake.flip(),
@@ -172,7 +196,22 @@ public class BasketAuto extends LinearOpMode {
                                         new SleepAction(1.1),
                                         intake.extake()
                                 )
+                        ),
+                        new SleepAction(1.2),
+                        intake.off(),
+                        claw.up(),
+                        slides.slideTopBasket(),
+                        new SleepAction(0.5),
+                        new ParallelAction(
+                                new SequentialAction(
+                                        claw.flip(),
+                                        new SleepAction(0.7),
+                                        claw.flop(),
+                                        new SleepAction(1),
+                                        slides.slideTopBar()
+                                )
                         )
+
                 ),
                 path
         ));
