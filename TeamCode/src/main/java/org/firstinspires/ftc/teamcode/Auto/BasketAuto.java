@@ -124,7 +124,7 @@ public class BasketAuto extends LinearOpMode {
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(0.5),
+                                        new SleepAction(0.8),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
