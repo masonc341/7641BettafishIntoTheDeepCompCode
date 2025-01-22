@@ -4,9 +4,11 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -45,7 +47,7 @@ public class BasketAuto extends LinearOpMode {
     public static double gsecondsampledepositY = 15;
     public static double gsecondsampledepositH = 58;
     public static double hthirdsampleH = 140;
-    public static double hthirdsamplex = -6;
+    public static double hthirdsamplex = -7.5;
     public static double hthirdsampley = 23.3;
     public static double ithirdsamplealignH = 140;
     public static double ithirdsamplealignx = -8.4;
@@ -98,9 +100,12 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(0.25)
                 .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh))
                 .waitSeconds(4)
-                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
-                .waitSeconds(2)
-                .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
+                //.strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-25.0, 40.0))
+                //.waitSeconds(0.3)
+                .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-25.0, 40.0))
+                .waitSeconds(1.9)
+                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX+6, dfirstsampledepositY+6), Math.toRadians(dfirstsampledepositH));
+
 
 
 
@@ -128,9 +133,9 @@ public class BasketAuto extends LinearOpMode {
                                         extendo.extend(),
                                         new SleepAction(0.1),
                                         intake.flip(),
-                                        //new SleepAction(1),
+                                        new SleepAction(1.5),
                                         intake.intake(),
-                                        new SleepAction(3.3),
+                                        new SleepAction(1.8),
                                         intake.flop(),
                                         new SleepAction(0.2),
                                         intake.creep(),
@@ -170,7 +175,7 @@ public class BasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(1.2),
+                        new SleepAction(1.35),
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
@@ -203,7 +208,7 @@ public class BasketAuto extends LinearOpMode {
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
-                        new SleepAction(0.5),
+                        new SleepAction(1),
                         new ParallelAction(
                                 new SequentialAction(
                                         claw.flip(),

@@ -15,12 +15,12 @@ public class Intaker {
     private Servo intakeServoRight;
     public DcMotor intakeMotor;
 
-    public static double flipTarget = 0.79;
-    public static double flopTarget = 0.08;
+    public static double flipTarget = 0.77;
+    public static double flopTarget = 0.2;
     public static double middleTarget = 0.75;
     public static double perfectMid = 0.5;
     public static double intakePower = 0.9;
-    public static double extakePower = 0.5;
+    public static double extakePower = 0.45;
 
     public Intaker(HardwareMap HWMap){
         intakeServoLeft = HWMap.get(Servo.class, "intakeServoLeft");

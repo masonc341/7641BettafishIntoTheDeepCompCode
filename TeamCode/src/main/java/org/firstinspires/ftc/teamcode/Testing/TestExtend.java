@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.ExtendoV2;
+import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
 import org.firstinspires.ftc.teamcode.mechanisms.Slides;
 import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 
@@ -28,6 +29,7 @@ public class TestExtend extends LinearOpMode {
 
 
         extendo = new ExtendoV2(hardwareMap);
+        Intaker intake = new Intaker(hardwareMap);
 
         Gamepad currentGamepad1 = new Gamepad();
         Gamepad currentGamepad2 = new Gamepad();
@@ -50,9 +52,11 @@ public class TestExtend extends LinearOpMode {
             currentGamepad2.copy(gamepad2);
 
             if (currentGamepad1.y && !previousGamepad1.y) {
+                runningActions.add(intake.flip());
             }
 
             if (currentGamepad1.x && !previousGamepad1.x) {
+                runningActions.add(intake.flop());
             }
 
             if (currentGamepad1.a && !previousGamepad1.a) {

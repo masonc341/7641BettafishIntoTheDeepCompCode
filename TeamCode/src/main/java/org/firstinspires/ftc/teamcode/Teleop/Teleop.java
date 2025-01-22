@@ -323,7 +323,7 @@ public class Teleop extends LinearOpMode {
                     if (extendocontrol.getFinished()) {
                         extendocontrol.resetFinished();
                         runningActions.add(new SequentialAction(
-                                new SleepAction(1.75),
+                                new SleepAction(1),
                                 intake.extake()
                         ));
                         extendoState = ExtendoState.EXTENDORETRACT;
