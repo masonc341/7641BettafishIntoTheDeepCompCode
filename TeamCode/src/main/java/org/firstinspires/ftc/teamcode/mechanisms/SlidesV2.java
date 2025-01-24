@@ -139,6 +139,8 @@ public class SlidesV2 {
 
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+                slidesLeftMotor.setPower(0.1);
+                slidesRightMotor.setPower(0.1);
                 return false;
             }
             return true;

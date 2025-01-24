@@ -17,10 +17,10 @@ public class Claw {
     public static double flipTarget = 0.7;
     public static double flopTarget = 0.4;
     public static double upTarget = 0.47;
-    public static double closeTarget = 0.6;
+    public static double closeTarget = 0.65;
     public static double openTarget = 0.2;
     public static double wallopenTarget = 0.9;
-    public static double wallcloseTarget = 0.41;
+    public static double wallcloseTarget = 0.37;
 
     public Claw(HardwareMap HWMap) {
         bucketServo = HWMap.get(Servo.class, "bucketServo");
