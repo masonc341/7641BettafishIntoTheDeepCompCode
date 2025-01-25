@@ -87,10 +87,10 @@ public class ExtendoV2 {
 
     public void move(double d) {
         pos += d;
-        if (pos < 0.2) {
-            pos = 0.2;
-        } else if (pos > 0.6) {
-            pos = 0.6;
+        if (pos < retractTarget) {
+            pos = retractTarget;
+        } else if (pos > extendTarget+1) {
+            pos = extendTarget+1;
         }
         extendoLeftServo.setPosition(1 - pos);
         extendoRightServo.setPosition(pos);

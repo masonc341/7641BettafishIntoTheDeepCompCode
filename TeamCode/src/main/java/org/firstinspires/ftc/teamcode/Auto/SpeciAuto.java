@@ -29,23 +29,23 @@ public class SpeciAuto extends LinearOpMode {
     public static double c1speciDropY = -7;
     public static double c1speciDropH = 0;
     public static double c2block1X = -30;
-    public static double c2block1Y = 31.26;
-    public static double c2block1H = 140;
+    public static double c2block1Y = 28;
+    public static double c2block1H = 145;
     public static double c3depositblock1X = -10.91;
-    public static double c3depositblock1Y = 32.42;
-    public static double c3depositblock1H = 63;
+    public static double c3depositblock1Y = 36.87;
+    public static double c3depositblock1H = 50;
     public static double c4block2X = -32.34;
-    public static double c4block2Y = 38.5;
-    public static double c4block2H = 135;
+    public static double c4block2Y = 40.2;
+    public static double c4block2H = 145;
     public static double c5depositblock2X = -11.99;
-    public static double c5depositblock2Y = 37.87;
-    public static double c5depositblock2H = 63;
-    public static double w1preload = 1;
-    public static double w2 = 0.6;
-    public static double w3 = 0.5;
-    public static double w4 = 1.9;
-    public static double w5 = 2;
-    public static double w6 = 2.5;
+    public static double c5depositblock2Y = 36.87;
+    public static double c5depositblock2H = 50;
+    public static double w1preload = 0.5;
+    public static double w2 = 0.45;
+    public static double w3 = 0.5 ;
+    public static double w4 = 1.7;
+    public static double w5 = 1.6;
+    public static double w6 = 2.2;
 
     @Override
     public void runOpMode() {
@@ -60,13 +60,13 @@ public class SpeciAuto extends LinearOpMode {
 
         TrajectoryActionBuilder pathT = drive.actionBuilder(StartPose1)
                 .strafeToLinearHeading(new Vector2d(c1speciDropX, c1speciDropY), Math.toRadians(c1speciDropH))
-                .waitSeconds(1.2)
+                .waitSeconds(0.5)
                 .strafeToLinearHeading(new Vector2d(c2block1X, c2block1Y), Math.toRadians(c2block1H))
-                .waitSeconds(0.8)
+                .waitSeconds(0.15)
                 .strafeToLinearHeading(new Vector2d(c3depositblock1X, c3depositblock1Y), Math.toRadians(c3depositblock1H))
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(c4block2X, c4block2Y), Math.toRadians(c4block2H), null, new ProfileAccelConstraint(-25.0, 40.0))
-                .waitSeconds(0.8)
+                .waitSeconds(0.15)
                 .strafeToLinearHeading(new Vector2d(c5depositblock2X, c5depositblock2Y), Math.toRadians(c5depositblock2H));
 //                .strafeToLinearHeading(new Vector2d(pickUpX, pickUpY), Math.toRadians(pickUpH))
 //                .waitSeconds(0.7)
