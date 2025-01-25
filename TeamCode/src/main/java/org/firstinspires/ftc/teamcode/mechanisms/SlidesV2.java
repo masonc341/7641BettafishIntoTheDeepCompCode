@@ -23,10 +23,12 @@ public class SlidesV2 {
     public static int topBasketTarget = 3670;
     public static int bottomBasketTarget = 1000;
     public static int wallTarget = 5;
-    public static int topBarTarget = 1460;
-    public static int topBarClipTarget = 1080;
+    public static int topBarTarget = 1060;
+    public static int topBarClipTarget = 880;
     public static int bottomBarTarget = 700;
-    public static int hangTarget = 3370;
+    public static int bottomBarClipTarget = 500;
+    public static int hangTarget = 2770;
+    public static int hangRetractTarget = 670;
     public static int retractTarget = 5;
     public PIDFController.PIDCoefficients slidesCoeffs = new PIDFController.PIDCoefficients(KP, KI, KD);
     public PIDFController slidesPID = new PIDFController(slidesCoeffs);
@@ -68,6 +70,8 @@ public class SlidesV2 {
             updateMotors();
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  50) {
+                slidesLeftMotor.setPower(0.12);
+                slidesRightMotor.setPower(0.12);
                 return false;
             }
             return true;
@@ -87,12 +91,13 @@ public class SlidesV2 {
                 slidesPID.setTargetPosition(target);
                 init = true;
             }
+
             updateMotors();
-//            int happyFace=77;
-//            int sadFace=-77;
-//            System.out.println(happyFace+sadFace);
+
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) < 40) {
+                slidesLeftMotor.setPower(0.1);
+                slidesRightMotor.setPower(0.1);
                 return false;
             }
             return true;
@@ -116,6 +121,8 @@ public class SlidesV2 {
             updateMotors();
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+                slidesLeftMotor.setPower(0);
+                slidesRightMotor.setPower(0);
                 return false;
             }
             return true;
@@ -165,6 +172,8 @@ public class SlidesV2 {
             updateMotors();
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+                slidesLeftMotor.setPower(0.1);
+                slidesRightMotor.setPower(0.1);
                 return false;
             }
             return true;
@@ -188,6 +197,8 @@ public class SlidesV2 {
 
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+                slidesLeftMotor.setPower(0.1);
+                slidesRightMotor.setPower(0.1);
                 return false;
             }
             return true;
@@ -195,6 +206,31 @@ public class SlidesV2 {
     }
     public Action slideBottomBar() {
         return new SlideBottomBar();
+    }
+
+    public class SlideBottomBarClip implements Action {
+        private boolean init = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!init) {
+                target = bottomBarClipTarget;
+                slidesPID.setTargetPosition(target);
+                init = true;
+            }
+            updateMotors();
+
+
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+                slidesLeftMotor.setPower(0.08);
+                slidesRightMotor.setPower(0.08);
+                return false;
+            }
+            return true;
+        }
+    }
+    public Action slideBottomBarClip() {
+        return new SlideBottomBarClip();
     }
 
 
@@ -212,6 +248,8 @@ public class SlidesV2 {
             updateMotors();
 
             if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+                slidesLeftMotor.setPower(0.12);
+                slidesRightMotor.setPower(0.12);
                 return false;
             }
             return true;
@@ -219,6 +257,31 @@ public class SlidesV2 {
     }
     public Action slideHang() {
         return new SlideHang();
+    }
+
+    public class SlideRetractHang implements Action {
+        private boolean init = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!init) {
+                target = hangRetractTarget;
+                slidesPID.setTargetPosition(target);
+                init = true;
+            }
+
+            updateMotors();
+
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+                slidesLeftMotor.setPower(-0.22);
+                slidesRightMotor.setPower(-0.22);
+                return false;
+            }
+            return true;
+        }
+    }
+    public Action slideRetractHang() {
+        return new SlideRetractHang();
     }
 
     public class Retract implements Action {

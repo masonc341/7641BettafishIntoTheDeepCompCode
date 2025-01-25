@@ -46,9 +46,6 @@ public class SpeciAuto extends LinearOpMode {
     public static double w4 = 1.9;
     public static double w5 = 2;
     public static double w6 = 2.5;
-    public static double parkX = -6;
-    public static double parkY = 32;
-    public static double parkH = 180;
 
     @Override
     public void runOpMode() {

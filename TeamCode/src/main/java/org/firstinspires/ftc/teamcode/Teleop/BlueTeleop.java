@@ -41,7 +41,6 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
@@ -49,7 +48,6 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Control;
-import org.firstinspires.ftc.teamcode.mechanisms.Extendo;
 import org.firstinspires.ftc.teamcode.mechanisms.ExtendoV2;
 import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
 import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
@@ -59,7 +57,7 @@ import java.util.List;
 
 
 @TeleOp
-public class Teleop extends LinearOpMode {
+public class BlueTeleop extends LinearOpMode {
 
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -113,20 +111,8 @@ public class Teleop extends LinearOpMode {
 
         String intakeColor;
 
-//        DcMotor FL = hardwareMap.get(DcMotor.class, "FL");
-//        DcMotor BL = hardwareMap.get(DcMotor.class, "BL");
-//        DcMotor FR = hardwareMap.get(DcMotor.class, "FR");
-//        DcMotor BR = hardwareMap.get(DcMotor.class, "BR");
-//
-//        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//
-//        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-//        BR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        IMU imu = hardwareMap.get(IMU.class, "imu");
+        //IMU imu = hardwareMap.get(IMU.class, "imu");
 
 
         Gamepad currentGamepad1 = new Gamepad();
@@ -136,7 +122,6 @@ public class Teleop extends LinearOpMode {
         Gamepad previousGamepad2 = new Gamepad();
 
         ExtendoV2 extendo = new ExtendoV2(hardwareMap);
-        //Extendo extendo = new Extendo(hardwareMap);
         Intaker intake = new Intaker(hardwareMap);
         SlidesV2 slides = new SlidesV2(hardwareMap, true);
         Claw claw = new Claw(hardwareMap);
@@ -194,21 +179,22 @@ public class Teleop extends LinearOpMode {
             double backRightPower = (lefty1 + leftx1 - rightx1) / denominator;
 
 
-            if (currentGamepad1.right_trigger > 0.9) {
-                imu.resetYaw();
-                turning = true;
-            }
+//            if (currentGamepad1.right_trigger > 0.9) {
+//                imu.resetYaw();
+//                turning = true;
+//            }
+//
+//            if (turning) {
+//                double heading = imu.getRobotYawPitchRollAngles().getYaw();
+//                frontLeftPower += (180 - heading) / 100;
+//                backLeftPower += (180 - heading) / 100;
+//                frontRightPower -= (180 - heading) / 100;
+//                backRightPower -= (180 - heading) / 100;
+//                if (Math.abs(180 - heading) < 2) {
+//                    turning = false;
+//                }
+//            }
 
-            if (turning) {
-                double heading = imu.getRobotYawPitchRollAngles().getYaw();
-                frontLeftPower += (180 - heading) / 100;
-                backLeftPower += (180 - heading) / 100;
-                frontRightPower -= (180 - heading) / 100;
-                backRightPower -= (180 - heading) / 100;
-                if (Math.abs(180 - heading) < 2) {
-                    turning = false;
-                }
-            }
             if (!pathcontrol.getBusy()) {
                 if (currentGamepad1.left_trigger < 0.9) {
                     drive.leftFront.setPower(frontLeftPower);
@@ -440,13 +426,16 @@ public class Teleop extends LinearOpMode {
             switch (hangState) {
                 case HANGSTART:
                     if (currentGamepad1.y && !previousGamepad1.y) {
-                        runningActions.add(slides.slideHang());
+                        runningActions.add(new SequentialAction(
+                                slides.slideHang(),
+                                claw.open()
+                        ));
                         hangState = HangState.HANGUP;
                     }
                     break;
                 case HANGUP:
                     if (currentGamepad1.y && !previousGamepad1.y) {
-                        runningActions.add(slides.retract());
+                        runningActions.add(slides.slideRetractHang());
                         hangState = HangState.HANGSTART;
                     }
             }
@@ -472,9 +461,9 @@ public class Teleop extends LinearOpMode {
 //                slides.changeTarget(20);
 //            }
 
-            extendo.move(lefty2 / 5);
+            extendo.move(-lefty2 / 7);
 
-            slides.updateMotors();
+            //slides.updateMotors();
 
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
