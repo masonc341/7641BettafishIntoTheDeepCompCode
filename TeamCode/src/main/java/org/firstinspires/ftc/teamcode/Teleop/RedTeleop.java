@@ -62,8 +62,11 @@ public class RedTeleop extends LinearOpMode {
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
-    private enum LiftState {LIFTSTART, LIFTDEPOSIT, LIFTWALL, LIFTTOPBAR, LIFTBOTTOMBAR}
-    private LiftState liftState = LiftState.LIFTSTART;
+    private enum SampleState {SAMPLESTART, SAMPLEDEPOSIT}
+    private SampleState sampleState = SampleState.SAMPLESTART;
+
+    private enum SpeciState {SPECISTART, SPECIWALL, SPECITOPBAR, SPECIBOTTOMBAR}
+    private SpeciState speciState = SpeciState.SPECISTART;
     private String slidesTelem = "Start";
 
     private enum ExtendoState {EXTENDOSTART, EXTENDOEXTEND, EXTENDORETRACT}
@@ -272,6 +275,7 @@ public class RedTeleop extends LinearOpMode {
                         if ((currentGamepad2.a && !previousGamepad2.a) || intakeColor.equals("red") || intakeColor.equals("yellow")) {
                             if (intakeColor.equals("red") || intakeColor.equals("yellow")) {
                                 //hasColor = true;
+                                gamepad2.rumble(500);
                             }
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
@@ -279,6 +283,8 @@ public class RedTeleop extends LinearOpMode {
                                     intake.creep(),
                                     claw.flop(),
                                     extendo.retract(),
+                                    new SleepAction(1),
+                                    intake.extake(),
                                     extendocontrol.done()
                             ));
                         }
@@ -308,10 +314,10 @@ public class RedTeleop extends LinearOpMode {
 
                     if (extendocontrol.getFinished()) {
                         extendocontrol.resetFinished();
-                        runningActions.add(new SequentialAction(
-                                new SleepAction(1),
-                                intake.extake()
-                        ));
+//                        runningActions.add(new SequentialAction(
+//                                new SleepAction(1),
+//                                intake.extake()
+//                        ));
                         extendoState = ExtendoState.EXTENDORETRACT;
                     }
                     break;
@@ -336,8 +342,8 @@ public class RedTeleop extends LinearOpMode {
 
 
 
-            switch (liftState) {
-                case LIFTSTART:
+            switch (sampleState) {
+                case SAMPLESTART:
                     slidesTelem = "Start";
                     if (currentGamepad2.y && !previousGamepad2.y) {
                         if (currentGamepad2.left_trigger < 0.9) {
@@ -348,19 +354,11 @@ public class RedTeleop extends LinearOpMode {
                         } else {
                             runningActions.add(slides.slideBottomBasket());
                         }
-                        liftState = LiftState.LIFTDEPOSIT;
-                    }
-
-                    if (currentGamepad2.x && !previousGamepad2.x) {
-                        runningActions.add(new SequentialAction(
-                                slides.retract(),
-                                claw.open(),
-                                claw.wallClose()
-                        ));
-                        liftState = LiftState.LIFTWALL;
+                        sampleState = SampleState.SAMPLEDEPOSIT;
+                        speciState = SpeciState.SPECISTART;
                     }
                     break;
-                case LIFTDEPOSIT:
+                case SAMPLEDEPOSIT:
                     slidesTelem = "Deposit";
                     if (currentGamepad2.y && !previousGamepad2.y && !slidescontrol.getBusy()) {
                         runningActions.add(new SequentialAction(
@@ -374,15 +372,34 @@ public class RedTeleop extends LinearOpMode {
                         ));
                     }
 
+                    if (currentGamepad2.y && !previousGamepad2.y && currentGamepad2.left_trigger < 0.9) {
+                        runningActions.add(slides.slideBottomBasket());
+                    }
 
                     if (slidescontrol.getFinished()) {
                         slidescontrol.resetFinished();
                         slidescontrol.resetBusy();
-                        liftState = LiftState.LIFTSTART;
+                        sampleState = SampleState.SAMPLESTART;
                     }
 
                     break;
-                case LIFTWALL:
+                default:
+                    sampleState = SampleState.SAMPLESTART;
+                    break;
+            }
+
+            switch (speciState) {
+                case SPECISTART:
+                    if (currentGamepad2.x && !previousGamepad2.x) {
+                        runningActions.add(new SequentialAction(
+                                slides.retract(),
+                                claw.open(),
+                                claw.wallClose()
+                        ));
+                        speciState = SpeciState.SPECIWALL;
+                        sampleState = SampleState.SAMPLESTART;
+                    }
+                case SPECIWALL:
                     slidesTelem = "Wall";
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         if (currentGamepad2.left_trigger < 0.9) {
@@ -391,17 +408,17 @@ public class RedTeleop extends LinearOpMode {
                                     new SleepAction(0.3),
                                     slides.slideTopBar()
                             ));
-                            liftState = LiftState.LIFTTOPBAR;
+                            speciState = SpeciState.SPECITOPBAR;
                         } else {
                             runningActions.add(new SequentialAction(
                                     claw.close(),
                                     slides.slideBottomBar()
                             ));
-                            liftState = LiftState.LIFTBOTTOMBAR;
+                            speciState = SpeciState.SPECIBOTTOMBAR;
                         }
                     }
                     break;
-                case LIFTTOPBAR:
+                case SPECITOPBAR:
                     slidesTelem = "TopBar";
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         runningActions.add(new SequentialAction(
@@ -409,17 +426,17 @@ public class RedTeleop extends LinearOpMode {
                                 claw.open(),
                                 slides.retract()
                         ));
-                        liftState = LiftState.LIFTSTART;
+                        speciState = SpeciState.SPECISTART;
                     }
                     break;
-                case LIFTBOTTOMBAR:
+                case SPECIBOTTOMBAR:
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         runningActions.add(slides.retract());
-                        liftState = LiftState.LIFTSTART;
+                        speciState = SpeciState.SPECISTART;
                     }
                     break;
                 default:
-                    liftState = LiftState.LIFTSTART;
+                    speciState = SpeciState.SPECISTART;
                     break;
             }
 
@@ -441,7 +458,8 @@ public class RedTeleop extends LinearOpMode {
             }
 
             if (currentGamepad2.b && !previousGamepad2.b) {
-                liftState = LiftState.LIFTSTART;
+                speciState = SpeciState.SPECISTART;
+                sampleState = SampleState.SAMPLESTART;
                 extendoState = ExtendoState.EXTENDOSTART;
 
                 runningActions.add(new SequentialAction(
@@ -454,7 +472,7 @@ public class RedTeleop extends LinearOpMode {
                 ));
             }
 
-            
+
 //            if (currentGamepad2.dpad_up) {
 //                slides.changeTarget(-20);
 //            } else if (currentGamepad2.dpad_down) {
