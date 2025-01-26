@@ -23,12 +23,12 @@ public class SlidesV2 {
     public static int topBasketTarget = 3670;
     public static int bottomBasketTarget = 1000;
     public static int wallTarget = 5;
-    public static int topBarTarget = 1060;
-    public static int topBarClipTarget = 880;
+    public static int topBarTarget = 1470;
+    public static int topBarClipTarget = 1030;
     public static int bottomBarTarget = 700;
     public static int bottomBarClipTarget = 500;
     public static int hangTarget = 2770;
-    public static int hangRetractTarget = 670;
+    public static int hangRetractTarget = 1570;
     public static int retractTarget = 5;
     public PIDFController.PIDCoefficients slidesCoeffs = new PIDFController.PIDCoefficients(KP, KI, KD);
     public PIDFController slidesPID = new PIDFController(slidesCoeffs);
@@ -171,7 +171,7 @@ public class SlidesV2 {
 
             updateMotors();
 
-            if (Math.abs(slidesPID.getTargetPosition() - getPos()) <  40) {
+            if (Math.abs(slidesPID.getTargetPosition() - getPos()) < 15) {
                 slidesLeftMotor.setPower(0.1);
                 slidesRightMotor.setPower(0.1);
                 return false;

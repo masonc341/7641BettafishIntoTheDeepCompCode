@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 @Config
 public class SpeciAuto extends LinearOpMode {
 
-    public static double c1speciDropX = -29.3;
+    public static double c1speciDropX = -28.8;
     public static double c1speciDropY = -7;
     public static double c1speciDropH = 0;
     public static double c2block1X = -30;
@@ -35,16 +35,16 @@ public class SpeciAuto extends LinearOpMode {
     public static double c3depositblock1Y = 36.87;
     public static double c3depositblock1H = 50;
     public static double c4block2X = -32.34;
-    public static double c4block2Y = 40.2;
-    public static double c4block2H = 145;
+    public static double c4block2Y = 38.2;
+    public static double c4block2H = 140;
     public static double c5depositblock2X = -11.99;
     public static double c5depositblock2Y = 36.87;
     public static double c5depositblock2H = 50;
     public static double w1preload = 0.5;
     public static double w2 = 0.45;
-    public static double w3 = 0.5 ;
+    public static double w3 = 0.35;
     public static double w4 = 1.7;
-    public static double w5 = 1.6;
+    public static double w5 = 1.45;
     public static double w6 = 2.2;
 
     @Override

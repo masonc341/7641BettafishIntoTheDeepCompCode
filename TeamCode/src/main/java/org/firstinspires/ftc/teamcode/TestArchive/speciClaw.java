@@ -55,7 +55,7 @@ public class speciClaw extends LinearOpMode {
             }
 
             if (currentGamepad1.y && !previousGamepad1.y) {
-                runningActions.add(slides.slideTopBar());
+                runningActions.add(claw.wallClose());
             }
 
             if (currentGamepad1.a && !previousGamepad1.a) {

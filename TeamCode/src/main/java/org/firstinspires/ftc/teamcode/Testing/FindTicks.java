@@ -21,17 +21,17 @@ public class FindTicks extends LinearOpMode {
         Telemetry tele = dashboard.getTelemetry();
 
 
-        Extendo extendo = new Extendo(hardwareMap);
+        //Extendo extendo = new Extendo(hardwareMap);
         Slides slides = new Slides(hardwareMap);
 
         waitForStart();
 
         while (opModeIsActive()) {
-            tele.addData("extendo", extendo.getPos());
+            tele.addData("slidesAvg", slides.getPos());
             tele.addData("slidesLeftMotor", slides.slidesLeftMotor.getCurrentPosition());
             tele.addData("slidesRightMotor", slides.slidesRightMotor.getCurrentPosition());
             tele.update();
-            telemetry.addData("extendo", extendo.getPos());
+            telemetry.addData("slidesAvg", slides.getPos());
             telemetry.addData("slidesLeftMotor", slides.slidesLeftMotor.getCurrentPosition());
             telemetry.addData("slidesRightMotor", slides.slidesRightMotor.getCurrentPosition());
 
