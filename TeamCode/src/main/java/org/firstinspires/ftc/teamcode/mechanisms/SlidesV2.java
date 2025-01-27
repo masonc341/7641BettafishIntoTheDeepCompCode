@@ -23,7 +23,7 @@ public class SlidesV2 {
     public static int topBasketTarget = 3670;
     public static int bottomBasketTarget = 1000;
     public static int wallTarget = 5;
-    public static int topBarTarget = 1470;
+    public static int topBarTarget = 1360;
     public static int topBarClipTarget = 1030;
     public static int bottomBarTarget = 700;
     public static int bottomBarClipTarget = 500;
