@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 @Config
 public class SpeciAuto extends LinearOpMode {
 
-    public static double c1speciDropX = -28.8;
+    public static double c1speciDropX = -31.8;
     public static double c1speciDropY = -7;
     public static double c1speciDropH = 0;
     public static double c2block1X = -30;

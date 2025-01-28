@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import android.graphics.Color;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -59,6 +60,7 @@ import java.util.List;
 @TeleOp
 public class BlueTeleop extends LinearOpMode {
 
+
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
@@ -82,18 +84,19 @@ public class BlueTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         Pose2d StartPose1 = new Pose2d(0,0, Math.toRadians(0));
         MecanumDrive drive = new MecanumDrive(hardwareMap, StartPose1);
 
         Action basketSub1 = drive.actionBuilder(drive.pose)
                 .turnTo(Math.toRadians(15))
-                .strafeToLinearHeading(new Vector2d(40, -10), Math.toRadians(15))
+                .strafeToLinearHeading(new Vector2d(54.66, 25.35), Math.toRadians(15))
                 .turnTo(Math.toRadians(-45))
                 .build();
         Action basketSub2 = drive.actionBuilder(drive.pose)
                 .turnTo(Math.toRadians(-15))
-                .strafeToLinearHeading(new Vector2d(30, -20), Math.toRadians(15))
+                .strafeToLinearHeading(new Vector2d(51.18, -24.29), Math.toRadians(15))
                 .turnTo(Math.toRadians(45))
                 .build();
         Action observationSub1 = drive.actionBuilder(drive.pose)
@@ -146,6 +149,7 @@ public class BlueTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            drive.updatePoseEstimate();
             TelemetryPacket packet = new TelemetryPacket();
 
             colorSensor.setGain(50);
@@ -318,6 +322,7 @@ public class BlueTeleop extends LinearOpMode {
 //                                new SleepAction(1),
 //                                intake.extake()
 //                        ));
+                        runningActions.add(intake.extake());
                         extendoState = ExtendoState.EXTENDORETRACT;
                     }
                     break;
@@ -372,7 +377,7 @@ public class BlueTeleop extends LinearOpMode {
                         ));
                     }
 
-                    if (currentGamepad2.y && !previousGamepad2.y && currentGamepad2.left_trigger < 0.9) {
+                    if (currentGamepad2.y && !previousGamepad2.y && currentGamepad2.left_trigger > 0.9) {
                         runningActions.add(slides.slideBottomBasket());
                     }
 
@@ -503,6 +508,7 @@ public class BlueTeleop extends LinearOpMode {
             telemetry.addData("slides left power", slides.slidesLeftMotor.getPower());
             telemetry.addData("slides right power", slides.slidesRightMotor.getPower());
             telemetry.addData("slides PID", slides.getPID());
+            telemetry.addData("slides target", slides.getTarget());
             telemetry.addData("extendo state", extendoTelem);
             telemetry.addData("extendoFinished", extendocontrol.getFinished());
             telemetry.addData("extendoBusy", extendocontrol.getBusy());
@@ -511,7 +517,7 @@ public class BlueTeleop extends LinearOpMode {
             telemetry.addData("hasColor", hasColor);
             telemetry.addData("robot x", drive.pose.position.x);
             telemetry.addData("robot y", drive.pose.position.y);
-            telemetry.addData("robot heading", drive.pose.heading.toDouble());
+            telemetry.addData("robot heading", Math.toDegrees(drive.pose.heading.toDouble()));
             telemetry.update();
 
         }
