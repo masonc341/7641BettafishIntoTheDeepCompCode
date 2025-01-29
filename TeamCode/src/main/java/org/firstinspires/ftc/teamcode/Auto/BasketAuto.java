@@ -84,7 +84,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(cfirstsampleintakex, cfirstsampleintakey))
                 .waitSeconds(3.6)
-                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
+                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 .waitSeconds(1.9)
                 .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
                 .waitSeconds(0.25)
@@ -92,7 +92,7 @@ public class BasketAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh))
                 .waitSeconds(3)
-                .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
+                .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 .waitSeconds(1.9)
                 .strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley), Math.toRadians(hthirdsampleH))
                 .waitSeconds(0.25)
@@ -117,6 +117,7 @@ public class BasketAuto extends LinearOpMode {
                 new SequentialAction(
                         extendo.retract(),
                         claw.up(),
+                        claw.open(),
                         intake.flop(),
                         new ParallelAction(
                                 slides.slideTopBasket(),

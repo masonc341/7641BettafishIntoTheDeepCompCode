@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.Slides;
 import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
+import org.firstinspires.ftc.teamcode.mechanisms.SlidesV3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @TeleOp
 public class TestHang extends LinearOpMode {
 
-    private SlidesV2 slides;
+    private SlidesV3 slides;
 
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -26,7 +27,7 @@ public class TestHang extends LinearOpMode {
     public void runOpMode() {
 
 
-        slides = new SlidesV2(hardwareMap, true);
+        slides = new SlidesV3(hardwareMap, true);
 
         Gamepad currentGamepad1 = new Gamepad();
         Gamepad currentGamepad2 = new Gamepad();
@@ -48,9 +49,6 @@ public class TestHang extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            if (currentGamepad1.y && !previousGamepad1.y) {
-                runningActions.add(slides.slideHang());
-            }
 
             if (currentGamepad1.x && !previousGamepad1.x) {
                 runningActions.add(slides.retract());
@@ -65,8 +63,6 @@ public class TestHang extends LinearOpMode {
                 slides.slidesRightMotor.setPower(0);
             }
 
-            slides.changeTarget((int) (currentGamepad1.left_stick_y * 30));
-
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
                 action.preview(packet.fieldOverlay());
@@ -77,10 +73,11 @@ public class TestHang extends LinearOpMode {
             runningActions = newActions;
             dash.sendTelemetryPacket(packet);
 
-            slides.updateMotors();
 
             tele.addData("slidesLeftMotor", slides.slidesLeftMotor.getCurrentPosition());
             tele.addData("slidesRightMotor", slides.slidesRightMotor.getCurrentPosition());
+            tele.addData("slidesLeftMotor power", slides.slidesLeftMotor.getPower());
+            tele.addData("slidesRightMotor power", slides.slidesRightMotor.getPower());
             tele.addData("avg", slides.getPos());
             tele.update();
         }

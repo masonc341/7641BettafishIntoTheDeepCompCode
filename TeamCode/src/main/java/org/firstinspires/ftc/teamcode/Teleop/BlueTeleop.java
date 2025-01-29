@@ -60,15 +60,11 @@ import java.util.List;
 @TeleOp
 public class BlueTeleop extends LinearOpMode {
 
-
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
-    private enum SampleState {SAMPLESTART, SAMPLEDEPOSIT}
-    private SampleState sampleState = SampleState.SAMPLESTART;
-
-    private enum SpeciState {SPECISTART, SPECIWALL, SPECITOPBAR, SPECIBOTTOMBAR}
-    private SpeciState speciState = SpeciState.SPECISTART;
+    private enum LiftState {LIFTSTART, LIFTDEPOSIT, LIFTWALL, LIFTTOPBAR, LIFTBOTTOMBAR}
+    private LiftState liftState = LiftState.LIFTSTART;
     private String slidesTelem = "Start";
 
     private enum ExtendoState {EXTENDOSTART, EXTENDOEXTEND, EXTENDORETRACT}
@@ -91,12 +87,12 @@ public class BlueTeleop extends LinearOpMode {
 
         Action basketSub1 = drive.actionBuilder(drive.pose)
                 .turnTo(Math.toRadians(15))
-                .strafeToLinearHeading(new Vector2d(54.66, 25.35), Math.toRadians(15))
+                .strafeToLinearHeading(new Vector2d(40, -10), Math.toRadians(15))
                 .turnTo(Math.toRadians(-45))
                 .build();
         Action basketSub2 = drive.actionBuilder(drive.pose)
                 .turnTo(Math.toRadians(-15))
-                .strafeToLinearHeading(new Vector2d(51.18, -24.29), Math.toRadians(15))
+                .strafeToLinearHeading(new Vector2d(30, -20), Math.toRadians(15))
                 .turnTo(Math.toRadians(45))
                 .build();
         Action observationSub1 = drive.actionBuilder(drive.pose)
@@ -149,7 +145,6 @@ public class BlueTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            drive.updatePoseEstimate();
             TelemetryPacket packet = new TelemetryPacket();
 
             colorSensor.setGain(50);
@@ -279,7 +274,6 @@ public class BlueTeleop extends LinearOpMode {
                         if ((currentGamepad2.a && !previousGamepad2.a) || intakeColor.equals("blue") || intakeColor.equals("yellow")) {
                             if (intakeColor.equals("blue") || intakeColor.equals("yellow")) {
                                 //hasColor = true;
-                                gamepad2.rumble(500);
                             }
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
@@ -287,8 +281,6 @@ public class BlueTeleop extends LinearOpMode {
                                     intake.creep(),
                                     claw.flop(),
                                     extendo.retract(),
-                                    new SleepAction(1),
-                                    intake.extake(),
                                     extendocontrol.done()
                             ));
                         }
@@ -305,7 +297,7 @@ public class BlueTeleop extends LinearOpMode {
                             }
                         } else if (currentGamepad2.dpad_left) {
                             runningActions.add(intake.extake());
-                        } else if (intakeColor.equals("red")) {
+                        } else if (intakeColor.equals("blue")) {
                             runningActions.add(new SequentialAction(
                                     intake.extake(),
                                     new SleepAction(1)
@@ -318,11 +310,10 @@ public class BlueTeleop extends LinearOpMode {
 
                     if (extendocontrol.getFinished()) {
                         extendocontrol.resetFinished();
-//                        runningActions.add(new SequentialAction(
-//                                new SleepAction(1),
-//                                intake.extake()
-//                        ));
-                        runningActions.add(intake.extake());
+                        runningActions.add(new SequentialAction(
+                                new SleepAction(1),
+                                intake.extake()
+                        ));
                         extendoState = ExtendoState.EXTENDORETRACT;
                     }
                     break;
@@ -347,8 +338,8 @@ public class BlueTeleop extends LinearOpMode {
 
 
 
-            switch (sampleState) {
-                case SAMPLESTART:
+            switch (liftState) {
+                case LIFTSTART:
                     slidesTelem = "Start";
                     if (currentGamepad2.y && !previousGamepad2.y) {
                         if (currentGamepad2.left_trigger < 0.9) {
@@ -359,11 +350,19 @@ public class BlueTeleop extends LinearOpMode {
                         } else {
                             runningActions.add(slides.slideBottomBasket());
                         }
-                        sampleState = SampleState.SAMPLEDEPOSIT;
-                        speciState = SpeciState.SPECISTART;
+                        liftState = LiftState.LIFTDEPOSIT;
+                    }
+
+                    if (currentGamepad2.x && !previousGamepad2.x) {
+                        runningActions.add(new SequentialAction(
+                                slides.retract(),
+                                claw.open(),
+                                claw.wallClose()
+                        ));
+                        liftState = LiftState.LIFTWALL;
                     }
                     break;
-                case SAMPLEDEPOSIT:
+                case LIFTDEPOSIT:
                     slidesTelem = "Deposit";
                     if (currentGamepad2.y && !previousGamepad2.y && !slidescontrol.getBusy()) {
                         runningActions.add(new SequentialAction(
@@ -377,34 +376,15 @@ public class BlueTeleop extends LinearOpMode {
                         ));
                     }
 
-                    if (currentGamepad2.y && !previousGamepad2.y && currentGamepad2.left_trigger > 0.9) {
-                        runningActions.add(slides.slideBottomBasket());
-                    }
 
                     if (slidescontrol.getFinished()) {
                         slidescontrol.resetFinished();
                         slidescontrol.resetBusy();
-                        sampleState = SampleState.SAMPLESTART;
+                        liftState = LiftState.LIFTSTART;
                     }
 
                     break;
-                default:
-                    sampleState = SampleState.SAMPLESTART;
-                    break;
-            }
-
-            switch (speciState) {
-                case SPECISTART:
-                    if (currentGamepad2.x && !previousGamepad2.x) {
-                        runningActions.add(new SequentialAction(
-                                slides.retract(),
-                                claw.open(),
-                                claw.wallClose()
-                        ));
-                        speciState = SpeciState.SPECIWALL;
-                        sampleState = SampleState.SAMPLESTART;
-                    }
-                case SPECIWALL:
+                case LIFTWALL:
                     slidesTelem = "Wall";
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         if (currentGamepad2.left_trigger < 0.9) {
@@ -413,17 +393,17 @@ public class BlueTeleop extends LinearOpMode {
                                     new SleepAction(0.3),
                                     slides.slideTopBar()
                             ));
-                            speciState = SpeciState.SPECITOPBAR;
+                            liftState = LiftState.LIFTTOPBAR;
                         } else {
                             runningActions.add(new SequentialAction(
                                     claw.close(),
                                     slides.slideBottomBar()
                             ));
-                            speciState = SpeciState.SPECIBOTTOMBAR;
+                            liftState = LiftState.LIFTBOTTOMBAR;
                         }
                     }
                     break;
-                case SPECITOPBAR:
+                case LIFTTOPBAR:
                     slidesTelem = "TopBar";
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         runningActions.add(new SequentialAction(
@@ -431,17 +411,17 @@ public class BlueTeleop extends LinearOpMode {
                                 claw.open(),
                                 slides.retract()
                         ));
-                        speciState = SpeciState.SPECISTART;
+                        liftState = LiftState.LIFTSTART;
                     }
                     break;
-                case SPECIBOTTOMBAR:
+                case LIFTBOTTOMBAR:
                     if (currentGamepad2.x && !previousGamepad2.x) {
                         runningActions.add(slides.retract());
-                        speciState = SpeciState.SPECISTART;
+                        liftState = LiftState.LIFTSTART;
                     }
                     break;
                 default:
-                    speciState = SpeciState.SPECISTART;
+                    liftState = LiftState.LIFTSTART;
                     break;
             }
 
@@ -463,8 +443,7 @@ public class BlueTeleop extends LinearOpMode {
             }
 
             if (currentGamepad2.b && !previousGamepad2.b) {
-                speciState = SpeciState.SPECISTART;
-                sampleState = SampleState.SAMPLESTART;
+                liftState = LiftState.LIFTSTART;
                 extendoState = ExtendoState.EXTENDOSTART;
 
                 runningActions.add(new SequentialAction(
@@ -477,7 +456,7 @@ public class BlueTeleop extends LinearOpMode {
                 ));
             }
 
-            
+
 //            if (currentGamepad2.dpad_up) {
 //                slides.changeTarget(-20);
 //            } else if (currentGamepad2.dpad_down) {
@@ -505,10 +484,11 @@ public class BlueTeleop extends LinearOpMode {
             telemetry.addData("color", intakeColor);
             telemetry.addData("slides left pos", slides.slidesLeftMotor.getCurrentPosition());
             telemetry.addData("slides right pos", slides.slidesRightMotor.getCurrentPosition());
+            telemetry.addData("slides avg", slides.getPos());
             telemetry.addData("slides left power", slides.slidesLeftMotor.getPower());
             telemetry.addData("slides right power", slides.slidesRightMotor.getPower());
             telemetry.addData("slides PID", slides.getPID());
-            telemetry.addData("slides target", slides.getTarget());
+            telemetry.addData("Slides target", slides.getTarget());
             telemetry.addData("extendo state", extendoTelem);
             telemetry.addData("extendoFinished", extendocontrol.getFinished());
             telemetry.addData("extendoBusy", extendocontrol.getBusy());
@@ -517,7 +497,7 @@ public class BlueTeleop extends LinearOpMode {
             telemetry.addData("hasColor", hasColor);
             telemetry.addData("robot x", drive.pose.position.x);
             telemetry.addData("robot y", drive.pose.position.y);
-            telemetry.addData("robot heading", Math.toDegrees(drive.pose.heading.toDouble()));
+            telemetry.addData("robot heading", drive.pose.heading.toDouble());
             telemetry.update();
 
         }
