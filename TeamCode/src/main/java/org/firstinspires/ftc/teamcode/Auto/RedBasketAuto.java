@@ -37,7 +37,7 @@ public class RedBasketAuto extends LinearOpMode {
     public static double cfirstsampleintakey = 25;
     public static double esecondsampleH = 90;
     public static double esecondsamplex = -18.27;
-    public static double esecondsampley = 13.75;
+    public static double esecondsampley = 15;
     public static double fsecondsampleintakeh = 95;
     public static double fsecondsampleintakex = -18.27;
     public static double fsecondsampleintakey = 25;
@@ -51,13 +51,13 @@ public class RedBasketAuto extends LinearOpMode {
     public static double ithirdsamplealignx = -6.4;
     public static double ithirdsamplealigny = 22.3;
     public static double jthirdsampleintakeh = 140;
-    public static double jthirdsampleintakex = -12.76;
-    public static double jthirdsampleintakey = 27.8;
-    public static double parkX = 10;
+    public static double jthirdsampleintakex = -13;
+    public static double jthirdsampleintakey = 29;
+    public static double parkX = 9;
 
     public static double parkY = 67.07;
 
-    public static double parkHead1 = 180;
+    public static double parkHead1 = 187;
 
     public static double parkHead2 = 0;
 
@@ -79,17 +79,17 @@ public class RedBasketAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH))
                 .waitSeconds(2)
                 .strafeToLinearHeading(new Vector2d(bfirstsampleX, bfirstsampleY), Math.toRadians(bfirstsampleH))
-                .waitSeconds(0.3)
+                .waitSeconds(0.2)
                 .strafeTo(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), null, new ProfileAccelConstraint(-25.0, 35.0))
                 .waitSeconds(2.7)
                 .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
                 .waitSeconds(1.9)
                 .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley-0.5), Math.toRadians(esecondsampleH))
-                .waitSeconds(0.3)
+                .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley+0.5), Math.toRadians(esecondsampleH+1))
-                .waitSeconds(1)
+                .waitSeconds(0.5)
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(3)
+                .waitSeconds(2.8)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
                 .waitSeconds(1.9)
                 //.strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley-1.5), Math.toRadians(hthirdsampleH))
@@ -97,11 +97,11 @@ public class RedBasketAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny+0.25), Math.toRadians(ithirdsamplealignH+3), null, new ProfileAccelConstraint(-25.0, 35.0))
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh))
-                .waitSeconds(3.4)
+                .waitSeconds(3)
                 //.strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 //.waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH+4), null, new ProfileAccelConstraint(-25.0, 40.0))
-                .waitSeconds(0.95)
+                .waitSeconds(1.3)
                 .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
 
 
@@ -126,10 +126,11 @@ public class RedBasketAuto extends LinearOpMode {
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
+                                        new SleepAction(0.5),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(0.8),
+                                        new SleepAction(0.6),
                                         extendo.extend(),
                                         new SleepAction(0.1),
                                         intake.flip(),
@@ -145,8 +146,9 @@ public class RedBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.7),
+                        new SleepAction(0.5),
                         intake.off(),
+                        new SleepAction(0.2),
                         claw.up(),
                         slides.slideTopBasket(),
                         new SleepAction(0.5),
@@ -159,13 +161,13 @@ public class RedBasketAuto extends LinearOpMode {
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(2),
+                                        new SleepAction(1.8),
                                         extendo.extend(),
                                         new SleepAction(0.1),
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(1.95),
+                                        new SleepAction(1.45),
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),
@@ -177,15 +179,16 @@ public class RedBasketAuto extends LinearOpMode {
                         ),
                         new SleepAction(0.5),
                         intake.off(),
+                        new SleepAction(0.2),
                         claw.up(),
                         slides.slideTopBasket(),
-                        new SleepAction(0.5),
+                        new SleepAction(0.85),
                         new ParallelAction(
                                 new SequentialAction(
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(0.5),
+                                        new SleepAction(1.25),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
@@ -195,7 +198,7 @@ public class RedBasketAuto extends LinearOpMode {
                                         intake.flip(),
                                         new SleepAction(0.8),
                                         intake.intake(),
-                                        new SleepAction(2),
+                                        new SleepAction(1.6),
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),
@@ -204,8 +207,9 @@ public class RedBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.7),
+                        new SleepAction(0.5),
                         intake.off(),
+                        new SleepAction(0.2),
                         claw.up(),
                         slides.slideTopBasket(),
                         new SleepAction(0.75),
@@ -214,7 +218,7 @@ public class RedBasketAuto extends LinearOpMode {
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(0.45),
+                                        new SleepAction(0.7),
                                         slides.slidePark()
                                 )
                         )

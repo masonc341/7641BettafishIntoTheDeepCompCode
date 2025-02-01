@@ -25,10 +25,10 @@ public class SlidesV3 {
     public static int topBarClipTarget = 1030;
     public static int bottomBarTarget = 700;
     public static int bottomBarClipTarget = 500;
-    public static int hangTarget = 2770;
-    public static int hangRetractTarget = 1570;
+    public static int hangTarget = 1700;
+    public static int hangRetractTarget = 1200;
     public static int retractTarget = 0;
-    public static int parkTarget = 960;
+    public static int parkTarget = 990;
     public static int startTarget = 1030;
 
     private int target = 0;
@@ -134,7 +134,7 @@ public class SlidesV3 {
 
 
             if (getPos() - target <  70) {
-                setMotorPow(-0.12);
+                setMotorPow(0);
                 return false;
             }
             return true;
@@ -183,7 +183,7 @@ public class SlidesV3 {
 
 
             if (getPos() - target <  60) {
-                setMotorPow(-0.12);
+                setMotorPow(-0.78);
                 return false;
             }
             return true;

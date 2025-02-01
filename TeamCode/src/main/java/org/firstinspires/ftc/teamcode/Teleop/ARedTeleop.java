@@ -86,21 +86,21 @@ public class ARedTeleop extends LinearOpMode {
 
         Pose2d StartPose1 = new Pose2d(0,0, Math.toRadians(0));
         MecanumDrive drive = new MecanumDrive(hardwareMap, StartPose1);
-
-        Action basketSub1 = drive.actionBuilder(drive.pose)
-                .turnTo(Math.toRadians(15))
-                .strafeToLinearHeading(new Vector2d(40, -10), Math.toRadians(15))
-                .turnTo(Math.toRadians(-45))
-                .build();
-        Action basketSub2 = drive.actionBuilder(drive.pose)
-                .turnTo(Math.toRadians(-15))
-                .strafeToLinearHeading(new Vector2d(30, -20), Math.toRadians(15))
-                .turnTo(Math.toRadians(45))
-                .build();
-        Action observationSub1 = drive.actionBuilder(drive.pose)
-                .strafeToLinearHeading(new Vector2d(30, -20), Math.toRadians(-135))
-                .turnTo(Math.toRadians(45))
-                .build();
+//
+//        Action basketSub1 = drive.actionBuilder(drive.pose)
+//                .turnTo(Math.toRadians(15))
+//                .strafeToLinearHeading(new Vector2d(40, -10), Math.toRadians(15))
+//                .turnTo(Math.toRadians(-45))
+//                .build();
+//        Action basketSub2 = drive.actionBuilder(drive.pose)
+//                .turnTo(Math.toRadians(-15))
+//                .strafeToLinearHeading(new Vector2d(30, -20), Math.toRadians(15))
+//                .turnTo(Math.toRadians(45))
+//                .build();
+//        Action observationSub1 = drive.actionBuilder(drive.pose)
+//                .strafeToLinearHeading(new Vector2d(30, -20), Math.toRadians(-135))
+//                .turnTo(Math.toRadians(45))
+//                .build();
         NormalizedColorSensor colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
 
         final float[] hsvValues = new float[3];
@@ -150,7 +150,7 @@ public class ARedTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             TelemetryPacket packet = new TelemetryPacket();
 
-            colorSensor.setGain(50);
+            colorSensor.setGain(100);
 
             colors = colorSensor.getNormalizedColors();
 
@@ -230,28 +230,28 @@ public class ARedTeleop extends LinearOpMode {
             if (currentGamepad1.options && !previousGamepad1.options) {
                 drive.pose = new Pose2d(0, 0, 0);
             }
-
-            if (currentGamepad1.x && !previousGamepad1.x) {
-                runningActions.add(new SequentialAction(
-                        pathcontrol.start(),
-                        basketSub1,
-                        pathcontrol.done()
-                ));
-            }
-            if (currentGamepad1.a && !previousGamepad1.a) {
-                runningActions.add(new SequentialAction(
-                        pathcontrol.start(),
-                        basketSub2,
-                        pathcontrol.done()
-                ));
-            }
-            if (currentGamepad1.b && !previousGamepad1.b) {
-                runningActions.add(new SequentialAction(
-                        pathcontrol.start(),
-                        observationSub1,
-                        pathcontrol.done()
-                ));
-            }
+//
+//            if (currentGamepad1.x && !previousGamepad1.x) {
+//                runningActions.add(new SequentialAction(
+//                        pathcontrol.start(),
+//                        basketSub1,
+//                        pathcontrol.done()
+//                ));
+//            }
+//            if (currentGamepad1.a && !previousGamepad1.a) {
+//                runningActions.add(new SequentialAction(
+//                        pathcontrol.start(),
+//                        basketSub2,
+//                        pathcontrol.done()
+//                ));
+//            }
+//            if (currentGamepad1.b && !previousGamepad1.b) {
+//                runningActions.add(new SequentialAction(
+//                        pathcontrol.start(),
+//                        observationSub1,
+//                        pathcontrol.done()
+//                ));
+//            }
 
             switch (extendoState) {
                 case EXTENDOSTART:
