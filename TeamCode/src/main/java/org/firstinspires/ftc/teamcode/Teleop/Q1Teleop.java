@@ -37,6 +37,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -56,7 +57,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Disabled
 @TeleOp
 @Config
 public class Q1Teleop extends LinearOpMode {

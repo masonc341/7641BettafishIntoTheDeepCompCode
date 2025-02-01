@@ -16,7 +16,7 @@ public class Intaker {
     public DcMotor intakeMotor;
 
     public static double flipTarget = 0.8;
-    public static double flopTarget = 0.2;
+    public static double flopTarget = 0.215;
     public static double middleTarget = 0.75;
     public static double perfectMid = 0.5;
     public static double intakePower = 0.9;

@@ -6,15 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Extendo;
 import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
-import org.firstinspires.ftc.teamcode.mechanisms.Slides;
+import org.firstinspires.ftc.teamcode.mechanisms.SlidesV3;
 
 @TeleOp
-public class ResetPos extends LinearOpMode {
+public class BResetPos extends LinearOpMode {
     @Override
     public void runOpMode() {
         Claw claw = new Claw(hardwareMap);
         Extendo extendo = new Extendo(hardwareMap);
-        Slides slides = new Slides(hardwareMap);
+        SlidesV3 slides = new SlidesV3(hardwareMap, true);
         Intaker intake = new Intaker(hardwareMap);
 
         waitForStart();

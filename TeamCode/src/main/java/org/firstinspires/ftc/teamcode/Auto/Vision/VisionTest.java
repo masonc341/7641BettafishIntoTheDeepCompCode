@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.Auto.Vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -41,7 +42,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 
 @Autonomous(name="visionTest", group="Linear OpMode")
-//@Disabled
+@Disabled
 public class VisionTest extends LinearOpMode {
 
     Pipeline vision = new Pipeline(telemetry);

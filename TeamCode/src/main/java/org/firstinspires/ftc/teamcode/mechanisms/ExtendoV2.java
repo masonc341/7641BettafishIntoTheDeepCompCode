@@ -20,9 +20,9 @@ public class ExtendoV2 {
     public AnalogInput extendoAnalog;
     public double pos;
 
-    public static double extendTarget = 0.5;
-    public static double retractTarget = 0.15;
-    public static double balanceTarget = 0.36;
+    public static double extendTarget = 0.35;
+    public static double retractTarget = 0.05;
+    public static double balanceTarget = 0.2;
 
     public ExtendoV2(HardwareMap HWMap) {
         extendoLeftServo = HWMap.get(Servo.class, "extendoLeftServo");

@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.Extendo;
+import org.firstinspires.ftc.teamcode.mechanisms.ExtendoV2;
 import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class TestColorSensor extends LinearOpMode {
 
         NormalizedColorSensor colorSensor;
 
-        Extendo extendo = new Extendo(hardwareMap);
+        ExtendoV2 extendo = new ExtendoV2(hardwareMap);
         Intaker intake = new Intaker(hardwareMap);
 
 

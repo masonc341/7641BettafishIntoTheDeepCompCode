@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
 import org.firstinspires.ftc.teamcode.mechanisms.Slides;
 import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
 
-
+@Disabled
 @Autonomous
 public class BasketRedNoSpeciFinal extends LinearOpMode {
     @Override
