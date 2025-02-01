@@ -287,10 +287,10 @@ public class ARedTeleop extends LinearOpMode {
                 case EXTENDOEXTEND:
                     extendoTelem = "Extend";
                     if (!extendocontrol.getBusy()) {
-                        if ((currentGamepad2.a && !previousGamepad2.a) || intakeColor.equals("red") || intakeColor.equals("yellow")) {
-                            if (intakeColor.equals("red") || intakeColor.equals("yellow")) {
-                                //hasColor = true;
-                            }
+                        if ((currentGamepad2.a && !previousGamepad2.a)/* || intakeColor.equals("red") || intakeColor.equals("yellow")*/) {
+//                            if (intakeColor.equals("red") || intakeColor.equals("yellow")) {
+//                                //hasColor = true;
+//                            }
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     intake.flop(),

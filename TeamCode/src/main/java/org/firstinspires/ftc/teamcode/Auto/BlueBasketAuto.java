@@ -188,7 +188,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(1.25),
+                                        new SleepAction(1.4),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
@@ -213,16 +213,11 @@ public class BlueBasketAuto extends LinearOpMode {
                         claw.up(),
                         slides.slideTopBasket(),
                         new SleepAction(0.75),
-                        new ParallelAction(
-                                new SequentialAction(
-                                        claw.flip(),
-                                        new SleepAction(0.7),
-                                        claw.flop(),
-                                        new SleepAction(0.7),
-                                        slides.slidePark()
-                                )
-                        )
-
+                        claw.flip(),
+                        new SleepAction(0.7),
+                        claw.flop(),
+                        new SleepAction(1),
+                        slides.slidePark()
                 ),
                 path
         ));
