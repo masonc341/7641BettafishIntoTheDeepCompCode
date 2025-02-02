@@ -27,7 +27,7 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double apreloadY = 14;
     public static double apreloadH = 65;
     public static double bfirstsampleX = -8; //-18.5;
-    public static double bfirstsampleY = 11.5; //20;
+    public static double bfirstsampleY = 12.5; //20;
     public static double bfirstsampleH = 90; //76;
     public static double dfirstsampledepositX = -16.5;
     public static double dfirstsampledepositY = 12;
@@ -38,9 +38,9 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double esecondsampleH = 90;
     public static double esecondsamplex = -18.27;
     public static double esecondsampley = 15.5;
-    public static double fsecondsampleintakeh = 95;
+    public static double fsecondsampleintakeh = 90;
     public static double fsecondsampleintakex = -18.27;
-    public static double fsecondsampleintakey = 25;
+    public static double fsecondsampleintakey = 27;
     public static double gsecondsampledepositX = -15.75;
     public static double gsecondsampledepositY = 14;
     public static double gsecondsampledepositH = 58;
@@ -51,8 +51,8 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double ithirdsamplealignx = -6.4;
     public static double ithirdsamplealigny = 22.3;
     public static double jthirdsampleintakeh = 140;
-    public static double jthirdsampleintakex = -12.76;
-    public static double jthirdsampleintakey = 27.8;
+    public static double jthirdsampleintakex = -15;
+    public static double jthirdsampleintakey = 32;
     public static double parkX = 10;
 
     public static double parkY = 67.07;
@@ -166,7 +166,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(1.95),
+                                        new SleepAction(2.1),
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),

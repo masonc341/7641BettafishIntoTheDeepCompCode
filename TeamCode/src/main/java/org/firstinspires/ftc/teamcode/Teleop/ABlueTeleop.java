@@ -261,7 +261,7 @@ public class ABlueTeleop extends LinearOpMode {
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     extendo.extend(),
-                                    new SleepAction(0.3),
+                                    new SleepAction(0.45),
                                     intake.flip(),
                                     intake.intake(),
                                     extendocontrol.done()
