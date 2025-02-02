@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -29,7 +27,7 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double apreloadY = 14;
     public static double apreloadH = 65;
     public static double bfirstsampleX = -8; //-18.5;
-    public static double bfirstsampleY = 10; //20;
+    public static double bfirstsampleY = 11.5; //20;
     public static double bfirstsampleH = 90; //76;
     public static double dfirstsampledepositX = -16.5;
     public static double dfirstsampledepositY = 12;
@@ -38,8 +36,8 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double cfirstsampleintakex = -8;
     public static double cfirstsampleintakey = 25;
     public static double esecondsampleH = 90;
-    public static double esecondsamplex = -16.5;
-    public static double esecondsampley = 16.5;
+    public static double esecondsamplex = -18.27;
+    public static double esecondsampley = 15.5;
     public static double fsecondsampleintakeh = 95;
     public static double fsecondsampleintakex = -18.27;
     public static double fsecondsampleintakey = 25;
@@ -53,13 +51,13 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double ithirdsamplealignx = -6.4;
     public static double ithirdsamplealigny = 22.3;
     public static double jthirdsampleintakeh = 140;
-    public static double jthirdsampleintakex = -13;
-    public static double jthirdsampleintakey = 29;
-    public static double parkX = 9;
+    public static double jthirdsampleintakex = -12.76;
+    public static double jthirdsampleintakey = 27.8;
+    public static double parkX = 10;
 
     public static double parkY = 67.07;
 
-    public static double parkHead1 = 187;
+    public static double parkHead1 = 180;
 
     public static double parkHead2 = 0;
 
@@ -75,25 +73,23 @@ public class BlueBasketAuto extends LinearOpMode {
         ExtendoV2 extendo = new ExtendoV2(hardwareMap);
         Claw claw = new Claw(hardwareMap);
         Intaker intake = new Intaker(hardwareMap);
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetry.clear();
 
 
         TrajectoryActionBuilder pathT = drive.actionBuilder(StartPose1)
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH))
                 .waitSeconds(2)
                 .strafeToLinearHeading(new Vector2d(bfirstsampleX, bfirstsampleY), Math.toRadians(bfirstsampleH))
-                .waitSeconds(0.2)
+                .waitSeconds(0.3)
                 .strafeTo(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(2.5)
+                .waitSeconds(2.7)
                 .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
                 .waitSeconds(1.9)
-                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley-0.5), Math.toRadians(esecondsampleH), null, new ProfileAccelConstraint(-25.0, 40.0))
-                .waitSeconds(0.2)
+                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley-0.5), Math.toRadians(esecondsampleH))
+                .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley+0.5), Math.toRadians(esecondsampleH+1))
-                .waitSeconds(0.5)
+                .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(2.6)
+                .waitSeconds(3)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
                 .waitSeconds(1.9)
                 //.strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley-1.5), Math.toRadians(hthirdsampleH))
@@ -101,11 +97,11 @@ public class BlueBasketAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny+0.25), Math.toRadians(ithirdsamplealignH+3), null, new ProfileAccelConstraint(-25.0, 35.0))
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh))
-                .waitSeconds(2.8)
+                .waitSeconds(3.4)
                 //.strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 //.waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH+4), null, new ProfileAccelConstraint(-25.0, 40.0))
-                .waitSeconds(1.3)
+                .waitSeconds(0.95)
                 .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
 
 
@@ -130,11 +126,11 @@ public class BlueBasketAuto extends LinearOpMode {
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(0.5),
+                                        new SleepAction(0.7),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(0.6),
+                                        new SleepAction(0.8),
                                         extendo.extend(),
                                         new SleepAction(0.1),
                                         intake.flip(),
@@ -150,9 +146,8 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.3),
+                        new SleepAction(0.5),
                         intake.off(),
-                        new SleepAction(0.2),
                         claw.up(),
                         slides.slideTopBasket(),
                         new SleepAction(0.5),
@@ -161,17 +156,17 @@ public class BlueBasketAuto extends LinearOpMode {
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(1),
+                                        new SleepAction(1.35),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(1.8),
+                                        new SleepAction(2),
                                         extendo.extend(),
                                         new SleepAction(0.1),
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(1.9),
+                                        new SleepAction(1.95),
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),
@@ -181,18 +176,17 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.3),
+                        new SleepAction(0.5),
                         intake.off(),
-                        new SleepAction(0.2),
                         claw.up(),
                         slides.slideTopBasket(),
-                        new SleepAction(0.85),
+                        new SleepAction(0.5),
                         new ParallelAction(
                                 new SequentialAction(
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
-                                        new SleepAction(1.4),
+                                        new SleepAction(0.7),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
@@ -202,7 +196,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.flip(),
                                         new SleepAction(0.8),
                                         intake.intake(),
-                                        new SleepAction(1.6),
+                                        new SleepAction(2),
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),
@@ -211,27 +205,23 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.3),
+                        new SleepAction(0.5),
                         intake.off(),
-                        new SleepAction(0.2),
                         claw.up(),
                         slides.slideTopBasket(),
                         new SleepAction(0.75),
-                        claw.flip(),
-                        new SleepAction(0.7),
-                        claw.flop(),
-                        new SleepAction(1),
-                        slides.slidePark()
+                        new ParallelAction(
+                                new SequentialAction(
+                                        claw.flip(),
+                                        new SleepAction(0.7),
+                                        claw.flop(),
+                                        new SleepAction(0.45),
+                                        slides.slidePark()
+                                )
+                        )
+
                 ),
                 path
-
         ));
-        double x = drive.pose.position.x; // drive pos x
-        double y = drive.pose.position.y; // drive pos y
-        double heading = drive.pose.heading.toDouble(); // heading in radians
-        telemetry.addData("heading", heading);
-        telemetry.addData("x", x);
-        telemetry.addData("y", y);
-        telemetry.update();
     }
 }
