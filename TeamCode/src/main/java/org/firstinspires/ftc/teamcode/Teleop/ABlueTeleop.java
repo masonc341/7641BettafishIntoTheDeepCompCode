@@ -313,11 +313,6 @@ public class ABlueTeleop extends LinearOpMode {
                             }
                         } else if (currentGamepad2.dpad_left) {
                             runningActions.add(intake.extake());
-                        } else if (intakeColor.equals("red")) {
-                            runningActions.add(new SequentialAction(
-                                    intake.extake(),
-                                    new SleepAction(1)
-                            ));
                         } else {
                             runningActions.add(intake.intake());
                         }
@@ -437,8 +432,10 @@ public class ABlueTeleop extends LinearOpMode {
             }
 
 
+            if (lefty2 > 0.1 || lefty2 < -0.1) {
+                extendo.move(-lefty2 / 8);
+            }
 
-            extendo.move(-lefty2 / 7);
 
 
             List<Action> newActions = new ArrayList<>();

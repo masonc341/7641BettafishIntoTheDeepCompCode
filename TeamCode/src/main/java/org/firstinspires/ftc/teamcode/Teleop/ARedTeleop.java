@@ -438,7 +438,9 @@ public class ARedTeleop extends LinearOpMode {
 
 
 
-            extendo.move(-lefty2 / 7);
+            if (lefty2 > 0.1 || lefty2 < -0.1) {
+                extendo.move(-lefty2 / 8);
+            }
 
 
             List<Action> newActions = new ArrayList<>();
