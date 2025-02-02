@@ -101,7 +101,7 @@ public class ABlueTeleop extends LinearOpMode {
 //                .strafeToLinearHeading(new Vector2d(30, -20), Math.toRadians(-135))
 //                .turnTo(Math.toRadians(45))
 //                .build();
-        /*NormalizedColorSensor colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
+        NormalizedColorSensor colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
 
         final float[] hsvValues = new float[3];
 
@@ -113,7 +113,7 @@ public class ABlueTeleop extends LinearOpMode {
 
 
 
-        String intakeColor; */
+        String intakeColor;
 
 
         //IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -150,7 +150,7 @@ public class ABlueTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             TelemetryPacket packet = new TelemetryPacket();
 
-            /*colorSensor.setGain(100);
+            colorSensor.setGain(100);
 
             colors = colorSensor.getNormalizedColors();
 
@@ -164,7 +164,7 @@ public class ABlueTeleop extends LinearOpMode {
                 intakeColor = "blue";
             } else {
                 intakeColor = "none";
-            } */
+            }
 
             previousGamepad1.copy(currentGamepad1);
             previousGamepad2.copy(currentGamepad2);
@@ -261,7 +261,7 @@ public class ABlueTeleop extends LinearOpMode {
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     extendo.extend(),
-                                    new SleepAction(0.45),
+                                    new SleepAction(0.3),
                                     intake.flip(),
                                     intake.intake(),
                                     extendocontrol.done()
@@ -313,11 +313,6 @@ public class ABlueTeleop extends LinearOpMode {
                             }
                         } else if (currentGamepad2.dpad_left) {
                             runningActions.add(intake.extake());
-                        /*} else if (intakeColor.equals("red")) {
-                            runningActions.add(new SequentialAction(
-                                    intake.extake(),
-                                    new SleepAction(1)
-                            ));*/
                         } else {
                             runningActions.add(intake.intake());
                         }
@@ -437,9 +432,11 @@ public class ABlueTeleop extends LinearOpMode {
             }
 
 
-        if (lefty2 > 0.1 || lefty2 < -0.1) {
-            extendo.move(-lefty2 / 8);
-        }
+            if (lefty2 > 0.1 || lefty2 < -0.1) {
+                extendo.move(-lefty2 / 8);
+            }
+
+
 
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
@@ -452,10 +449,10 @@ public class ABlueTeleop extends LinearOpMode {
             dash.sendTelemetryPacket(packet);
 
 
-            /*telemetry.addData("redv", colors.red);
+            telemetry.addData("redv", colors.red);
             telemetry.addData("bluev", colors.blue);
             telemetry.addData("greenv", colors.green);
-            telemetry.addData("color", intakeColor);*/
+            telemetry.addData("color", intakeColor);
             telemetry.addData("slides left pos", slides.slidesLeftMotor.getCurrentPosition());
             telemetry.addData("slides right pos", slides.slidesRightMotor.getCurrentPosition());
             telemetry.addData("slides avg", slides.getPos());

@@ -438,7 +438,6 @@ public class ARedTeleop extends LinearOpMode {
 
 
 
-
             if (lefty2 > 0.1 || lefty2 < -0.1) {
                 extendo.move(-lefty2 / 8);
             }
