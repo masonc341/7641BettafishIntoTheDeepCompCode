@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -36,8 +38,8 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double cfirstsampleintakex = -8;
     public static double cfirstsampleintakey = 25;
     public static double esecondsampleH = 90;
-    public static double esecondsamplex = -18.27;
-    public static double esecondsampley = 15;
+    public static double esecondsamplex = -16.5;
+    public static double esecondsampley = 16.5;
     public static double fsecondsampleintakeh = 95;
     public static double fsecondsampleintakex = -18.27;
     public static double fsecondsampleintakey = 25;
@@ -73,6 +75,8 @@ public class BlueBasketAuto extends LinearOpMode {
         ExtendoV2 extendo = new ExtendoV2(hardwareMap);
         Claw claw = new Claw(hardwareMap);
         Intaker intake = new Intaker(hardwareMap);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry.clear();
 
 
         TrajectoryActionBuilder pathT = drive.actionBuilder(StartPose1)
@@ -81,15 +85,15 @@ public class BlueBasketAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(bfirstsampleX, bfirstsampleY), Math.toRadians(bfirstsampleH))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(2.7)
+                .waitSeconds(2.5)
                 .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
                 .waitSeconds(1.9)
-                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley-0.5), Math.toRadians(esecondsampleH))
+                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley-0.5), Math.toRadians(esecondsampleH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley+0.5), Math.toRadians(esecondsampleH+1))
                 .waitSeconds(0.5)
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(2.8)
+                .waitSeconds(2.6)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
                 .waitSeconds(1.9)
                 //.strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley-1.5), Math.toRadians(hthirdsampleH))
@@ -97,7 +101,7 @@ public class BlueBasketAuto extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny+0.25), Math.toRadians(ithirdsamplealignH+3), null, new ProfileAccelConstraint(-25.0, 35.0))
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh))
-                .waitSeconds(3)
+                .waitSeconds(2.8)
                 //.strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 //.waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH+4), null, new ProfileAccelConstraint(-25.0, 40.0))
@@ -146,7 +150,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.3),
                         intake.off(),
                         new SleepAction(0.2),
                         claw.up(),
@@ -167,7 +171,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(1.45),
+                                        new SleepAction(1.9),
                                         intake.flop(),
                                         new SleepAction(0.15),
                                         intake.creep(),
@@ -177,7 +181,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.3),
                         intake.off(),
                         new SleepAction(0.2),
                         claw.up(),
@@ -207,7 +211,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.3),
                         intake.off(),
                         new SleepAction(0.2),
                         claw.up(),
@@ -220,6 +224,14 @@ public class BlueBasketAuto extends LinearOpMode {
                         slides.slidePark()
                 ),
                 path
+
         ));
+        double x = drive.pose.position.x; // drive pos x
+        double y = drive.pose.position.y; // drive pos y
+        double heading = drive.pose.heading.toDouble(); // heading in radians
+        telemetry.addData("heading", heading);
+        telemetry.addData("x", x);
+        telemetry.addData("y", y);
+        telemetry.update();
     }
 }
