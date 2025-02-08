@@ -156,14 +156,14 @@ public class ABlueTeleop extends LinearOpMode {
 
             Color.colorToHSV(colors.toColor(), hsvValues);
 
-            if (colors.red > 0.2 && colors.green > 0.28 && colors.blue < 0.42) {
-                intakeColor = "yellow";
-            } else if (colors.red > 0.15 && colors.green < 0.4 && colors.blue < 0.3) {
-                intakeColor = "red";
-            } else if (colors.red < 0.3 && colors.green < 0.4 && colors.blue > 0.15) {
-                intakeColor = "blue";
+            if (hsvValues[0] > yellowHb && hsvValues[0] < yellowHt) {
+                telemetry.addData("color","yellow");
+            } else if (hsvValues[0] > redHb && hsvValues[0] < redHt) {
+                telemetry.addData("color","red");
+            } else if (hsvValues[0] > blueHb && hsvValues[0] < blueHt) {
+                telemetry.addData("color","blue");
             } else {
-                intakeColor = "none";
+                telemetry.addData("color","none");
             }
 
             previousGamepad1.copy(currentGamepad1);

@@ -25,18 +25,13 @@ import java.util.List;
 @Config
 @TeleOp
 public class TestColorSensor extends LinearOpMode {
-    public static double yellowRedb = 0.1;
-    public static double yellowRedt = 0.35;
-    public static double yellowGreenC = 0.45;
-    public static double yellowGreenb = 0.2;
-    public static double yellowBluet = 0.42;
-    public static double redRedb = 0.1;
-    public static double redGreent = 0.4;
-    public static double redBluet = 0.3;
-    public static double blueRedt = 0.3;
-    public static double blueGreent = 0.4;
-    public static double blueBlueb = 0.1;
-    public static float gain = 50;
+    public static double yellowHt = 100;
+    public static double yellowHb = 70;
+    public static double redHt = 60;
+    public static double redHb = 10;
+    public static double blueHt = 240;
+    public static double blueHb = 160;
+    public static float gain = 100;
 
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -74,26 +69,16 @@ public class TestColorSensor extends LinearOpMode {
 
             Color.colorToHSV(colors.toColor(), hsvValues);
 
-            if (colors.red > yellowRedb && colors.green > yellowGreenb && colors.blue < yellowBluet && (colors.green > yellowGreenC || colors.red < yellowRedt)) {
+            if (hsvValues[0] > yellowHb && hsvValues[0] < yellowHt) {
                 telemetry.addData("color","yellow");
-            } else if (colors.red > redRedb && colors.green < redGreent && colors.blue < redBluet) {
+            } else if (hsvValues[0] > redHb && hsvValues[0] < redHt) {
                 telemetry.addData("color","red");
-            } else if (colors.red < blueRedt && colors.green < blueGreent && colors.blue > blueBlueb) {
+            } else if (hsvValues[0] > blueHb && hsvValues[0] < blueHt) {
                 telemetry.addData("color","blue");
             } else {
                 telemetry.addData("color","none");
             }
 
-
-            if (colors.red > yellowRedb && colors.green > yellowGreenb && colors.blue < yellowBluet && (colors.green > yellowGreenC || colors.red < yellowRedt)) {
-                telemetry.addData("color","yellow");
-            } else if (colors.red > redRedb && colors.green < redGreent && colors.blue < redBluet) {
-                telemetry.addData("color","red");
-            } else if (colors.red < blueRedt && colors.green < blueGreent && colors.blue > blueBlueb) {
-                telemetry.addData("color","blue");
-            } else {
-                telemetry.addData("color","none");
-            }
 
             if (gamepad1.a) {
                 runningActions.add(new SequentialAction(
@@ -133,6 +118,9 @@ public class TestColorSensor extends LinearOpMode {
             telemetry.addData("redv", colors.red);
             telemetry.addData("bluev", colors.blue);
             telemetry.addData("greenv", colors.green);
+            telemetry.addData("H!", hsvValues[0]);
+            telemetry.addData("S!", hsvValues[1]);
+            telemetry.addData("V!", hsvValues[2]);
             telemetry.update();
         }
     }
