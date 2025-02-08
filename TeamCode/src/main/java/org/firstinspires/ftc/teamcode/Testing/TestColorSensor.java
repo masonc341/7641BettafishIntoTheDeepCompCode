@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -43,6 +44,7 @@ public class TestColorSensor extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         NormalizedColorSensor colorSensor;
 
@@ -74,16 +76,23 @@ public class TestColorSensor extends LinearOpMode {
 
             if (colors.red > yellowRedb && colors.green > yellowGreenb && colors.blue < yellowBluet && (colors.green > yellowGreenC || colors.red < yellowRedt)) {
                 telemetry.addData("color","yellow");
-                tele.addData("color","yellow");
             } else if (colors.red > redRedb && colors.green < redGreent && colors.blue < redBluet) {
                 telemetry.addData("color","red");
-                tele.addData("color","red");
             } else if (colors.red < blueRedt && colors.green < blueGreent && colors.blue > blueBlueb) {
                 telemetry.addData("color","blue");
-                tele.addData("color","blue");
             } else {
                 telemetry.addData("color","none");
-                tele.addData("color","none");
+            }
+
+
+            if (colors.red > yellowRedb && colors.green > yellowGreenb && colors.blue < yellowBluet && (colors.green > yellowGreenC || colors.red < yellowRedt)) {
+                telemetry.addData("color","yellow");
+            } else if (colors.red > redRedb && colors.green < redGreent && colors.blue < redBluet) {
+                telemetry.addData("color","red");
+            } else if (colors.red < blueRedt && colors.green < blueGreent && colors.blue > blueBlueb) {
+                telemetry.addData("color","blue");
+            } else {
+                telemetry.addData("color","none");
             }
 
             if (gamepad1.a) {
@@ -125,13 +134,6 @@ public class TestColorSensor extends LinearOpMode {
             telemetry.addData("bluev", colors.blue);
             telemetry.addData("greenv", colors.green);
             telemetry.update();
-
-            tele.addData("redv", colors.red);
-            tele.addData("bluev", colors.blue);
-            tele.addData("greenv", colors.green);
-            tele.update();
-
-
         }
     }
 
