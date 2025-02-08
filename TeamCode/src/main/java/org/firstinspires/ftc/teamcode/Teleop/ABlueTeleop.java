@@ -156,14 +156,14 @@ public class ABlueTeleop extends LinearOpMode {
 
             Color.colorToHSV(colors.toColor(), hsvValues);
 
-            if (hsvValues[0] > yellowHb && hsvValues[0] < yellowHt) {
-                telemetry.addData("color","yellow");
-            } else if (hsvValues[0] > redHb && hsvValues[0] < redHt) {
-                telemetry.addData("color","red");
-            } else if (hsvValues[0] > blueHb && hsvValues[0] < blueHt) {
-                telemetry.addData("color","blue");
+            if (hsvValues[0] > 70 && hsvValues[0] < 100) {
+                intakeColor = "yellow";
+            } else if (hsvValues[0] > 10 && hsvValues[0] < 60) {
+                intakeColor = "red";
+            } else if (hsvValues[0] > 160 && hsvValues[0] < 240) {
+                intakeColor = "blue";
             } else {
-                telemetry.addData("color","none");
+                intakeColor = "none";
             }
 
             previousGamepad1.copy(currentGamepad1);
@@ -287,10 +287,10 @@ public class ABlueTeleop extends LinearOpMode {
                 case EXTENDOEXTEND:
                     extendoTelem = "Extend";
                     if (!extendocontrol.getBusy()) {
-                        if ((currentGamepad2.a && !previousGamepad2.a)/* || intakeColor.equals("blue") || intakeColor.equals("yellow")*/) {
-//                            if (intakeColor.equals("blue") || intakeColor.equals("yellow")) {
-                                //hasColor = true;
-//                            }
+                        if ((currentGamepad2.a && !previousGamepad2.a) || intakeColor.equals("blue") || intakeColor.equals("yellow")) {
+                            if (intakeColor.equals("blue") || intakeColor.equals("yellow")) {
+                                hasColor = true;
+                            }
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     intake.flop(),
@@ -313,6 +313,11 @@ public class ABlueTeleop extends LinearOpMode {
                             }
                         } else if (currentGamepad2.dpad_left) {
                             runningActions.add(intake.extake());
+                        } else if (intakeColor.equals("red")) {
+                            runningActions.add(new SequentialAction(
+                                    intake.extake(),
+                                    new SleepAction(0.7)
+                            ));
                         } else {
                             runningActions.add(intake.intake());
                         }
@@ -326,10 +331,10 @@ public class ABlueTeleop extends LinearOpMode {
                     break;
                 case EXTENDORETRACT:
                     extendoTelem = "Retract";
-                    if (currentGamepad2.x && !previousGamepad2.x) {
+                    if ((currentGamepad2.x && !previousGamepad2.x) || hasColor) {
                         runningActions.add(intake.extake());
                     }
-                    if ((!currentGamepad2.x && previousGamepad2.x)) {
+                    if ((!currentGamepad2.x && previousGamepad2.x) || intakeColor.equals("none")) {
                         runningActions.add(new SequentialAction(
                                 intake.off(),
                                 new SleepAction(0.2),
