@@ -38,7 +38,6 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -59,7 +58,7 @@ import java.util.List;
 
 
 @TeleOp
-public class ABlueTeleop extends LinearOpMode {
+public class ATeleop extends LinearOpMode {
 
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -287,18 +286,7 @@ public class ABlueTeleop extends LinearOpMode {
                 case EXTENDOEXTEND:
                     extendoTelem = "Extend";
                     if (!extendocontrol.getBusy()) {
-                        if ((currentGamepad2.a && !previousGamepad2.a) || intakeColor.equals("blue") || intakeColor.equals("yellow")) {
-                            if (intakeColor.equals("blue") || intakeColor.equals("yellow")) {
-                                runningActions.add(new SequentialAction(
-                                        extendocontrol.start(),
-                                        new SleepAction(0.4),
-                                        intake.flop(),
-                                        intake.creep(),
-                                        claw.flop(),
-                                        extendo.retract(),
-                                        extendocontrol.done()
-                                ));
-                            } else {
+                        if ((currentGamepad2.a && !previousGamepad2.a)) {
                                 runningActions.add(new SequentialAction(
                                         extendocontrol.start(),
                                         intake.flop(),
@@ -307,7 +295,6 @@ public class ABlueTeleop extends LinearOpMode {
                                         extendo.retract(),
                                         extendocontrol.done()
                                 ));
-                            }
                         }
 
 
@@ -324,11 +311,6 @@ public class ABlueTeleop extends LinearOpMode {
                             }
                         } else if (currentGamepad2.dpad_left) {
                             runningActions.add(intake.extake());
-                        } else if (intakeColor.equals("red")) {
-                            runningActions.add(new SequentialAction(
-                                    intake.extake(),
-                                    new SleepAction(0.7)
-                            ));
                         } else {
                             runningActions.add(intake.intake());
                         }
