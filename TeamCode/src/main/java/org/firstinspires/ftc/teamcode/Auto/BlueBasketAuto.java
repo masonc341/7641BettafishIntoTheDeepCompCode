@@ -23,24 +23,24 @@ import org.firstinspires.ftc.teamcode.mechanisms.SlidesV3;
 @Autonomous(preselectTeleOp = "ABlueTeleop")
 public class BlueBasketAuto extends LinearOpMode {
 
-    public static double apreloadX = -18.35;
-    public static double apreloadY = 14;
-    public static double apreloadH = 65;
+    public static double apreloadX = -17.97;
+    public static double apreloadY = 12.644;
+    public static double apreloadH = 71.3;
     public static double bfirstsampleX = -8; //-18.5;
     public static double bfirstsampleY = 12.5; //20;
     public static double bfirstsampleH = 90; //76;
+    public static double cfirstsampleintakeH = 72.8;
+    public static double cfirstsampleintakex = -16.48;
+    public static double cfirstsampleintakey = 17.2168;
     public static double dfirstsampledepositX = -16.5;
     public static double dfirstsampledepositY = 12;
     public static double dfirstsampledepositH = 58;
-    public static double cfirstsampleintakeH = 90;
-    public static double cfirstsampleintakex = -8;
-    public static double cfirstsampleintakey = 25;
-    public static double esecondsampleH = 90;
-    public static double esecondsamplex = -18.27;
-    public static double esecondsampley = 15.5;
-    public static double fsecondsampleintakeh = 90;
-    public static double fsecondsampleintakex = -18.27;
-    public static double fsecondsampleintakey = 27;
+    public static double esecondsampleH = 100;
+    public static double esecondsamplex = -16;
+    public static double esecondsampley = 13.3;
+    public static double fsecondsampleintakeh = 100;
+    public static double fsecondsampleintakex = -16.94;
+    public static double fsecondsampleintakey = 17.8;
     public static double gsecondsampledepositX = -15.75;
     public static double gsecondsampledepositY = 14;
     public static double gsecondsampledepositH = 58;
@@ -78,20 +78,20 @@ public class BlueBasketAuto extends LinearOpMode {
         TrajectoryActionBuilder pathT = drive.actionBuilder(StartPose1)
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH))
                 .waitSeconds(2)
-                .strafeToLinearHeading(new Vector2d(bfirstsampleX, bfirstsampleY), Math.toRadians(bfirstsampleH))
-                .waitSeconds(0.3)
-                .strafeTo(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(2.7)
+                //.strafeToLinearHeading(new Vector2d(bfirstsampleX, bfirstsampleY), Math.toRadians(bfirstsampleH))
+                //.waitSeconds(0.3)
+                .strafeToLinearHeading(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), Math.toRadians(cfirstsampleintakeH), null, new ProfileAccelConstraint(-25.0, 35.0))
+                .waitSeconds(2.4)
                 .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
                 .waitSeconds(1.9)
-                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley-0.5), Math.toRadians(esecondsampleH))
-                .waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley+0.5), Math.toRadians(esecondsampleH+1))
-                .waitSeconds(1)
+                //.strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley-0.5), Math.toRadians(esecondsampleH))
+                //.waitSeconds(0.3)
+                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
+                .waitSeconds(0.7)
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
                 .waitSeconds(3)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
-                .waitSeconds(1.9)
+                .waitSeconds(1.8)
                 //.strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley-1.5), Math.toRadians(hthirdsampleH))
                 //.waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny+0.25), Math.toRadians(ithirdsamplealignH+3), null, new ProfileAccelConstraint(-25.0, 35.0))
@@ -101,7 +101,7 @@ public class BlueBasketAuto extends LinearOpMode {
                 //.strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 //.waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH+4), null, new ProfileAccelConstraint(-25.0, 40.0))
-                .waitSeconds(0.95)
+                .waitSeconds(0.6)
                 .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
 
 
@@ -110,6 +110,7 @@ public class BlueBasketAuto extends LinearOpMode {
         Action path = pathT.build();
 
         waitForStart();
+
 
         Actions.runBlocking(new ParallelAction(
                 new SequentialAction(
@@ -221,6 +222,8 @@ public class BlueBasketAuto extends LinearOpMode {
                         )
 
                 ),
+
+
                 path
         ));
     }
