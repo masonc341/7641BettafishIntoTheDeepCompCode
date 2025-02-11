@@ -94,13 +94,13 @@ public class BlueBasketAuto extends LinearOpMode {
                 .waitSeconds(2.2)
                 //.strafeToLinearHeading(new Vector2d(hthirdsamplex, hthirdsampley-1.5), Math.toRadians(hthirdsampleH))
                 //.waitSeconds(0.2)
-                .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny+0.25), Math.toRadians(ithirdsamplealignH+3), null, new ProfileAccelConstraint(-25.0, 35.0))
+                .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny), Math.toRadians(ithirdsamplealignH), null, new ProfileAccelConstraint(-20.0, 30.0))
                 //.waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh))
                 .waitSeconds(1.5)
                 //.strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-25.0, 40.0))
                 //.waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH))
+                .strafeToLinearHeading(new Vector2d(apreloadX+1.5, apreloadY+1.5), Math.toRadians(apreloadH))
                 .waitSeconds(1.35)
                 .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
 
@@ -160,13 +160,14 @@ public class BlueBasketAuto extends LinearOpMode {
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(0.5),
-                                        extendo.extend(),
+                                        extendo.balance(),
                                         new SleepAction(0.1),
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(2.1),
+                                        new SleepAction(0.9),
+                                        extendo.extend(),
+                                        new SleepAction(1.2),
                                         intake.flop(),
                                         //new SleepAction(0.15),
                                         intake.creep(),
@@ -190,13 +191,15 @@ public class BlueBasketAuto extends LinearOpMode {
                                         slides.retract()
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(1.5),     //4th start here
-                                        extendo.extend(),
+                                        //4th start here
+                                        extendo.balance(),
                                         new SleepAction(0.3),
                                         intake.flip(),
                                         new SleepAction(0.8),
                                         intake.intake(),
-                                        new SleepAction(1.1),
+                                        new SleepAction(2),
+                                        extendo.extend(),
+                                        new SleepAction(1),
                                         intake.flop(),
                                         //new SleepAction(0.15),
                                         intake.creep(),
