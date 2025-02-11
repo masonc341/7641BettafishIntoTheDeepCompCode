@@ -110,9 +110,6 @@ public class ARedTeleop extends LinearOpMode {
         }
 
         NormalizedRGBA colors;
-
-
-
         String intakeColor;
 
 
@@ -156,11 +153,11 @@ public class ARedTeleop extends LinearOpMode {
 
             Color.colorToHSV(colors.toColor(), hsvValues);
 
-            if (hsvValues[0] > 70 && hsvValues[0] < 100) {
+            if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
                 intakeColor = "yellow";
-            } else if (hsvValues[0] > 10 && hsvValues[0] < 60) {
+            } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 125 && hsvValues[1] < 0.3)) {
                 intakeColor = "red";
-            } else if (hsvValues[0] > 160 && hsvValues[0] < 240) {
+            } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
                 intakeColor = "blue";
             } else {
                 intakeColor = "none";
@@ -291,7 +288,7 @@ public class ARedTeleop extends LinearOpMode {
                             if (intakeColor.equals("red") || intakeColor.equals("yellow")) {
                                 runningActions.add(new SequentialAction(
                                         extendocontrol.start(),
-                                        new SleepAction(0.4),
+                                        new SleepAction(0.12),
                                         intake.flop(),
                                         intake.creep(),
                                         claw.flop(),
@@ -370,8 +367,9 @@ public class ARedTeleop extends LinearOpMode {
                     if (currentGamepad2.y && !previousGamepad2.y) {
                         if (currentGamepad2.left_trigger < 0.9) {
                             runningActions.add(new SequentialAction(
-                                    slides.slideTopBasket(),
-                                    extendo.balance()
+                                    extendo.balance(),
+                                    slides.slideTopBasket()
+
                             ));
                         } else {
                             runningActions.add(slides.slideBottomBasket());
