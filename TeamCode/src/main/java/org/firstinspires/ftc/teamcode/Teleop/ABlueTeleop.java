@@ -155,7 +155,7 @@ public class ABlueTeleop extends LinearOpMode {
 
             if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
                 intakeColor = "yellow";
-            } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 125 && hsvValues[1] < 0.3)) {
+            } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
                 intakeColor = "red";
             } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
                 intakeColor = "blue";
@@ -445,7 +445,7 @@ public class ABlueTeleop extends LinearOpMode {
 
 
             if (lefty2 > 0.1 || lefty2 < -0.1) {
-                extendo.move(-lefty2 / 8);
+                extendo.move(-lefty2 / 12);
             }
 
 

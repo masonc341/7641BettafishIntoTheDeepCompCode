@@ -28,7 +28,7 @@ public class SlidesV3 {
     public static int hangTarget = 3000;
     public static int hangRetractTarget = 1500;
     public static int retractTarget = 0;
-    public static int parkTarget = 990;
+    public static int parkTarget = 965;
     public static int startTarget = 1030;
 
     private int target = 0;

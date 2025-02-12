@@ -155,7 +155,7 @@ public class ARedTeleop extends LinearOpMode {
 
             if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
                 intakeColor = "yellow";
-            } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 125 && hsvValues[1] < 0.3)) {
+            } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
                 intakeColor = "red";
             } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
                 intakeColor = "blue";
@@ -446,7 +446,7 @@ public class ARedTeleop extends LinearOpMode {
 
 
             if (lefty2 > 0.1 || lefty2 < -0.1) {
-                extendo.move(-lefty2 / 8);
+                extendo.move(-lefty2 / 12);
             }
 
 
@@ -462,9 +462,9 @@ public class ARedTeleop extends LinearOpMode {
             dash.sendTelemetryPacket(packet);
 
 
-            telemetry.addData("redv", colors.red);
-            telemetry.addData("bluev", colors.blue);
-            telemetry.addData("greenv", colors.green);
+            telemetry.addData("H", hsvValues[0]);
+            telemetry.addData("S", hsvValues[1]);
+            telemetry.addData("V", hsvValues[2]);
             telemetry.addData("color", intakeColor);
             telemetry.addData("slides left pos", slides.slidesLeftMotor.getCurrentPosition());
             telemetry.addData("slides right pos", slides.slidesRightMotor.getCurrentPosition());

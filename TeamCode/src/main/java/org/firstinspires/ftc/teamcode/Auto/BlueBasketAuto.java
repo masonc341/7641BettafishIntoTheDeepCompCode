@@ -165,7 +165,7 @@ public class BlueBasketAuto extends LinearOpMode {
                                         intake.flip(),
                                         //new SleepAction(1),
                                         intake.intake(),
-                                        new SleepAction(0.9),
+                                        new SleepAction(1.2),
                                         extendo.extend(),
                                         new SleepAction(1.2),
                                         intake.flop(),
