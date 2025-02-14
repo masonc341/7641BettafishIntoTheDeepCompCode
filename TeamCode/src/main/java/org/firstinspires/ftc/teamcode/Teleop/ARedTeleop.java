@@ -367,12 +367,14 @@ public class ARedTeleop extends LinearOpMode {
                     if (currentGamepad2.y && !previousGamepad2.y) {
                         if (currentGamepad2.left_trigger < 0.9) {
                             runningActions.add(new SequentialAction(
-                                    extendo.balance(),
-                                    slides.slideTopBasket()
-
+                                    slides.slideTopBasket(),
+                                    extendo.balance()
                             ));
                         } else {
-                            runningActions.add(slides.slideBottomBasket());
+                            runningActions.add(new SequentialAction(
+                                    slides.slideBottomBasket(),
+                                    extendo.balance()
+                            ));
                         }
                         liftState = LiftState.LIFTDEPOSIT;
                     }
@@ -438,8 +440,9 @@ public class ARedTeleop extends LinearOpMode {
                         intake.off(),
                         intake.flop(),
                         claw.flop(),
-                        extendo.retract(),
+                        extendo.balance(),
                         slides.retract(),
+                        extendo.retract(),
                         claw.open()
                 ));
             }
@@ -462,9 +465,9 @@ public class ARedTeleop extends LinearOpMode {
             dash.sendTelemetryPacket(packet);
 
 
-            telemetry.addData("H", hsvValues[0]);
-            telemetry.addData("S", hsvValues[1]);
-            telemetry.addData("V", hsvValues[2]);
+            telemetry.addData("redv", colors.red);
+            telemetry.addData("bluev", colors.blue);
+            telemetry.addData("greenv", colors.green);
             telemetry.addData("color", intakeColor);
             telemetry.addData("slides left pos", slides.slidesLeftMotor.getCurrentPosition());
             telemetry.addData("slides right pos", slides.slidesRightMotor.getCurrentPosition());

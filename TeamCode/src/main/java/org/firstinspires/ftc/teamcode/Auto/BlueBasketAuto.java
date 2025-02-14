@@ -56,12 +56,9 @@ public class BlueBasketAuto extends LinearOpMode {
     public static double ksubmersibleintakex = 13.9231;
     public static double ksubmersibleintakey = 60.235;
     public static double ksubmersibleintakeh = 0;
-    public static double parkX = 10;
-
+    public static double parkX = 13;
     public static double parkY = 67.07;
-
     public static double parkHead1 = 180;
-
     public static double parkHead2 = 0;
 
 

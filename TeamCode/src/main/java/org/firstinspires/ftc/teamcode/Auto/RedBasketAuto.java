@@ -53,13 +53,15 @@ public class RedBasketAuto extends LinearOpMode {
     public static double jthirdsampleintakeh = 120.9;
     public static double jthirdsampleintakex = -16.04;
     public static double jthirdsampleintakey = 24.6;
-    public static double parkX = 10;
-
+    public static double ksubmersibleintakex = 13.9231;
+    public static double ksubmersibleintakey = 60.235;
+    public static double ksubmersibleintakeh = 0;
+    public static double parkX = 13;
     public static double parkY = 67.07;
-
     public static double parkHead1 = 180;
-
     public static double parkHead2 = 0;
+
+
 
 
 
@@ -102,6 +104,8 @@ public class RedBasketAuto extends LinearOpMode {
                 //.waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(apreloadX+1.5, apreloadY+1.5), Math.toRadians(apreloadH))
                 .waitSeconds(1.35)
+                //.strafeToLinearHeading(new Vector2d(ksubmersibleintakex, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh));
+
                 .splineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(parkHead1)), Math.toRadians(parkHead2));
 
 

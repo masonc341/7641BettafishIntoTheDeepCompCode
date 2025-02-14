@@ -371,7 +371,10 @@ public class ABlueTeleop extends LinearOpMode {
                                     extendo.balance()
                             ));
                         } else {
-                            runningActions.add(slides.slideBottomBasket());
+                            runningActions.add(new SequentialAction(
+                                    slides.slideBottomBasket(),
+                                    extendo.balance()
+                            ));
                         }
                         liftState = LiftState.LIFTDEPOSIT;
                     }
@@ -437,8 +440,9 @@ public class ABlueTeleop extends LinearOpMode {
                         intake.off(),
                         intake.flop(),
                         claw.flop(),
-                        extendo.retract(),
+                        extendo.balance(),
                         slides.retract(),
+                        extendo.retract(),
                         claw.open()
                 ));
             }
