@@ -89,8 +89,8 @@ public class ExtendoV2 {
         pos += d;
         if (pos < retractTarget) {
             pos = retractTarget;
-        } else if (pos > extendTarget+1) {
-            pos = extendTarget+1;
+        } else if (pos > extendTarget) {
+            pos = extendTarget;
         }
         extendoLeftServo.setPosition(1 - pos);
         extendoRightServo.setPosition(pos);

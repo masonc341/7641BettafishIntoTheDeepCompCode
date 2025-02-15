@@ -79,6 +79,7 @@ public class ABlueTeleop extends LinearOpMode {
     private enum HangState {HANGSTART, HANGUP}
     private HangState hangState = HangState.HANGSTART;
 
+    private boolean cson = true;
 
     @Override
     public void runOpMode() {
@@ -147,18 +148,22 @@ public class ABlueTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             TelemetryPacket packet = new TelemetryPacket();
 
-            colorSensor.setGain(100);
+            colorSensor.setGain(120);
 
             colors = colorSensor.getNormalizedColors();
 
             Color.colorToHSV(colors.toColor(), hsvValues);
 
-            if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
-                intakeColor = "yellow";
-            } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
-                intakeColor = "red";
-            } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
-                intakeColor = "blue";
+            if (cson) {
+                if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
+                    intakeColor = "yellow";
+                } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
+                    intakeColor = "red";
+                } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
+                    intakeColor = "blue";
+                } else {
+                    intakeColor = "none";
+                }
             } else {
                 intakeColor = "none";
             }
@@ -250,6 +255,11 @@ public class ABlueTeleop extends LinearOpMode {
 //                ));
 //            }
 
+            if (currentGamepad2.options && !previousGamepad2.options) {
+                cson = !cson;
+            }
+
+
             switch (extendoState) {
                 case EXTENDOSTART:
                     extendoTelem = "Start";
@@ -258,7 +268,6 @@ public class ABlueTeleop extends LinearOpMode {
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     extendo.extend(),
-                                    new SleepAction(0.45),
                                     intake.flip(),
                                     intake.intake(),
                                     extendocontrol.done()
@@ -465,9 +474,9 @@ public class ABlueTeleop extends LinearOpMode {
             dash.sendTelemetryPacket(packet);
 
 
-            telemetry.addData("redv", colors.red);
-            telemetry.addData("bluev", colors.blue);
-            telemetry.addData("greenv", colors.green);
+            telemetry.addData("h", hsvValues[0]);
+            telemetry.addData("s", hsvValues[1]);
+            telemetry.addData("v", hsvValues[2]);
             telemetry.addData("color", intakeColor);
             telemetry.addData("slides left pos", slides.slidesLeftMotor.getCurrentPosition());
             telemetry.addData("slides right pos", slides.slidesRightMotor.getCurrentPosition());
