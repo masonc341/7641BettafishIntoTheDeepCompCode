@@ -58,6 +58,10 @@ public class Limelight{
         limelight.start();
 
     }
+
+    double limelightmountangledown = 16;//degrees pointing downward
+    double limelightmountangletointake = 20;//degrees pointing towards intake
+    double limelightmountheight = 17.75; // inches above ground
     //remove the swbot part of this later
 //need limeight to move until degree = 0
     public class Align implements Action {
@@ -138,12 +142,18 @@ public class Limelight{
             tx = result.getTx();
             ty = result.getTy();
 
-            if (tx <= 15 & tx >= -15){
 
-                double verticalAngle = Math.toRadians(ty);
-                return cameraHeight * Math.tan(verticalAngle);
+            double downradians = Math.toRadians(limelightmountangledown + ty);
+            double sideradians = Math.toRadians(limelightmountangletointake + tx);//edit tx
+            double forwarddistance = limelightmountheight * Math.tan(downradians);
+            double sidedistance = forwarddistance / Math.tan(sideradians);
 
+            if (forwarddistance >= 17.4 && forwarddistance <= 17.9){
+                //intake go out
             }
+            
+
+
 
             return 0;
 
