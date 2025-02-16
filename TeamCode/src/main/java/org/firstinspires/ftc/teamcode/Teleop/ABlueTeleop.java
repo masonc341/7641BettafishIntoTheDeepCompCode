@@ -129,6 +129,7 @@ public class ABlueTeleop extends LinearOpMode {
         Claw claw = new Claw(hardwareMap);
         SweeperSample sweeperSample = new SweeperSample(hardwareMap);
         Control extendocontrol = new Control();
+        Control resetcontrol = new Control();
         Control slidescontrol = new Control();
         Control pathcontrol = new Control();
 
@@ -263,11 +264,12 @@ public class ABlueTeleop extends LinearOpMode {
             switch (extendoState) {
                 case EXTENDOSTART:
                     extendoTelem = "Start";
-                    if (!extendocontrol.getBusy()) {
+                    if (!extendocontrol.getBusy() && !resetcontrol.getBusy()) {
                         if (currentGamepad2.a && !previousGamepad2.a) {
                             runningActions.add(new SequentialAction(
                                     extendocontrol.start(),
                                     extendo.extend(),
+                                    new SleepAction(0.15),
                                     intake.flip(),
                                     intake.intake(),
                                     extendocontrol.done()
@@ -446,13 +448,15 @@ public class ABlueTeleop extends LinearOpMode {
                 extendoState = ExtendoState.EXTENDOSTART;
 
                 runningActions.add(new SequentialAction(
+                        resetcontrol.start(),
                         intake.off(),
                         intake.flop(),
                         claw.flop(),
                         extendo.balance(),
                         slides.retract(),
                         extendo.retract(),
-                        claw.open()
+                        claw.open(),
+                        resetcontrol.done()
                 ));
             }
 
