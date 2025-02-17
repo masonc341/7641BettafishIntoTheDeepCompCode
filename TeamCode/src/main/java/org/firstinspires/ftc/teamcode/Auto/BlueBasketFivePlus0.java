@@ -36,8 +36,8 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
     public static double bfirstsampleY = 12.5; //20;
     public static double bfirstsampleH = 90; //76;
     public static double cfirstsampleintakeH = 69.8;
-    public static double cfirstsampleintakex = -16.48;
-    public static double cfirstsampleintakey = 17.2168;
+    public static double cfirstsampleintakex = -15;
+    public static double cfirstsampleintakey = 20;
     public static double dfirstsampledepositX = -16.5;
     public static double dfirstsampledepositY = 12;
     public static double dfirstsampledepositH = 58;
@@ -86,28 +86,28 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
 
         TrajectoryActionBuilder pathT = drive.actionBuilder(StartPose1)
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH))
-                .waitSeconds(1.5)
-                .strafeToLinearHeading(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), Math.toRadians(cfirstsampleintakeH), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(2.4)
-                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
-                .waitSeconds(1.5)
-                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
-                .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(2)
-                .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
-                .waitSeconds(1.4)
-                .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny), Math.toRadians(ithirdsamplealignH), null, new ProfileAccelConstraint(-20.0, 30.0))
-                .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 35.0))
-                .waitSeconds(1.5)
-                .strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH))
-                .waitSeconds(1.5)
-                .splineToLinearHeading(new Pose2d(ksubmersibleintakex-5, ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
-                .waitSeconds(0.1)
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+3, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .waitSeconds(3.5)
-                .strafeToLinearHeading(new Vector2d(apreloadX+1.5, apreloadY+1.5), Math.toRadians(apreloadH)    )
                 .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(apreloadX+10, apreloadY+10), Math.toRadians(apreloadH));
+                .strafeToLinearHeading(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), Math.toRadians(cfirstsampleintakeH))
+                .waitSeconds(1.8)
+                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
+                .waitSeconds(0.7)
+//                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
+                .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH));
+//                .waitSeconds(1.4)
+//                .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny), Math.toRadians(ithirdsamplealignH), null, new ProfileAccelConstraint(-20.0, 30.0))
+//                .strafeToLinearHeading(new Vector2d(jthirdsampleintakex, jthirdsampleintakey), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 35.0))
+//                .waitSeconds(1.5)
+//                .strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH))
+//                .waitSeconds(1.5)
+//                .splineToLinearHeading(new Pose2d(ksubmersibleintakex-5, ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
+//                .waitSeconds(0.1)
+//                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+3, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
+//                .waitSeconds(3.5)
+//                .strafeToLinearHeading(new Vector2d(apreloadX+1.5, apreloadY+1.5), Math.toRadians(apreloadH)    )
+//                .waitSeconds(1)
+//                .strafeToLinearHeading(new Vector2d(apreloadX+10, apreloadY+10), Math.toRadians(apreloadH));
 
 
 
@@ -129,38 +129,35 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                         new ParallelAction(
                                 new SequentialAction(
                                         claw.flip(),
-                                        new SleepAction(0.7),
+                                        new SleepAction(0.5),
                                         claw.flop(),
-                                        new SleepAction(0.7),
+                                        new SleepAction(0.5),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
                                         extendo.extend(),
                                         new SleepAction(0.1),
                                         intake.flip(),
-                                        new SleepAction(1.25),
+                                        new SleepAction(0.6),
                                         intake.intake(),
-                                        new SleepAction(1.2),
+                                        new SleepAction(0.8),
                                         intake.flop(),
-                                        //new SleepAction(0.2),
                                         intake.creep(),
-                                        //new SleepAction(0.1),
-                                        extendo.retract(),
-                                        new SleepAction(1.1),
+                                        extendo.retract(0.05),
+                                        new SleepAction(1),
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.6),
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
-                        //new SleepAction(0.5),
                         new ParallelAction(
                                 new SequentialAction(
                                         claw.flip(),
-                                        new SleepAction(0.7),
+                                        new SleepAction(0.5),
                                         claw.flop(),
-                                        new SleepAction(0.7),
+                                        new SleepAction(0.5),
                                         slides.retract()
                                 ),
                                 new SequentialAction(
@@ -171,88 +168,88 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         intake.intake(),
                                         new SleepAction(1.2),
                                         extendo.extend(),
-                                        new SleepAction(2),
+                                        new SleepAction(0.7),
                                         intake.flop(),
                                         //new SleepAction(0.15),
                                         intake.creep(),
                                         //new SleepAction(0.15),
-                                        extendo.retract(),
+                                        extendo.retract(0.05),
                                         new SleepAction(1.1),
                                         intake.extake()
                                 )
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.6),
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
                         //new SleepAction(0.5),
-                        new ParallelAction(
+//                        new ParallelAction(
                                 new SequentialAction(
                                         claw.flip(),
                                         new SleepAction(0.7),
                                         claw.flop(),
                                         new SleepAction(0.7),
                                         slides.retract()
-                                ),
-                                new SequentialAction(
-                                        //3th start here
-                                        extendo.balance(),
-                                        new SleepAction(0.3),
-                                        intake.flip(),
-                                        new SleepAction(0.8),
-                                        intake.intake(),
-                                        new SleepAction(2),
-                                        extendo.extend(),
-                                        new SleepAction(1),
-                                        intake.flop(),
-                                        //new SleepAction(0.15),
-                                        intake.creep(),
-                                        extendo.retract(),
-                                        new SleepAction(1.1),
-                                        intake.extake()
                                 )
-                        ),
-                        new SleepAction(0.5),
-                        intake.off(),
-                        claw.up(),
-                        slides.slideTopBasket(),
-                        //new SleepAction(0.75),
-                        claw.flip(),
-                        new SleepAction(0.5),
-                        claw.flop(),
-                        new SleepAction(0.45),
-                        sampleSweeper.sweepSample(),
-                        slides.retract(),
-                        //new SleepAction(0.2),
-                        extendo.balance(),
-                        new SleepAction(0.25),
-                        sampleSweeper.sampleSweep(),
-                        new SleepAction(0.05),
-                        intake.flip(),
-                        new SleepAction(1.),
-                        intake.intake(),
-                        extendo.extend(),
-                        new SleepAction(1.25),
-                        intake.flop(),
-                        //new SleepAction(0.15),
-                        intake.creep(),
-                        //new SleepAction(0.15),
-                        extendo.retract(),
-                        new SleepAction(0.5),
-                        intake.extake(),
-                        new SleepAction(1.1),
-                        //new SleepAction(0.5),
-                        intake.off(),
-                        claw.up(),
-                        new ParallelAction(
-                                slides.slideTopBasket(),
-                                extendo.balance()
-                        ),
-                        claw.flip(),
-                        new SleepAction(0.7),
-                        claw.flop(),
-                        new SleepAction(0.45),
-                        slides.retract()
+//                                new SequentialAction(
+//                                        //3th start h ere
+//                                        extendo.balance(),
+//                                        new SleepAction(0.3),
+//                                        intake.flip(),
+//                                        new SleepAction(0.8),
+//                                        intake.intake(),
+//                                        new SleepAction(2),
+//                                        extendo.extend(),
+//                                        new SleepAction(1),
+//                                        intake.flop(),
+//                                        //new SleepAction(0.15),
+//                                        intake.creep(),
+//                                        extendo.retract(),
+//                                        new SleepAction(1.1),
+//                                        intake.extake()
+//                                )
+//                        ),
+//                        new SleepAction(0.5),
+//                        intake.off(),
+//                        claw.up(),
+//                        slides.slideTopBasket(),
+//                        //new SleepAction(0.75),
+//                        claw.flip(),
+//                        new SleepAction(0.5),
+//                        claw.flop(),
+//                        new SleepAction(0.45),
+//                        sampleSweeper.sweepSample(),
+//                        slides.retract(),
+//                        //new SleepAction(0.2),
+//                        extendo.balance(),
+//                        new SleepAction(0.25),
+//                        sampleSweeper.sampleSweep(),
+//                        new SleepAction(0.05),
+//                        intake.flip(),
+//                        new SleepAction(1.),
+//                        intake.intake(),
+//                        extendo.extend(),
+//                        new SleepAction(1.25),
+//                        intake.flop(),
+//                        //new SleepAction(0.15),
+//                        intake.creep(),
+//                        //new SleepAction(0.15),
+//                        extendo.retract(),
+//                        new SleepAction(0.5),
+//                        intake.extake(),
+//                        new SleepAction(1.1),
+//                        //new SleepAction(0.5),
+//                        intake.off(),
+//                        claw.up(),
+//                        new ParallelAction(
+//                                slides.slideTopBasket(),
+//                                extendo.balance()
+//                        ),
+//                        claw.flip(),
+//                        new SleepAction(0.7),
+//                        claw.flop(),
+//                        new SleepAction(0.45),
+//                        slides.retract()
                 ),
                 path
         ));

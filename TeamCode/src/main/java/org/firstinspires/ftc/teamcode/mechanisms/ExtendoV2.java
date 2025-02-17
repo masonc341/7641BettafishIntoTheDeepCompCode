@@ -31,15 +31,21 @@ public class ExtendoV2 {
     }
 
     public class Retract implements Action {
+        private double rt;
+
+        public Retract(double a) {
+            rt = a;
+        }
+
+        public Retract() {
+            rt = retractTarget;
+        }
+
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pos = retractTarget;
+            pos = rt;
             extendoLeftServo.setPosition(1 - pos);
             extendoRightServo.setPosition(pos);
-//            if (Math.abs(getPos()) < 20) {
-//                return false;
-//            }
-//            return true;
             return false;
         }
 
@@ -48,6 +54,7 @@ public class ExtendoV2 {
     public Action retract() {
         return new Retract();
     }
+    public Action retract(double a) {return new Retract(a);}
 
     public class Extend implements Action {
         @Override
@@ -55,10 +62,6 @@ public class ExtendoV2 {
             pos = extendTarget;
             extendoLeftServo.setPosition(1 - pos);
             extendoRightServo.setPosition(pos);
-//            if (Math.abs(getPos()) < 20) {
-//                return false;
-//            }
-//            return true;
             return false;
         }
     }
@@ -66,6 +69,7 @@ public class ExtendoV2 {
     public Action extend() {
         return new Extend();
     }
+
 
     public class Balance implements Action {
         @Override
