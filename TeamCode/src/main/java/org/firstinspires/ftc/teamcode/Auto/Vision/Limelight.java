@@ -62,16 +62,19 @@ public class Limelight{
     double limelightmountangledown = 16;//degrees pointing downward
     double limelightmountangletointake = 20;//degrees pointing towards intake
     double limelightmountheight = 17.75; // inches above ground
+
     //remove the swbot part of this later
 //need limeight to move until degree = 0
     public class Align implements Action {
         private MecanumDriveSWBot drive;
         private Telemetry telem;
-
-        public Align(MecanumDriveSWBot drive, Telemetry telemetry) {
+        private double forwarddistance;
+        private double sidedistance;
+        public Align(MecanumDriveSWBot drive, Telemetry telemetry, double forwarddistance) {
             this.drive = drive;
             this.telem = telemetry;
-
+            this.forwarddistance = forwarddistance;
+            this.sidedistance = sidedistance;
         }
 
 
@@ -85,33 +88,53 @@ public class Limelight{
 
             double tx = getTx();
 
-            telem.addData("tx", tx);
-            telem.update();
+//            telem.addData("tx", tx);
+//            telem.update();
+//
+//            if (forwarddistance >= 17.4 && forwarddistance <= 17.9){
+//                return true; //right position to extend
+//            }
+//
+//            else if (forwarddistance <= 17.4){
+//                drive.setDrivePowers(new PoseVelocity2d(
+//                        new Vector2d(0, -0.3),
+//                        0
+//                ));
+//            }
 
-            if (tx > 2) {
+            if (tx > 7) { //Pls dont change the values plsplspls cuz then ull break it o noes
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(0, 0.3),
                         0));
-            } else if (tx < -2) {
+            } else if (tx < -7) {
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(0, -0.3),
                         0
                 ));
-            } else {
-
-                double distance = getDistance(13);
-                telem.addData("Distance", distance);
-                drive.setDrivePowers(new PoseVelocity2d(
-                                new Vector2d(0,0), 0)
-                );
-                return true; // Change to false once done testing and tuning
             }
+            else {
+                drive.setDrivePowers(new PoseVelocity2d(
+                        new Vector2d(0, 0),
+                        0
+                ));
+            }
+//            else {
+//
+//                double distance = getDistance(13);
+//                telem.addData("Distance", dis
+//                tance);
+//                drive.setDrivePowers(new PoseVelocity2d(
+//                                new Vector2d(0,0), 0)
+//                );
+//                return true; // Change to false once done testing and tuning
+//            }
             return true;
         }
+
     }
 
     public Action align(MecanumDriveSWBot drive, Telemetry telemetry) {
-        return new Align(drive, telemetry);
+        return new Align(drive, telemetry, getForwardDistance(limelightmountheight));
 
     }
 
@@ -132,35 +155,51 @@ public class Limelight{
         return tx;
     }
 
-    public double getDistance(double cameraHeight){
+    public double getForwardDistance(double cameraHeight){
         LLResult result = limelight.getLatestResult();
 
-        double tx;
+
         double ty;
 
         if (result != null && result.isValid()){
-            tx = result.getTx();
+
             ty = result.getTy();
 
 
-            double downradians = Math.toRadians(limelightmountangledown + ty);
-            double sideradians = Math.toRadians(limelightmountangletointake + tx);//edit tx
+         //   double downradians = Math.toRadians(limelightmountangledown + ty);
+            double downradians = Math.toRadians(ty);
             double forwarddistance = limelightmountheight * Math.tan(downradians);
-            double sidedistance = forwarddistance / Math.tan(sideradians);
 
-            if (forwarddistance >= 17.4 && forwarddistance <= 17.9){
-                //intake go out
-            }
-            
-
-
-
-            return 0;
+            return forwarddistance;
 
         } else{
             return 0;
         }
     }
+
+//    public double getSideDistance(double cameraHeight){
+//        LLResult result = limelight.getLatestResult();
+//
+//        double tx;
+//        double ty;
+//
+//        if (result != null && result.isValid()){
+//            tx = result.getTx();
+//            ty = result.getTy();
+//
+//            double downradians = Math.toRadians(limelightmountangledown + ty);
+//            double sideradians = Math.toRadians(limelightmountangletointake + tx);//edit tx
+//            double forwarddistance = limelightmountheight * Math.tan(downradians);
+//            double sidedistance = forwarddistance / Math.tan(sideradians);
+//
+//            return sidedistance;
+//
+//        } else{
+//            return 0;
+//        }
+//    }
+
+
 
     public double StrafeAmount() {
         return 0;
