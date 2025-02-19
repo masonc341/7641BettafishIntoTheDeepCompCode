@@ -46,7 +46,7 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
     public static double esecondsampley = 13.3;
     public static double fsecondsampleintakeh = 95;
     public static double fsecondsampleintakex = -16.94;
-    public static double fsecondsampleintakey = 19.8;
+    public static double fsecondsampleintakey = 21;
     public static double gsecondsampledepositX = -16.75;
     public static double gsecondsampledepositY = 13;
     public static double gsecondsampledepositH = 58;
@@ -95,8 +95,7 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
                 .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
-                .waitSeconds(1.75)
-                .strafeToLinearHeading(new Vector2d(ithirdsamplealignx, ithirdsamplealigny), Math.toRadians(ithirdsamplealignH), null, new ProfileAccelConstraint(-20.0, 30.0))
+                .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(jthirdsampleintakex, jthirdsampleintakey, Math.toRadians(jthirdsampleintakeh)), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 35.0))
                 .waitSeconds(1.5)
                 .strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH-7.5))
@@ -143,9 +142,9 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         new SleepAction(0.8),
                                         intake.flop(),
                                         intake.creep(),
-                                        extendo.retract(0.1),
-                                        new SleepAction(1),
-                                        intake.extake()
+                                        extendo.retract(0.08),
+                                        new SleepAction(0.8),
+                                        intake.extake(0.6)
                                 )
                         ),
                         new SleepAction(0.6),
@@ -175,14 +174,13 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         //new SleepAction(0.15),
                                         extendo.retract(0.05),
                                         new SleepAction(0.75),
-                                        intake.extake()
+                                        intake.extake(0.45)
                                 )
                         ),
                         new SleepAction(0.6),
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
-                        //new SleepAction(0.5),
                         new ParallelAction(
                                 new SequentialAction(
                                         claw.flip(),
@@ -196,9 +194,8 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         extendo.balance(),
                                         new SleepAction(0.3),
                                         intake.flip(),
-                                        new SleepAction(0.8),
                                         intake.intake(),
-                                        new SleepAction(1),
+                                        new SleepAction(0.5),
                                         extendo.extend(),
                                         new SleepAction(0.5),
                                         intake.flop(),
@@ -206,19 +203,19 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         intake.creep(),
                                         extendo.retract(),
                                         new SleepAction(1.1),
-                                        intake.extake()
+                                        intake.extake(0.45)
                                 )
                         ),
                         new SleepAction(0.5),
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
-                        //new SleepAction(0.75),
                         claw.flip(),
                         new SleepAction(0.5),
                         claw.flop(),
                         new SleepAction(0.45),
                         slides.retract()
+
 //                        sampleSweeper.sweepSample(),
 //                        slides.retract(),
 //                        //new SleepAction(0.2),

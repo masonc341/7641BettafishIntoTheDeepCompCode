@@ -20,7 +20,7 @@ public class Intaker {
     public static double middleTarget = 0.75;
     public static double perfectMid = 0.5;
     public static double intakePower = 0.9;
-    public static double extakePower = 0.45; //0.6
+    public static double extakePower = 0.6; //0.6
 
     public Intaker(HardwareMap HWMap){
         intakeServoLeft = HWMap.get(Servo.class, "intakeServoLeft");
@@ -112,16 +112,26 @@ public class Intaker {
     }
 
     public class Extake implements Action {
+        private double power;
+
+        public Extake(double power) {
+            this.power = power;
+        }
+
+        public Extake() {
+            power = extakePower;
+        }
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            intakeMotor.setPower(extakePower);
+            intakeMotor.setPower(power);
             return false;
         }
     }
     public Action extake() {
         return new Extake();
     }
+    public Action extake(double p) { return new Extake(p);}
 
     public class Off implements Action {
 
