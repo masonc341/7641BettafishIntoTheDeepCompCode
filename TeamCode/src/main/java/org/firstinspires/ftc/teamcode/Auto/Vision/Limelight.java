@@ -59,9 +59,8 @@ public class Limelight{
 
     }
 
-    double limelightmountangledown = 16;//degrees pointing downward
-    double limelightmountangletointake = 20;//degrees pointing towards intake
-    double limelightmountheight = 17.75; // inches above ground
+    double limelightmountangledown = 15;//degrees pointing downward
+    double limelightmountheight = 13.6; // inches above ground (CHANGE THIS!!!! add drivetrain height or smth)
 
     //remove the swbot part of this later
 //need limeight to move until degree = 0
@@ -91,22 +90,13 @@ public class Limelight{
 //            telem.addData("tx", tx);
 //            telem.update();
 //
-//            if (forwarddistance >= 17.4 && forwarddistance <= 17.9){
-//                return true; //right position to extend
-//            }
-//
-//            else if (forwarddistance <= 17.4){
-//                drive.setDrivePowers(new PoseVelocity2d(
-//                        new Vector2d(0, -0.3),
-//                        0
-//                ));
-//            }
 
-            if (tx > 7) { //Pls dont change the values plsplspls cuz then ull break it o noes
+
+            if (tx > 17) { //Pls dont change the RANGE of values plsplspls cuz then ull break it o noes
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(0, 0.3),
                         0));
-            } else if (tx < -7) {
+            } else if (tx < 3) {
                 drive.setDrivePowers(new PoseVelocity2d(
                         new Vector2d(0, -0.3),
                         0
@@ -118,15 +108,23 @@ public class Limelight{
                         0
                 ));
             }
+
+            this.forwarddistance = getForwardDistance(limelightmountheight);
+            if (forwarddistance >= 17.4 && forwarddistance <= 18.2){
+                return true; //right position to extend
+            }
+
+            else if (forwarddistance <= 17.4){
+                drive.setDrivePowers(new PoseVelocity2d(
+                        new Vector2d(-0.3, 0),
+                        0
+                ));
+            }
 //            else {
-//
-//                double distance = getDistance(13);
-//                telem.addData("Distance", dis
-//                tance);
 //                drive.setDrivePowers(new PoseVelocity2d(
-//                                new Vector2d(0,0), 0)
-//                );
-//                return true; // Change to false once done testing and tuning
+//                        new Vector2d(0, 0.3),//change maybe?
+//                        0
+//                ));
 //            }
             return true;
         }
@@ -165,12 +163,12 @@ public class Limelight{
 
             ty = result.getTy();
 
-
-         //   double downradians = Math.toRadians(limelightmountangledown + ty);
-            double downradians = Math.toRadians(ty);
+           double downradians = Math.toRadians(90 - Math.abs(ty)-limelightmountangledown);
+           // double downradians = Math.toRadians(ty);
             double forwarddistance = limelightmountheight * Math.tan(downradians);
 
             return forwarddistance;
+
 
         } else{
             return 0;
