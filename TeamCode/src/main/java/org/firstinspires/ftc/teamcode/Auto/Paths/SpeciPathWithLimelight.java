@@ -43,12 +43,13 @@ public class SpeciPathWithLimelight extends LinearOpMode{
             Actions.runBlocking(
                     limelight.align(drive, telemetry)
 
-                    // extendo.runToDistance(limelight.getDistance(cameraHeight); 13 in this instance? Implement once tuned
-                    // extendo.retract();
+
+                     //extendo.runToDistance(limelight.getDistance(cameraHeight); //13 in this instance? Implement once tuned
+                   //  extendo.retract();
                     // back up
             );
-            telemetry.addData("Test", limelight.getForwardDistance(13));
-            telemetry.update();
+//            telemetry.addData("ty", limelight.getForwardDistance(13));
+//            telemetry.update();
 
             double tx;
 
