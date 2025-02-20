@@ -65,31 +65,18 @@ public class Limelight{
     //remove the swbot part of this later
 //need limeight to move until degree = 0
     public class Align implements Action {
-        private MecanumDriveSWBot drive;
+        private MecanumDrive drive;
         private Telemetry telem;
         private double forwarddistance;
-        private double sidedistance;
-        public Align(MecanumDriveSWBot drive, Telemetry telemetry, double forwarddistance) {
+        public Align(MecanumDrive drive, Telemetry telemetry) {
             this.drive = drive;
             this.telem = telemetry;
-            this.forwarddistance = forwarddistance;
-            this.sidedistance = sidedistance;
         }
 
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            boolean oop;
-
-            oop = true;
-
-
-
             double tx = getTx();
-
-//            telem.addData("tx", tx);
-//            telem.update();
-//
 
 
             if (tx > 17) { //Pls dont change the RANGE of values plsplspls cuz then ull break it o noes
@@ -109,9 +96,9 @@ public class Limelight{
                 ));
             }
 
-            this.forwarddistance = getForwardDistance(limelightmountheight);
+            forwarddistance = getForwardDistance(limelightmountheight);
             if (forwarddistance >= 17.4 && forwarddistance <= 18.2){
-                return true; //right position to extend
+                return false; //right position to extend
             }
 
             else if (forwarddistance <= 17.4){
@@ -120,19 +107,19 @@ public class Limelight{
                         0
                 ));
             }
-//            else {
-//                drive.setDrivePowers(new PoseVelocity2d(
-//                        new Vector2d(0, 0.3),//change maybe?
-//                        0
-//                ));
-//            }
+            else {
+                drive.setDrivePowers(new PoseVelocity2d(
+                        new Vector2d(0.3, 0),//change maybe?
+                        0
+                ));
+            }
             return true;
         }
 
     }
 
-    public Action align(MecanumDriveSWBot drive, Telemetry telemetry) {
-        return new Align(drive, telemetry, getForwardDistance(limelightmountheight));
+    public Action align(MecanumDrive drive, Telemetry telemetry) {
+        return new Align(drive, telemetry);
 
     }
 
