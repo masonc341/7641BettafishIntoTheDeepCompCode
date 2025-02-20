@@ -56,7 +56,7 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
     public static double ithirdsamplealignH = 123.35;
     public static double ithirdsamplealignx = -15.75;
     public static double ithirdsamplealigny = 15.9;
-    public static double jthirdsampleintakeh = 120.9;
+    public static double jthirdsampleintakeh = 129;
     public static double jthirdsampleintakex = -18;
     public static double jthirdsampleintakey = 24.6;
     public static double ksubmersibleintakex = 15;
@@ -93,11 +93,11 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                 .waitSeconds(0.7)
 //                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(jthirdsampleintakex, jthirdsampleintakey, Math.toRadians(jthirdsampleintakeh)), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 35.0))
                 .waitSeconds(1.5)
+                .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
+                .waitSeconds(0.9)
+                .splineToLinearHeading(new Pose2d(jthirdsampleintakex, jthirdsampleintakey, Math.toRadians(jthirdsampleintakeh)), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 35.0))
+                .waitSeconds(1.1)
                 .strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH-7.5))
                 .waitSeconds(1.5);
 //                .splineToLinearHeading(new Pose2d(ksubmersibleintakex-5, ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
@@ -142,9 +142,9 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         new SleepAction(0.8),
                                         intake.flop(),
                                         intake.creep(),
-                                        extendo.retract(0.08),
+                                        extendo.retract(0.1),
                                         new SleepAction(0.8),
-                                        intake.extake(0.6)
+                                        intake.extake(0.62)
                                 )
                         ),
                         new SleepAction(0.6),
@@ -173,7 +173,7 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         intake.creep(),
                                         //new SleepAction(0.15),
                                         extendo.retract(0.05),
-                                        new SleepAction(0.75),
+                                        new SleepAction(0.65),
                                         intake.extake(0.45)
                                 )
                         ),
@@ -191,18 +191,19 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                 ),
                                 new SequentialAction(
                                         //3th start h ere
+                                        new SleepAction(0.5),
                                         extendo.balance(),
                                         new SleepAction(0.3),
                                         intake.flip(),
                                         intake.intake(),
-                                        new SleepAction(0.5),
+                                        new SleepAction(0.8),
                                         extendo.extend(),
                                         new SleepAction(0.5),
                                         intake.flop(),
                                         //new SleepAction(0.15),
                                         intake.creep(),
                                         extendo.retract(),
-                                        new SleepAction(1.1),
+                                        new SleepAction(0.7),
                                         intake.extake(0.45)
                                 )
                         ),
