@@ -142,9 +142,9 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         new SleepAction(0.8),
                                         intake.flop(),
                                         intake.creep(),
-                                        extendo.retract(0.1),
+                                        extendo.retract(0.15),
                                         new SleepAction(0.8),
-                                        intake.extake(0.62)
+                                        intake.extake(0.6)
                                 )
                         ),
                         new SleepAction(0.6),
@@ -172,9 +172,9 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         //new SleepAction(0.15),
                                         intake.creep(),
                                         //new SleepAction(0.15),
-                                        extendo.retract(0.05),
+                                        extendo.retract(0.1),
                                         new SleepAction(0.65),
-                                        intake.extake(0.45)
+                                        intake.extake(0.55)
                                 )
                         ),
                         new SleepAction(0.6),
@@ -204,7 +204,7 @@ public class BlueBasketFivePlus0 extends LinearOpMode {
                                         intake.creep(),
                                         extendo.retract(),
                                         new SleepAction(0.7),
-                                        intake.extake(0.45)
+                                        intake.extake(0.5)
                                 )
                         ),
                         new SleepAction(0.5),

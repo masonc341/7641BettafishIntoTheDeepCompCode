@@ -1,148 +1,312 @@
-
 package org.firstinspires.ftc.teamcode.Auto;
+
+import android.graphics.Color;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.MecanumDriveSWBot;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.ExtendoV2;
 import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
-import org.firstinspires.ftc.teamcode.mechanisms.SlidesV2;
+import org.firstinspires.ftc.teamcode.mechanisms.SlidesV3;
+import org.firstinspires.ftc.teamcode.mechanisms.SweeperSample;
 
-@Disabled
-@Autonomous
 @Config
+@Autonomous(preselectTeleOp = "ABlueTeleop")
 public class SpeciSidePlates extends LinearOpMode {
 
-    public static double speciDropX = -29.3;
-    public static double speciDropY = -7.74;
-    public static double wayPointX = -20.9;
-    public static double wayPointY = 18;
-    public static double speciDropH = 0;
-    public static double block1X = -45.89;
-    public static double block1Y = 41.6;
-    public static double block1H = -90;
-    public static double depositHumanH = -90;
-    public static double block2X = -45.9;
-    public static double block2Y = 51.2;
-    public static double block2H = -90;
-    public static double depositHumanH2 = -90;
-    public static double pickUpX = -3.8;
-    public static double pickUpY = 42;
-    public static double pickUpH = -180;
-    public static double dropSpecimenX = -29.3;
-    public static double dropSpecimenY =-7.74 ;
-    public static double dropSpecimenH =0;
-    public static double parkX = -6;
-    public static double parkY = 32;
-    public static double parkH = 180;
+    public static double apreloadX = -17.97;
+    public static double apreloadY = 12.644;
+    public static double apreloadH = 68.3;
+    public static double bfirstsampleX = -8; //-18.5;
+    public static double bfirstsampleY = 12.5; //20;
+    public static double bfirstsampleH = 90; //76;
+    public static double cfirstsampleintakeH = 69.8;
+    public static double cfirstsampleintakex = -15;
+    public static double cfirstsampleintakey = 20;
+    public static double dfirstsampledepositX = -16.5;
+    public static double dfirstsampledepositY = 12;
+    public static double dfirstsampledepositH = 58;
+    public static double esecondsampleH = 90;
+    public static double esecondsamplex = -17;
+    public static double esecondsampley = 13.3;
+    public static double fsecondsampleintakeh = 95;
+    public static double fsecondsampleintakex = -16.94;
+    public static double fsecondsampleintakey = 21;
+    public static double gsecondsampledepositX = -16.75;
+    public static double gsecondsampledepositY = 13;
+    public static double gsecondsampledepositH = 58;
+    public static double hthirdsampleH = 140;
+    public static double hthirdsamplex = -7.5;
+    public static double hthirdsampley = 23.3;
+    public static double ithirdsamplealignH = 123.35;
+    public static double ithirdsamplealignx = -15.75;
+    public static double ithirdsamplealigny = 15.9;
+    public static double jthirdsampleintakeh = 129;
+    public static double jthirdsampleintakex = -18;
+    public static double jthirdsampleintakey = 24.6;
+    public static double ksubmersibleintakex = 15;
+    public static double ksubmersibleintakey = 55;
+    public static double ksubmersibleintakeh = 0;
+    public static double parkX = 10;
+
+    public static double parkY = 67.07;
+
+    public static double parkHead1 = 180;
+
+    public static double parkHead2 = 0;
+
+    public String intakeColor;
+
+
+
+
 
     @Override
     public void runOpMode() {
 
-        Pose2d StartPose1 = new Pose2d(0,0, Math.toRadians(0));
-        MecanumDriveSWBot drive = new MecanumDriveSWBot(hardwareMap, StartPose1);
-        //SlidesV2 slides = new SlidesV2(hardwareMap, true);
-        //ExtendoV2 extendo = new ExtendoV2(hardwareMap);
-        //Claw claw = new Claw(hardwareMap);
-        //Intaker intake = new Intaker(hardwareMap);
 
+        Pose2d StartPose1 = new Pose2d(0, 0, Math.toRadians(0));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, StartPose1);
+        SlidesV3 slides = new SlidesV3(hardwareMap, true);
+        ExtendoV2 extendo = new ExtendoV2(hardwareMap);
+        Claw claw = new Claw(hardwareMap);
+        Intaker intake = new Intaker(hardwareMap);
+        SweeperSample sampleSweeper = new SweeperSample(hardwareMap);
+        NormalizedColorSensor colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
+
+
+        final float[] hsvValues = new float[3];
+
+        if (colorSensor instanceof SwitchableLight) {
+            ((SwitchableLight)colorSensor).enableLight(true);
+        }
+
+        NormalizedRGBA colors = null;
+
+        colorSensor.setGain(120);
 
         TrajectoryActionBuilder pathT = drive.actionBuilder(StartPose1)
-                .strafeToLinearHeading(new Vector2d(speciDropX, speciDropY), Math.toRadians(speciDropH))
-                .waitSeconds(2)
-                .strafeToLinearHeading(new Vector2d(wayPointX, wayPointY), Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(block1X, block1Y), Math.toRadians(block1H))
-                .waitSeconds(0.5)
-                .strafeToLinearHeading(new Vector2d(block1X+40, block1Y), Math.toRadians(depositHumanH))
-                .waitSeconds(1.9)
-                .strafeToLinearHeading(new Vector2d(block2X, block2Y), Math.toRadians(block2H))
-                .waitSeconds(1.9)
-                .strafeToLinearHeading(new Vector2d(block1X+40, block2Y), Math.toRadians(depositHumanH2))
-                .strafeToLinearHeading(new Vector2d(pickUpX, pickUpY), Math.toRadians(pickUpH))
+                .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH))
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(cfirstsampleintakex, cfirstsampleintakey), Math.toRadians(cfirstsampleintakeH))
+                .waitSeconds(1.8)
+                .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
                 .waitSeconds(0.7)
-                .strafeToLinearHeading(new Vector2d(dropSpecimenX, dropSpecimenY), Math.toRadians(dropSpecimenH))
-                .waitSeconds(3)
-                .strafeToLinearHeading(new Vector2d(pickUpX, pickUpY), Math.toRadians(pickUpH))
-                .waitSeconds(0.7)
-                .strafeToLinearHeading(new Vector2d(dropSpecimenX, dropSpecimenY), Math.toRadians(dropSpecimenH))
-                .waitSeconds(3)
-                .strafeToLinearHeading(new Vector2d(pickUpX, pickUpY), Math.toRadians(pickUpH))
-                .waitSeconds(0.7)
-                .strafeToLinearHeading(new Vector2d(dropSpecimenX, dropSpecimenY), Math.toRadians(dropSpecimenH))
-                .waitSeconds(0.7)
-                .strafeToLinearHeading(new Vector2d(parkX, parkY), Math.toRadians(parkH));
+//                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
+                .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
+                .waitSeconds(1.5)
+                .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
+                .waitSeconds(0.9)
+                .splineToLinearHeading(new Pose2d(jthirdsampleintakex, jthirdsampleintakey, Math.toRadians(jthirdsampleintakeh)), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 35.0))
+                .waitSeconds(1.1)
+                .strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH-7.5))
+                .waitSeconds(0.9)
+                .splineToLinearHeading(new Pose2d(ksubmersibleintakex-5, ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
+                .waitSeconds(0.1)
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+5, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh-25))
+                .waitSeconds(0.1)
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+5, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh+25))
+                .waitSeconds(1.5)
+                .strafeToLinearHeading(new Vector2d(apreloadX+1.5, apreloadY+1.5), Math.toRadians(apreloadH)    )
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(apreloadX+10, apreloadY+10), Math.toRadians(apreloadH));
 
 
-
-        waitForStart();
 
         Action path = pathT.build();
 
+        waitForStart();
+
+
+
+
         Actions.runBlocking(new ParallelAction(
+                new SequentialAction(
+                        extendo.retract(),
+                        claw.up(),
+                        claw.open(),
+                        intake.flop(),
+                        new ParallelAction(
+                                slides.slideTopBasket()
+                                //new SleepAction(1.25)
+                        ),
+                        new ParallelAction(
+                                new SequentialAction(
+                                        claw.flip(),
+                                        new SleepAction(0.5),
+                                        claw.flop(),
+                                        new SleepAction(0.5),
+                                        slides.retract()
+                                ),
+                                new SequentialAction(
+                                        extendo.extend(),
+                                        new SleepAction(0.1),
+                                        intake.flip(),
+                                        new SleepAction(0.6),
+                                        intake.intake(),
+                                        new SleepAction(1),
+                                        intake.flop(),
+                                        intake.creep(),
+                                        extendo.retract(0.15),
+                                        new SleepAction(0.8),
+                                        intake.extake(0.6)
+                                )
+                        ),
+                        new SleepAction(0.6),
+                        intake.off(),
+                        claw.up(),
+                        slides.slideTopBasket(),
+                        new ParallelAction(
+                                new SequentialAction(
+                                        claw.flip(),
+                                        new SleepAction(0.5),
+                                        claw.flop(),
+                                        new SleepAction(0.5),
+                                        slides.retract()
+                                ),
+                                new SequentialAction(
+                                        extendo.balance(),
+                                        new SleepAction(0.1),
+                                        intake.flip(),
+                                        //new SleepAction(1),
+                                        intake.intake(),
+                                        new SleepAction(1.2),
+                                        extendo.extend(),
+                                        new SleepAction(0.7),
+                                        intake.flop(),
+                                        //new SleepAction(0.15),
+                                        intake.creep(),
+                                        //new SleepAction(0.15),
+                                        extendo.retract(0.1),
+                                        new SleepAction(0.65),
+                                        intake.extake(0.55)
+                                )
+                        ),
+                        new SleepAction(0.6),
+                        intake.off(),
+                        claw.up(),
+                        slides.slideTopBasket(),
+                        new ParallelAction(
+                                new SequentialAction(
+                                        claw.flip(),
+                                        new SleepAction(0.5),
+                                        claw.flop(),
+                                        new SleepAction(0.5),
+                                        slides.retract()
+                                ),
+                                new SequentialAction(
+                                        //3th start h ere
+                                        new SleepAction(0.5),
+                                        extendo.balance(),
+                                        new SleepAction(0.3),
+                                        intake.flip(),
+                                        intake.intake(),
+                                        new SleepAction(0.8),
+                                        extendo.extend(),
+                                        new SleepAction(0.5),
+                                        intake.flop(),
+                                        //new SleepAction(0.15),
+                                        intake.creep(),
+                                        extendo.retract(),
+                                        new SleepAction(0.7),
+                                        intake.extake(0.5)
+                                )
+                        ),
+                        new SleepAction(0.5),
+                        intake.off(),
+                        claw.up(),
+                        slides.slideTopBasket(),
+                        claw.flip(),
+                        new SleepAction(0.5),
+                        claw.flop(),
+                        new SleepAction(0.45),
+                        sampleSweeper.sweepSample(),
+                        slides.retract(),
+                        extendo.retract(0.24),
+                        new SleepAction(0.25),
+                        sampleSweeper.sampleSweep(),
+                        new SleepAction(0.05),
+                        intake.flip(),
+                        new SleepAction(1.),
+                        intake.intake(),
+                        extendo.extend(),
+                        extakeOrNot(colors, hsvValues, colorSensor, intake, extendo),
+                        intake.extake(),
+                        new SleepAction(1.1),
+                        intake.off(),
+                        claw.up(),
+                        slides.slideTopBasket(),
+                        claw.flip(),
+                        new SleepAction(0.7),
+                        claw.flop(),
+                        new SleepAction(0.45),
+                        slides.retract()
+                ),
                 path
-
-//                new SequentialAction(
-//                        slides.slideTopBar(),
-//                        slides.slideTopBarClip(),
-//                        new SleepAction(0.25),
-//                        claw.open(),
-//                        new SleepAction(0.2),
-//                        slides.retract(),
-//                        new ParallelAction(
-//
-//                                extendo.extend()
-//                        ),
-//                        intake.flat(),
-//                        new ParallelAction(
-//                                extendo.retract(),
-//                                intake.flop()
-//                        ),
-//                        claw.close(),
-//                        new ParallelAction(
-//                                slides.slideTopBar()
-//                        ),
-//                        slides.slideTopBarClip(),
-//                        new SleepAction(0.25),
-//                        claw.open(),
-//                        new SleepAction(0.2),
-//                        slides.retract(),
-//                        claw.close(),
-//                        new ParallelAction(
-//                                slides.slideTopBar()
-//                        ),
-//                        slides.slideTopBarClip(),
-//                        //new SleepAction(0.25),
-//                        claw.open(),
-//                        //new SleepAction(0.2),
-//                        slides.retract(),
-//                        claw.close(),
-//                        new ParallelAction(
-//                                slides.slideTopBar()
-//                        ),
-//                        slides.slideTopBarClip(),
-//                        //new SleepAction(0.25),
-//                        claw.open(),
-//                        //new SleepAction(0.2),
-//                        slides.retract()
-//
-//
-//                )
-
         ));
 
 
+    }
+
+    public Action extakeOrNot(NormalizedRGBA colors, float[] hsvValues, NormalizedColorSensor colorSensor, Intaker intake, ExtendoV2 extendo) {
+        ElapsedTime timeEEEE = new ElapsedTime();
+
+        colors = colorSensor.getNormalizedColors(); // Update sensor values in the loop
+        Color.colorToHSV(colors.toColor(), hsvValues);
+
+        if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
+            intakeColor = "yellow";
+        } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) ||
+                (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
+            intakeColor = "red";
+        } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
+            intakeColor = "blue";
+        } else {
+            intakeColor = "none";
+        }
+
+
+        telemetry.addData("Color Detected", intakeColor);
+        telemetry.update();
+
+        while (intakeColor.equals("none")/* || timeEEEE.seconds() > 6*/) {
+            if (intakeColor.equals("yellow") || intakeColor.equals("blue")) {
+                return new SequentialAction(
+                        intake.flop(),
+                        new SleepAction(0.15),
+                        intake.creep(),
+                        new SleepAction(0.15),
+                        extendo.retract()
+                );
+            } else {
+                return new SequentialAction(
+                        intake.extake(),
+                        new SleepAction(0.2),
+                        intake.flop(),
+                        new SleepAction(0.15),
+                        intake.creep(),
+                        new SleepAction(0.15),
+                        extendo.retract()
+                );
+            }
+        }
+        return null;
     }
 }

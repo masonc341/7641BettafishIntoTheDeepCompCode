@@ -409,8 +409,8 @@ public class ABlueTeleop extends LinearOpMode {
                                 new SleepAction(0.7),
                                 claw.flop(),
                                 new SleepAction(0.5),
-                                slides.retract(),
-                                slidescontrol.done()
+                                slidescontrol.done(),
+                                slides.retract()
                         ));
                     }
 
