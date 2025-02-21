@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.PIDFController;
 public class ExtendoV2 {
     public Servo extendoLeftServo;
     public Servo extendoRightServo;
-    public AnalogInput extendoAnalog;
     public double pos;
 
     public static double extendTarget = 0.35;
@@ -27,7 +26,6 @@ public class ExtendoV2 {
     public ExtendoV2(HardwareMap HWMap) {
         extendoLeftServo = HWMap.get(Servo.class, "extendoLeftServo");
         extendoRightServo = HWMap.get(Servo.class, "extendoRightServo");
-        extendoAnalog = HWMap.get(AnalogInput.class, "extendoAnalog");
     }
 
     public class Retract implements Action {
@@ -100,9 +98,6 @@ public class ExtendoV2 {
         extendoRightServo.setPosition(pos);
     }
 
-    public double getPos() {
-        return extendoAnalog.getVoltage() / 3.3 + 360;
-    }
 }
 
 
