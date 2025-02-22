@@ -18,8 +18,8 @@ public class SweeperSample {
     public Servo sampleSweeper;
     public double pos;
 
-    public static double extendTarget = 0.52;
-    public static double retractTarget = 0.84;
+    public static double extendTarget = 0.82;
+    public static double retractTarget = 0.45;
 
 
     public SweeperSample(HardwareMap HWMap) {
