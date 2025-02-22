@@ -121,7 +121,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+8, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
                 .strafeToLinearHeading(new Vector2d(ksubmersibleintakex, ksubmersibleintakey + 13), Math.toRadians(kyes), null, new ProfileAccelConstraint(-15.0, 20.0));
 
-        TrajectoryActionBuilder path2T = pathT.fresh()
+        TrajectoryActionBuilder path2T = drive.actionBuilder(new Pose2d(15, 68, Math.toRadians(20)))
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-30.0, 35.0));
 
 
@@ -278,7 +278,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
             Actions.runBlocking(
                 new SequentialAction(
                     intake.extake(),
-                    new SleepAction(0.2),
+                    new SleepAction(0.5),
                     intake.flop(),
                     new SleepAction(0.15),
                     intake.creep(),
