@@ -157,7 +157,7 @@ public class ABlueTeleop extends LinearOpMode {
             Color.colorToHSV(colors.toColor(), hsvValues);
 
             if (cson) {
-                if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
+                if (hsvValues[0] >= 60 && hsvValues[0] < 100 && hsvValues[1] > 0.5) {
                     intakeColor = "yellow";
                 } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
                     intakeColor = "red";

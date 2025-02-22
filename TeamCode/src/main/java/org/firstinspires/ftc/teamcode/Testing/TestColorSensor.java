@@ -70,10 +70,20 @@ public class TestColorSensor extends LinearOpMode {
             Color.colorToHSV(colors.toColor(), hsvValues);
 
             if (hsvValues[0] > yellowHb && hsvValues[0] < yellowHt) {
-                telemetry.addData("color","yellow");
+
             } else if (hsvValues[0] > redHb && hsvValues[0] < redHt) {
-                telemetry.addData("color","red");
+
             } else if (hsvValues[0] > blueHb && hsvValues[0] < blueHt) {
+
+            } else {
+
+            }
+
+            if (hsvValues[0] >= 60 && hsvValues[0] < 100 && hsvValues[1] > 0.5) {
+                telemetry.addData("color","yellow");
+            } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
+                telemetry.addData("color","red");
+            } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
                 telemetry.addData("color","blue");
             } else {
                 telemetry.addData("color","none");
