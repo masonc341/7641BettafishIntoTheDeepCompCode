@@ -48,7 +48,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
     public static double esecondsampley = 15;
     public static double fsecondsampleintakeh = 91;
     public static double fsecondsampleintakex = -18;
-    public static double fsecondsampleintakey = 21;
+    public static double fsecondsampleintakey = 23;
     public static double gsecondsampledepositX = -16.75;
     public static double gsecondsampledepositY = 13;
     public static double gsecondsampledepositH = 58;
@@ -65,7 +65,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
     public static double ksubmersibleintakey = 55;
     public static double ksubmersibleintakeh = 0;
     public static double parkX = 10;
-    public static double kyes = 58;
+    public static double kyes = 20;
 
     public static double parkY = 67.07;
 
@@ -114,17 +114,15 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(jthirdsampleintakex, jthirdsampleintakey, Math.toRadians(jthirdsampleintakeh)), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 25.0))
                 .waitSeconds(1.1)
                 .strafeToLinearHeading(new Vector2d(apreloadX + 1, apreloadY + 1), Math.toRadians(apreloadH - 7.5))
-                .waitSeconds(1.1)
+                .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(ksubmersibleintakex , ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
                 .strafeToLinearHeading(new Vector2d(ksubmersibleintakex +4, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex -8, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+10, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex -6, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+8, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
                 .strafeToLinearHeading(new Vector2d(ksubmersibleintakex, ksubmersibleintakey + 13), Math.toRadians(kyes), null, new ProfileAccelConstraint(-15.0, 20.0));
 
         TrajectoryActionBuilder path2T = pathT.fresh()
-                .strafeToLinearHeading(new Vector2d(apreloadX -1, apreloadY -1), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-30.0, 35.0))
-                .waitSeconds(3)
-                .strafeToLinearHeading(new Vector2d(apreloadX + 10, apreloadY + 10), Math.toRadians(apreloadH));
+                .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-30.0, 35.0));
 
 
         Action path = pathT.build();
@@ -192,7 +190,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                                         //new SleepAction(0.15),
                                         extendo.retract(0.1),
                                         new SleepAction(0.65),
-                                        intake.extake(0.5)
+                                        intake.extake(0.6)
                                 )
                         ),
                         new SleepAction(0.6),
@@ -239,7 +237,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                         new SleepAction(0.4),
                         sampleSweeper.sampleSweep(),
                         intake.flip(),
-                        new SleepAction(1.),
+                        new SleepAction(0.75),
                         intake.intake(),
                         extendo.extend()
                 ),
@@ -273,7 +271,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                     intake.flop(),
                     new SleepAction(0.15),
                     intake.creep(),
-                    new SleepAction(0.15),
+                    new SleepAction(0.1),
                     extendo.retract()
             ));
         } else {
@@ -284,7 +282,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                     intake.flop(),
                     new SleepAction(0.15),
                     intake.creep(),
-                    new SleepAction(0.15),
+                    new SleepAction(0.1),
                     extendo.retract()
             ));
         }
@@ -294,12 +292,11 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
         Actions.runBlocking(
                 new ParallelAction(
                     new SequentialAction(
-                        new SleepAction(1),
+                        new SleepAction(0.75),
                         intake.extake(),
                         new SleepAction(0.75),
                         intake.off(),
                         claw.up(),
-                        new SleepAction(0.4),
                         slides.slideTopBasket(),
                         claw.flip(),
                         new SleepAction(0.7),
