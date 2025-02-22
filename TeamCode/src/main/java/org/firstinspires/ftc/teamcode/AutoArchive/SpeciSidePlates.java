@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.AutoArchive;
 
 import android.graphics.Color;
 
@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -27,9 +28,10 @@ import org.firstinspires.ftc.teamcode.mechanisms.Intaker;
 import org.firstinspires.ftc.teamcode.mechanisms.SlidesV3;
 import org.firstinspires.ftc.teamcode.mechanisms.SweeperSample;
 
+@Disabled
 @Config
 @Autonomous(preselectTeleOp = "ABlueTeleop")
-public class BlueBasketFivePlus0Color extends LinearOpMode {
+public class SpeciSidePlates extends LinearOpMode {
 
     public static double apreloadX = -17.97;
     public static double apreloadY = 12.644;
@@ -45,10 +47,10 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
     public static double dfirstsampledepositH = 58;
     public static double esecondsampleH = 90;
     public static double esecondsamplex = -17;
-    public static double esecondsampley = 15;
-    public static double fsecondsampleintakeh = 91;
-    public static double fsecondsampleintakex = -18;
-    public static double fsecondsampleintakey = 23;
+    public static double esecondsampley = 13.3;
+    public static double fsecondsampleintakeh = 95;
+    public static double fsecondsampleintakex = -16.94;
+    public static double fsecondsampleintakey = 21;
     public static double gsecondsampledepositX = -16.75;
     public static double gsecondsampledepositY = 13;
     public static double gsecondsampledepositH = 58;
@@ -58,14 +60,13 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
     public static double ithirdsamplealignH = 123.35;
     public static double ithirdsamplealignx = -15.75;
     public static double ithirdsamplealigny = 15.9;
-    public static double jthirdsampleintakeh = 126;
+    public static double jthirdsampleintakeh = 129;
     public static double jthirdsampleintakex = -18;
     public static double jthirdsampleintakey = 24.6;
     public static double ksubmersibleintakex = 15;
     public static double ksubmersibleintakey = 55;
     public static double ksubmersibleintakeh = 0;
     public static double parkX = 10;
-    public static double kyes = 20;
 
     public static double parkY = 67.07;
 
@@ -74,6 +75,9 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
     public static double parkHead2 = 0;
 
     public String intakeColor;
+
+
+
 
 
     @Override
@@ -93,7 +97,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
         final float[] hsvValues = new float[3];
 
         if (colorSensor instanceof SwitchableLight) {
-            ((SwitchableLight) colorSensor).enableLight(true);
+            ((SwitchableLight)colorSensor).enableLight(true);
         }
 
         NormalizedRGBA colors = null;
@@ -107,28 +111,32 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                 .waitSeconds(1.8)
                 .strafeToLinearHeading(new Vector2d(dfirstsampledepositX, dfirstsampledepositY), Math.toRadians(dfirstsampledepositH))
                 .waitSeconds(0.7)
+//                .strafeToLinearHeading(new Vector2d(esecondsamplex, esecondsampley), Math.toRadians(esecondsampleH))
                 .strafeToLinearHeading(new Vector2d(fsecondsampleintakex, fsecondsampleintakey), Math.toRadians(fsecondsampleintakeh), null, new ProfileAccelConstraint(-25.0, 35.0))
                 .waitSeconds(1.5)
                 .strafeToLinearHeading(new Vector2d(gsecondsampledepositX, gsecondsampledepositY), Math.toRadians(gsecondsampledepositH))
                 .waitSeconds(0.9)
-                .splineToLinearHeading(new Pose2d(jthirdsampleintakex, jthirdsampleintakey, Math.toRadians(jthirdsampleintakeh)), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 25.0))
+                .splineToLinearHeading(new Pose2d(jthirdsampleintakex, jthirdsampleintakey, Math.toRadians(jthirdsampleintakeh)), Math.toRadians(jthirdsampleintakeh), null, new ProfileAccelConstraint(-25, 35.0))
                 .waitSeconds(1.1)
-                .strafeToLinearHeading(new Vector2d(apreloadX + 1, apreloadY + 1), Math.toRadians(apreloadH - 7.5))
+                .strafeToLinearHeading(new Vector2d(apreloadX+1, apreloadY+1), Math.toRadians(apreloadH-7.5))
+                .waitSeconds(0.9)
+                .splineToLinearHeading(new Pose2d(ksubmersibleintakex-5, ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
+                .waitSeconds(0.1)
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+5, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh-25))
+                .waitSeconds(0.1)
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+5, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh+25))
+                .waitSeconds(1.5)
+                .strafeToLinearHeading(new Vector2d(apreloadX+1.5, apreloadY+1.5), Math.toRadians(apreloadH)    )
                 .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(ksubmersibleintakex , ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex +4, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex -6, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex+8, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex, ksubmersibleintakey + 13), Math.toRadians(kyes), null, new ProfileAccelConstraint(-15.0, 20.0));
+                .strafeToLinearHeading(new Vector2d(apreloadX+10, apreloadY+10), Math.toRadians(apreloadH));
 
-        TrajectoryActionBuilder path2T = drive.actionBuilder(new Pose2d(15, 68, Math.toRadians(20)))
-                .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-30.0, 35.0));
 
 
         Action path = pathT.build();
 
-
         waitForStart();
+
+
 
 
         Actions.runBlocking(new ParallelAction(
@@ -155,12 +163,12 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                                         intake.flip(),
                                         new SleepAction(0.6),
                                         intake.intake(),
-                                        new SleepAction(1.1),
+                                        new SleepAction(1),
                                         intake.flop(),
                                         intake.creep(),
-                                        extendo.retract(0.12),
+                                        extendo.retract(0.15),
                                         new SleepAction(0.8),
-                                        intake.extake(0.5)
+                                        intake.extake(0.6)
                                 )
                         ),
                         new SleepAction(0.6),
@@ -190,7 +198,7 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                                         //new SleepAction(0.15),
                                         extendo.retract(0.1),
                                         new SleepAction(0.65),
-                                        intake.extake(0.6)
+                                        intake.extake(0.55)
                                 )
                         ),
                         new SleepAction(0.6),
@@ -234,67 +242,16 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                         sampleSweeper.sweepSample(),
                         slides.retract(),
                         extendo.retract(0.24),
-                        new SleepAction(0.4),
+                        new SleepAction(0.25),
                         sampleSweeper.sampleSweep(),
+                        new SleepAction(0.05),
                         intake.flip(),
-                        new SleepAction(0.75),
+                        new SleepAction(1.),
                         intake.intake(),
-                        extendo.extend()
-                ),
-                path
-        ));
-
-        colors = colorSensor.getNormalizedColors(); // Update sensor values in the loop
-        Color.colorToHSV(colors.toColor(), hsvValues);
-
-
-        if (hsvValues[0] >= 60 && hsvValues[0] < 100 && hsvValues[1] > 0.5) {
-            intakeColor = "yellow";
-        } else if ((hsvValues[0] > 10 && hsvValues[0] < 70 && hsvValues[1] >= 0.3) ||
-                (hsvValues[0] > 60 && hsvValues[0] < 140 && hsvValues[1] < 0.4)) {
-            intakeColor = "red";
-        } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
-            intakeColor = "blue";
-        } else {
-            intakeColor = "none";
-        }
-
-        telemetry.addData("colar", intakeColor);
-        telemetry.addData("h", hsvValues[0]);
-        telemetry.addData("s", hsvValues[1]);
-        telemetry.addData("v", hsvValues[2]);
-        telemetry.update();
-
-        if (intakeColor.equals("yellow") || intakeColor.equals("blue") || intakeColor.equals("none")) {
-            Actions.runBlocking(
-                new SequentialAction(
-                    intake.flop(),
-                    new SleepAction(0.15),
-                    intake.creep(),
-                    new SleepAction(0.1),
-                    extendo.retract()
-            ));
-        } else {
-            Actions.runBlocking(
-                new SequentialAction(
-                    intake.extake(),
-                    new SleepAction(0.5),
-                    intake.flop(),
-                    new SleepAction(0.15),
-                    intake.creep(),
-                    new SleepAction(0.1),
-                    extendo.retract()
-            ));
-        }
-
-        Action path2 = path2T.build();
-
-        Actions.runBlocking(
-                new ParallelAction(
-                    new SequentialAction(
-                        new SleepAction(0.75),
+                        extendo.extend(),
+                        extakeOrNot(colors, hsvValues, colorSensor, intake, extendo),
                         intake.extake(),
-                        new SleepAction(0.75),
+                        new SleepAction(1.1),
                         intake.off(),
                         claw.up(),
                         slides.slideTopBasket(),
@@ -303,10 +260,55 @@ public class BlueBasketFivePlus0Color extends LinearOpMode {
                         claw.flop(),
                         new SleepAction(0.45),
                         slides.retract()
-                    ),
-                    path2
-                ));
+                ),
+                path
+        ));
 
 
+    }
+
+    public Action extakeOrNot(NormalizedRGBA colors, float[] hsvValues, NormalizedColorSensor colorSensor, Intaker intake, ExtendoV2 extendo) {
+        ElapsedTime timeEEEE = new ElapsedTime();
+
+        colors = colorSensor.getNormalizedColors(); // Update sensor values in the loop
+        Color.colorToHSV(colors.toColor(), hsvValues);
+
+        if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
+            intakeColor = "yellow";
+        } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) ||
+                (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
+            intakeColor = "red";
+        } else if (hsvValues[0] > 155 && hsvValues[0] < 240) {
+            intakeColor = "blue";
+        } else {
+            intakeColor = "none";
+        }
+
+
+        telemetry.addData("Color Detected", intakeColor);
+        telemetry.update();
+
+        while (intakeColor.equals("none")/* || timeEEEE.seconds() > 6*/) {
+            if (intakeColor.equals("yellow") || intakeColor.equals("blue")) {
+                return new SequentialAction(
+                        intake.flop(),
+                        new SleepAction(0.15),
+                        intake.creep(),
+                        new SleepAction(0.15),
+                        extendo.retract()
+                );
+            } else {
+                return new SequentialAction(
+                        intake.extake(),
+                        new SleepAction(0.2),
+                        intake.flop(),
+                        new SleepAction(0.15),
+                        intake.creep(),
+                        new SleepAction(0.15),
+                        extendo.retract()
+                );
+            }
+        }
+        return null;
     }
 }

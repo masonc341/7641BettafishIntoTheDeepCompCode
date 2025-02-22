@@ -46,6 +46,7 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.Control;
@@ -156,7 +157,7 @@ public class ARedTeleop extends LinearOpMode {
             Color.colorToHSV(colors.toColor(), hsvValues);
 
             if (cson) {
-                if (hsvValues[0] >= 60 && hsvValues[0] < 100) {
+                if (hsvValues[0] >= 60 && hsvValues[0] < 100 && hsvValues[1] > 0.5) {
                     intakeColor = "yellow";
                 } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {
                     intakeColor = "red";
@@ -355,9 +356,7 @@ public class ARedTeleop extends LinearOpMode {
                     }
                     if ((!currentGamepad2.x && previousGamepad2.x)) {
                         runningActions.add(new SequentialAction(
-                                intake.off(),
-                                new SleepAction(0.2),
-                                claw.up()
+                                intake.off()
                         ));
                         hasColor = false;
                         extendocontrol.resetFinished();
@@ -378,17 +377,28 @@ public class ARedTeleop extends LinearOpMode {
                     if (currentGamepad2.y && !previousGamepad2.y) {
                         if (currentGamepad2.left_trigger < 0.9) {
                             runningActions.add(new SequentialAction(
+                                    claw.up(),
                                     slides.slideTopBasket(),
                                     extendo.balance()
                             ));
                         } else {
                             runningActions.add(new SequentialAction(
+                                    claw.up(),
                                     slides.slideBottomBasket(),
                                     extendo.balance()
                             ));
                         }
                         liftState = LiftState.LIFTDEPOSIT;
                     }
+
+//                    if (currentGamepad1.y && !previousGamepad1.y && hangState.equals(HangState.HANGSTART)) {
+//                        runningActions.add(new SequentialAction(
+//                                extendo.retract(),
+//                                slides.slideHang()
+//                        ));
+//                        hangState = HangState.HANGUP;
+//                        liftState = LiftState.LIFTSTART;
+//                    }
                     break;
                 case LIFTDEPOSIT:
                     slidesTelem = "Deposit";
@@ -399,11 +409,20 @@ public class ARedTeleop extends LinearOpMode {
                                 new SleepAction(0.7),
                                 claw.flop(),
                                 new SleepAction(0.5),
-                                slides.retract(),
-                                slidescontrol.done()
+                                slidescontrol.done(),
+                                slides.retract()
                         ));
                     }
 
+
+//                    if (currentGamepad1.y && !previousGamepad1.y && hangState.equals(HangState.HANGSTART)) {
+//                        runningActions.add(new SequentialAction(
+//                                extendo.retract(),
+//                                slides.slideHang()
+//                        ));
+//                        hangState = HangState.HANGUP;
+//                        liftState = LiftState.LIFTSTART;
+//                    }
 
                     if (slidescontrol.getFinished()) {
                         slidescontrol.resetFinished();
@@ -446,6 +465,7 @@ public class ARedTeleop extends LinearOpMode {
             if (currentGamepad2.b && !previousGamepad2.b) {
                 liftState = LiftState.LIFTSTART;
                 extendoState = ExtendoState.EXTENDOSTART;
+                hangState = HangState.HANGSTART;
 
                 runningActions.add(new SequentialAction(
                         resetcontrol.start(),
@@ -493,10 +513,7 @@ public class ARedTeleop extends LinearOpMode {
             telemetry.addData("extendoBusy", extendocontrol.getBusy());
             telemetry.addData("slides state", slidesTelem);
             telemetry.addData("slides busy", slidescontrol.getBusy());
-            telemetry.addData("hasColor", hasColor);
-            telemetry.addData("robot x", drive.pose.position.x);
-            telemetry.addData("robot y", drive.pose.position.y);
-            telemetry.addData("robot heading", drive.pose.heading.toDouble());
+            telemetry.addData("motor voltage", drive.leftBack.getCurrent(CurrentUnit.AMPS));
             telemetry.update();
 
         }
