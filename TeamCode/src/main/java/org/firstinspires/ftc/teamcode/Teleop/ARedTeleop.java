@@ -438,8 +438,8 @@ public class ARedTeleop extends LinearOpMode {
 
             switch (hangState) {
                 case HANGSTART:
-                    runningActions = new ArrayList<>();
                     if (currentGamepad1.y && !previousGamepad1.y) {
+                        runningActions = new ArrayList<>();
                         runningActions.add(new SequentialAction(
                                 slides.slideHang(),
                                 claw.open()
