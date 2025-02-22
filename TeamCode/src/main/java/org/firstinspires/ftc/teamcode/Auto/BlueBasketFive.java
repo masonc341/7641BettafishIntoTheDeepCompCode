@@ -292,7 +292,7 @@ public class BlueBasketFive extends LinearOpMode {
                 new ParallelAction(
                         new SequentialAction(
                                 new SleepAction(0.75),
-                                intake.extake(),
+                                intake.extake(0.65),
                                 new SleepAction(0.6),
                                 intake.off(),
                                 claw.up(),

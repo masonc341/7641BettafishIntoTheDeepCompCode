@@ -264,7 +264,7 @@ public class RedBasketFive extends LinearOpMode {
         telemetry.addData("v", hsvValues[2]);
         telemetry.update();
 
-        if (intakeColor.equals("yellow") || intakeColor.equals("blue") || intakeColor.equals("none")) {
+        if (intakeColor.equals("yellow") || intakeColor.equals("red") || intakeColor.equals("none")) {
             Actions.runBlocking(
                     new SequentialAction(
                             intake.flop(),
@@ -292,7 +292,7 @@ public class RedBasketFive extends LinearOpMode {
                 new ParallelAction(
                         new SequentialAction(
                                 new SleepAction(0.75),
-                                intake.extake(),
+                                intake.extake(0.65),
                                 new SleepAction(0.6),
                                 intake.off(),
                                 claw.up(),
