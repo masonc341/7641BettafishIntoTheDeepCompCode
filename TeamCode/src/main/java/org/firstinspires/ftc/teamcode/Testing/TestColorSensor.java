@@ -79,6 +79,7 @@ public class TestColorSensor extends LinearOpMode {
 
             }
 
+
             if (hsvValues[0] >= 60 && hsvValues[0] < 100 && hsvValues[1] > 0.5) {
                 telemetry.addData("color","yellow");
             } else if ((hsvValues[0] > 10 && hsvValues[0] < 60 && hsvValues[1] >= 0.3) || (hsvValues[0] > 60 && hsvValues[0] < 100 && hsvValues[1] < 0.3)) {

@@ -123,6 +123,10 @@ public class BlueBasketFive extends LinearOpMode {
         TrajectoryActionBuilder path2T = drive.actionBuilder(new Pose2d(15, 68, Math.toRadians(20)))
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-30.0, 35.0));
 
+        TrajectoryActionBuilder path3T = drive.actionBuilder(new Pose2d(15, 68, Math.toRadians(20)))
+                .strafeToLinearHeading(new Vector2d(parkX, parkY), Math.toRadians(parkHead1), null, new ProfileAccelConstraint(-30.0, 35.0));
+
+
 
         Action path = pathT.build();
 
@@ -274,6 +278,8 @@ public class BlueBasketFive extends LinearOpMode {
                             intake.creep()
                     ));
         } else {
+            Action path3 = path3T.build();
+
             Actions.runBlocking(
                     new SequentialAction(
                             intake.extake(1),
@@ -282,7 +288,12 @@ public class BlueBasketFive extends LinearOpMode {
                             new SleepAction(0.15),
                             intake.creep(),
                             new SleepAction(0.1),
-                            extendo.retract()
+                            extendo.retract(),
+                            new ParallelAction(
+                                    slides.slidePark(),
+                                    path3
+                            ),
+                            new SleepAction(86400) //skibidi toilet mason ohio gooner
                     ));
         }
 

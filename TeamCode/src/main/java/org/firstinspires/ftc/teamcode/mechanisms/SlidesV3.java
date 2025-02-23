@@ -128,7 +128,7 @@ public class SlidesV3 {
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!init) {
                 target = parkTarget;
-                setMotorPow(-1);
+                setMotorPow(1);
                 init = true;
             }
 
