@@ -62,7 +62,7 @@ public class RedBasketFive extends LinearOpMode {
     public static double jthirdsampleintakex = -19;
     public static double jthirdsampleintakey = 25.6;
     public static double ksubmersibleintakex = 15;
-    public static double ksubmersibleintakey = 60;
+    public static double ksubmersibleintakey = 61;
     public static double ksubmersibleintakeh = 0;
     public static double parkX = 10;
     public static double kyes = 20;
@@ -116,9 +116,9 @@ public class RedBasketFive extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(apreloadX + 1, apreloadY + 1), Math.toRadians(apreloadH - 7.5))
                 .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(ksubmersibleintakex , ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex +4, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex -4, ksubmersibleintakey-9), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex, ksubmersibleintakey + 10), Math.toRadians(kyes), null, new ProfileAccelConstraint(-15.0, 20.0));
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex +4, ksubmersibleintakey+6), Math.toRadians(ksubmersibleintakeh))
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex -4, ksubmersibleintakey-12), Math.toRadians(ksubmersibleintakeh))
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex, ksubmersibleintakey + 7), Math.toRadians(kyes));
 
         TrajectoryActionBuilder path2T = drive.actionBuilder(new Pose2d(15, 68, Math.toRadians(20)))
                 .strafeToLinearHeading(new Vector2d(apreloadX, apreloadY), Math.toRadians(apreloadH), null, new ProfileAccelConstraint(-30.0, 35.0));
@@ -133,12 +133,11 @@ public class RedBasketFive extends LinearOpMode {
         Actions.runBlocking(new ParallelAction(
                 new SequentialAction(
                         claw.up(),
-                        sampleSweeper.sampleSweep(),
-                        extendo.retract(),
                         claw.open(),
                         intake.flop(),
                         new ParallelAction(
-                                slides.slideTopBasket()
+                                slides.slideTopBasket(),
+                                extendo.retract()
                                 //new SleepAction(1.25)
                         ),
                         new ParallelAction(
@@ -233,13 +232,13 @@ public class RedBasketFive extends LinearOpMode {
                         new SleepAction(0.2),
                         sampleSweeper.sweepSample(),
                         slides.retract(),
-                        extendo.retract(0.23),
+                        extendo.retract(0.2),
                         new SleepAction(1),
                         intake.flip(),
-                        intake.intake(),
+                        intake.extake(-0.7),
                         new SleepAction(0.2),
                         extendo.extend(),
-                        new SleepAction(1),
+                        new SleepAction(1.9),
                         sampleSweeper.sampleSweep()
                 ),
                 path
@@ -270,10 +269,9 @@ public class RedBasketFive extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             intake.flop(),
+                            extendo.retract(),
                             new SleepAction(0.15),
-                            intake.creep(),
-                            new SleepAction(0.1),
-                            extendo.retract()
+                            intake.creep()
                     ));
         } else {
             Actions.runBlocking(
@@ -291,14 +289,19 @@ public class RedBasketFive extends LinearOpMode {
         Action path2 = path2T.build();
 
         Actions.runBlocking(
+                new SequentialAction(
+                        new SleepAction(0.65),
+                        intake.extake(0.65),
+                        new SleepAction(0.6),
+                        intake.off(),
+                        claw.up()
+                )
+        );
+        Actions.runBlocking(
                 new ParallelAction(
                         new SequentialAction(
-                                new SleepAction(0.75),
-                                intake.extake(0.65),
-                                new SleepAction(0.6),
-                                intake.off(),
-                                claw.up(),
                                 slides.slideTopBasket(),
+                                new SleepAction(0.75),
                                 claw.flip(),
                                 new SleepAction(0.7),
                                 claw.flop(),
