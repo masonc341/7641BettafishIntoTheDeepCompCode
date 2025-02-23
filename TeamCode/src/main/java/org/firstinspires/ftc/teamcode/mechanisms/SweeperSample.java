@@ -18,7 +18,7 @@ public class SweeperSample {
     public Servo sampleSweeper;
     public double pos;
 
-    public static double extendTarget = 0.82;
+    public static double extendTarget = 0.77;
     public static double retractTarget = 0.45;
 
 

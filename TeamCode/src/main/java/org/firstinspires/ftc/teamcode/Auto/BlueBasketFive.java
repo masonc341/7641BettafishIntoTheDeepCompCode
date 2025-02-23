@@ -62,7 +62,7 @@ public class BlueBasketFive extends LinearOpMode {
     public static double jthirdsampleintakex = -19;
     public static double jthirdsampleintakey = 25.6;
     public static double ksubmersibleintakex = 15;
-    public static double ksubmersibleintakey = 60;
+    public static double ksubmersibleintakey = 65;
     public static double ksubmersibleintakeh = 0;
     public static double parkX = 10;
     public static double kyes = 20;
@@ -116,8 +116,8 @@ public class BlueBasketFive extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(apreloadX + 1, apreloadY + 1), Math.toRadians(apreloadH - 7.5))
                 .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(ksubmersibleintakex , ksubmersibleintakey, Math.toRadians(ksubmersibleintakeh)), Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex +4, ksubmersibleintakey), Math.toRadians(ksubmersibleintakeh))
-                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex -4, ksubmersibleintakey-9), Math.toRadians(ksubmersibleintakeh))
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex +4, ksubmersibleintakey+6), Math.toRadians(ksubmersibleintakeh))
+                .strafeToLinearHeading(new Vector2d(ksubmersibleintakex -4, ksubmersibleintakey-12), Math.toRadians(ksubmersibleintakeh))
                 .strafeToLinearHeading(new Vector2d(ksubmersibleintakex, ksubmersibleintakey + 10), Math.toRadians(kyes), null, new ProfileAccelConstraint(-15.0, 20.0));
 
         TrajectoryActionBuilder path2T = drive.actionBuilder(new Pose2d(15, 68, Math.toRadians(20)))
@@ -238,7 +238,7 @@ public class BlueBasketFive extends LinearOpMode {
                         intake.intake(),
                         new SleepAction(0.2),
                         extendo.extend(),
-                        new SleepAction(1),
+                        new SleepAction(1.5),
                         sampleSweeper.sampleSweep()
                 ),
                 path
@@ -271,7 +271,6 @@ public class BlueBasketFive extends LinearOpMode {
                             intake.flop(),
                             new SleepAction(0.15),
                             intake.creep(),
-                            new SleepAction(0.1),
                             extendo.retract()
                     ));
         } else {
